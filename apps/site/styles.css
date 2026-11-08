@@ -134,3 +134,24 @@ pre code { white-space: pre-wrap; word-break: break-word; }
 }
 
 section[id], main[id] { scroll-margin-top: 72px; }
+
+/* share */
+.share { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--line); }
+.share-title { margin: 0 0 10px; font-weight: 600; color: var(--chalk) !important; }
+.share-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.share-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel-2); color: var(--chalk); font: 600 14px var(--font); text-decoration: none; cursor: pointer; }
+.share-btn:hover { border-color: var(--accent); color: var(--accent); }
+.share-btn.native { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+
+/* club badge */
+.badge-section .lead-sm { max-width: 760px; margin: 0 auto 28px; color: var(--muted); }
+.badge-tool { max-width: 820px; margin: 0 auto; display: grid; gap: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: clamp(18px, 3vw, 32px); }
+.badge-options { display: grid; gap: 12px; }
+.badge-options label, .badge-code-label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.badge-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.badge-tool input, .badge-tool select, .badge-tool textarea { width: 100%; font: 15px var(--font); color: var(--chalk); background: #071d15; border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; text-transform: none; letter-spacing: 0; }
+.badge-tool textarea { font: 12px/1.45 ui-monospace, Menlo, monospace; resize: vertical; }
+.badge-preview { display: grid; place-items: center; min-height: 110px; border-radius: 12px; background: repeating-conic-gradient(#f7f7f7 0 25%, #ececec 0 50%) 0 0 / 22px 22px; }
+.badge-preview.on-light { background: repeating-conic-gradient(#3d4a45 0 25%, #34413c 0 50%) 0 0 / 22px 22px; }
+.badge-tool > .btn { justify-self: start; }
+@media (max-width: 600px) { .badge-row { grid-template-columns: 1fr; } .badge-tool > .btn { justify-self: stretch; } }

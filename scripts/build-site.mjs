@@ -13,7 +13,9 @@ cpSync(app, join(out, 'app'), { recursive: true });
 
 // Absolute URLs (Open Graph) follow the deploy target; CNAME pins the custom domain when configured.
 const siteUrl = process.env.SITE_URL || 'https://iltempe.github.io/diagonale/';
-const index = join(out, 'index.html');
-writeFileSync(index, readFileSync(index, 'utf8').replaceAll('https://iltempe.github.io/diagonale/', siteUrl));
+for (const f of ['index.html', 'main.js']) {
+  const file = join(out, f);
+  writeFileSync(file, readFileSync(file, 'utf8').replaceAll('https://iltempe.github.io/diagonale/', siteUrl));
+}
 if (process.env.PAGES_DOMAIN) writeFileSync(join(out, 'CNAME'), `${process.env.PAGES_DOMAIN}\n`);
 console.log(`Site assembled in ${out}`);

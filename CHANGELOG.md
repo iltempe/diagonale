@@ -1,5 +1,13 @@
 # Changelog
 
+## Non ancora rilasciato
+
+- Preparato il passaggio al dominio **diagonalecalcio.it** (si attiva con `scripts/activate-domain.sh` quando i DNS sono visibili).
+- **Badge per le società**: generatore sul sito (`#badge`) con nome del club, stile scuro o chiaro, italiano o inglese; codice HTML autonomo oppure immagine SVG.
+- **Condivisione** del sito su WhatsApp, Telegram, Facebook, X, LinkedIn, Reddit, email, copia link e condivisione nativa del telefono, nella sezione "Chi c'è dietro".
+- **Statistiche anonime** del sito con GoatCounter (senza cookie, script ospitato in locale). L'app resta senza tracciamento.
+- **README** con GIF animata e galleria di screenshot (editor, AI Coach, vista televisiva, planner, Team Centre, export, mobile, video social).
+
 ## 1.1.0 — 2026-11-08
 
 - **Video social 9:16**: nuovo pulsante nell'export che genera in un clic un MP4 1080×1920 per Reels, TikTok e Shorts. Ha una fascia con il titolo della lavagna e la fase corrente, una barra di avanzamento delle fasi e il campo verticale fuori dalle aree coperte dalle interfacce delle app. Aggiunti anche i formati 4:5 (feed Instagram) e 1:1, disponibili pure per i PNG e dal server MCP (`export_mp4` con `aspect`).

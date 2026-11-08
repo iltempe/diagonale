@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="56" viewBox="0 0 220 56" role="img" aria-label="We use Diagonale">
+  <title>We use Diagonale</title>
+  <rect x="0.5" y="0.5" width="219" height="55" rx="12" fill="#0F3D2E" stroke="#1f5c47"/>
+  <g transform="translate(9 10) scale(0.5625)"><rect width="64" height="64" rx="14" fill="#0F3D2E"/><path d="M18 14h13c11 0 19 7.6 19 18s-8 18-19 18H18z" fill="none" stroke="#F4F1EA" stroke-width="6" stroke-linejoin="round"/><path d="M12 54L46 18" stroke="#F2C230" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="6 5"/><path d="M50 14l-2 12-10-10z" fill="#F2C230"/></g>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="56" y="20" fill="#F2C230" font-size="10" font-weight="700" letter-spacing="1">WE USE</text>
+    <text x="56" y="37" fill="#F4F1EA" font-size="18" font-weight="800" letter-spacing="0.7">DIAGONALE</text>
+    <text x="56" y="49" fill="#c9d6cf" font-size="10">Tactics, phase by phase</text>
+  </g>
+</svg>

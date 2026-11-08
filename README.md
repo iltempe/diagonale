@@ -4,6 +4,8 @@
 <p align="center"><b>La tattica, fase per fase.</b> — Lavagna tattica animata open source per allenatori di calcio.</p>
 <p align="center"><a href="https://iltempe.github.io/diagonale/app/"><b>▶ Apri l'app</b></a> · <a href="https://iltempe.github.io/diagonale/">Sito</a> · <a href="https://github.com/iltempe/diagonale/releases/latest"><b>⬇ Mac · Windows · Linux</b></a> · <a href="SPEC.md">Specifica</a> · <a href="docs/decisions.md">Decisioni</a> · <a href="#english">English</a></p>
 
+<p align="center"><a href="https://iltempe.github.io/diagonale/app/"><img src="docs/screenshots/demo.gif" width="800" alt="Diagonale: un'uscita dal basso animata fase per fase"></a></p>
+
 ---
 
 Disegni una situazione di gioco su un campo in metri reali, la scomponi in **fasi** e Diagonale anima il passaggio da una fase all'altra come un filmato. Poi la condividi con un link che si apre anche dal telefono, la esporti in MP4, PNG o PDF, oppure la fai costruire all'**AI Coach** con il modello che preferisci.
@@ -26,6 +28,38 @@ Funziona nel browser, senza installazione e senza account: le lavagne restano ne
 - **Team Centre**: rosa, calendario con import/export ICS, convocazioni, risultati, minuti, gol, cartellini, statistiche e report per i genitori con privacy dei nomi (iniziali di default).
 - **Foto e bandiere** dei giocatori sul campo.
 - **Cloud opzionale (Supabase)**: login, sincronizzazione tra dispositivi e link brevi con audio. Vedi più sotto come attivarlo.
+
+## Screenshot
+
+| Editor con timeline delle fasi | AI Coach con anteprima |
+|---|---|
+| <img src="docs/screenshots/editor.png" alt="Editor"> | <img src="docs/screenshots/ai-coach.png" alt="AI Coach"> |
+| **Vista televisiva** | **Planner delle sedute** |
+| <img src="docs/screenshots/broadcast.png" alt="Vista televisiva"> | <img src="docs/screenshots/planner.png" alt="Planner"> |
+| **Team Centre** | **Export, anche social 9:16** |
+| <img src="docs/screenshots/team.png" alt="Team Centre"> | <img src="docs/screenshots/export.png" alt="Export"> |
+
+<p align="center">
+  <img src="docs/screenshots/mobile.png" height="420" alt="Link condiviso sul telefono">
+  &nbsp;
+  <img src="docs/screenshots/social-9x16.png" height="420" alt="Video social 9:16">
+</p>
+<p align="center"><i>Link condiviso aperto sul telefono · fotogramma di un video social 9:16</i></p>
+
+**Provala subito:** [iltempe.github.io/diagonale/app](https://iltempe.github.io/diagonale/app/), senza installare nulla e senza account.
+
+## Usate Diagonale nella vostra società?
+
+Mettete il badge sul sito della società: generatelo, con il nome del club, nella [sezione badge del sito](https://iltempe.github.io/diagonale/#badge), oppure copiate questo codice:
+
+```html
+<a href="https://iltempe.github.io/diagonale/?ref=badge" target="_blank" rel="noopener" title="Usiamo Diagonale"><img src="https://iltempe.github.io/diagonale/badge/diagonale-it-dark.svg" alt="Usiamo Diagonale" width="220" height="56"></a>
+```
+
+<a href="https://iltempe.github.io/diagonale/?ref=badge"><img src="apps/site/badge/diagonale-it-dark.svg" alt="Usiamo Diagonale" width="220" height="56"></a>
+<a href="https://iltempe.github.io/diagonale/?ref=badge"><img src="apps/site/badge/diagonale-it-light.svg" alt="Usiamo Diagonale" width="220" height="56"></a>
+
+Sono disponibili anche le versioni chiare e inglesi (`diagonale-{it,en}-{dark,light}.svg`) e una versione in puro HTML che non carica nulla da server esterni.
 
 ## Struttura
 
@@ -99,6 +133,10 @@ Vedi [`packages/mcp-server/README.md`](packages/mcp-server/README.md).
 ## Novità
 
 Vedi [`CHANGELOG.md`](CHANGELOG.md). Le scelte non coperte dalla specifica sono in [`docs/decisions.md`](docs/decisions.md).
+
+## Privacy
+
+L'app non usa cookie, analytics o tracciamento: le lavagne restano sul dispositivo (o nel tuo Supabase, se lo attivi). Il solo sito di presentazione conta le visite in forma anonima e senza cookie con [GoatCounter](https://www.goatcounter.com), il cui script è ospitato sul sito stesso. Si contano anche i clic su download, condivisioni e badge, per capire quali società usano Diagonale.
 
 ## Autore e supporto
 
