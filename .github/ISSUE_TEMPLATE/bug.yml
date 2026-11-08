@@ -1,0 +1,40 @@
+name: 🐞 Bug / Problema
+description: Qualcosa non funziona · Something doesn't work
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Cosa è successo · What happened
+      description: Cosa ti aspettavi e cosa è successo invece · What you expected and what happened instead
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passi per riprodurre · Steps to reproduce
+      placeholder: "1. …\n2. …\n3. …"
+  - type: dropdown
+    id: where
+    attributes:
+      label: Dove · Where
+      options:
+        - Web app (diagonalecalcio.it/app)
+        - App desktop macOS
+        - App desktop Windows
+        - App desktop Linux
+        - Link condiviso · Shared link
+        - Server MCP
+        - Sito · Website
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Browser / sistema · Browser / OS
+      placeholder: Chrome 140 su Windows 11, Safari su iPhone…
+  - type: textarea
+    id: board
+    attributes:
+      label: Lavagna · Board
+      description: Se possibile incolla il link di condivisione o allega il file .diagonale.json · If possible paste the share link or attach the .diagonale.json file
