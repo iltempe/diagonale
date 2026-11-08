@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
-const SITE = 'https://iltempe.github.io/diagonale/';
+const SITE = 'https://diagonalecalcio.it/';
 const REPO = 'https://github.com/iltempe/diagonale';
 const WEB_ROOT = path.join(__dirname, 'web');
 

@@ -1,8 +1,9 @@
 # Changelog
 
-## Non ancora rilasciato
+## 1.2.0 — 2026-11-08
 
-- Preparato il passaggio al dominio **diagonalecalcio.it** (si attiva con `scripts/activate-domain.sh` quando i DNS sono visibili).
+- Nuovo dominio: sito su **https://diagonalecalcio.it/** e app su **https://diagonalecalcio.it/app/**. I vecchi indirizzi `iltempe.github.io/diagonale/…`, compresi i link già condivisi e i badge già installati, vengono reindirizzati automaticamente.
+- I link di condivisione generati dall'app desktop e dal server MCP (`open_in_browser`) usano il nuovo dominio.
 - **Badge per le società**: generatore sul sito (`#badge`) con nome del club, stile scuro o chiaro, italiano o inglese; codice HTML autonomo oppure immagine SVG.
 - **Condivisione** del sito su WhatsApp, Telegram, Facebook, X, LinkedIn, Reddit, email, copia link e condivisione nativa del telefono, nella sezione "Chi c'è dietro".
 - **Statistiche anonime** del sito con GoatCounter (senza cookie, script ospitato in locale). L'app resta senza tracciamento.

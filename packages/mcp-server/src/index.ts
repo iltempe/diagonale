@@ -13,7 +13,7 @@ Usage:
   diagonale-mcp --live [--port 7457]        live mode: bridge to the open web app over ws://localhost:<port>
 Options:
   --http <port>     serve MCP over Streamable HTTP on 127.0.0.1:<port>/mcp instead of stdio
-  --app-url <url>   web app URL used by open_in_browser (default https://iltempe.github.io/diagonale/)
+  --app-url <url>   web app URL used by open_in_browser (default https://diagonalecalcio.it/)
 `;
 
 function arg(name: string): string | undefined {

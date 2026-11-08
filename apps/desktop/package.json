@@ -1,10 +1,10 @@
 {
   "name": "@diagonale/desktop",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Diagonale \u2014 lavagna tattica animata (desktop app for macOS, Windows, Linux).",
   "author": "Diagonale contributors",
-  "homepage": "https://iltempe.github.io/diagonale/",
+  "homepage": "https://diagonalecalcio.it/",
   "license": "Apache-2.0",
   "main": "main.cjs",
   "scripts": {

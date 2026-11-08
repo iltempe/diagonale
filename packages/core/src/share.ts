@@ -21,7 +21,7 @@ export function decodeShare(payload: string): Board {
   return parseBoard(JSON.parse(strFromU8(inflateSync(bytes))));
 }
 
-export const DEFAULT_APP_URL = 'https://iltempe.github.io/diagonale/app/';
+export const DEFAULT_APP_URL = 'https://diagonalecalcio.it/app/';
 
 export function shareUrl(board: Board, appUrl = DEFAULT_APP_URL): string {
   return `${appUrl.replace(/#.*$/, '')}#/d/${encodeShare(board)}`;

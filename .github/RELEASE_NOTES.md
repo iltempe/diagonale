@@ -1,6 +1,6 @@
 ## Diagonale — La tattica, fase per fase
 
-**Usala nel browser:** https://iltempe.github.io/diagonale/app/ · **Sito:** https://iltempe.github.io/diagonale/
+**Usala nel browser:** https://diagonalecalcio.it/app/ · **Sito:** https://diagonalecalcio.it/
 
 ### Download
 
