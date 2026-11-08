@@ -5,6 +5,55 @@ import { Icon, Logo } from './Icons';
 
 export type DialogName = 'boards' | 'export' | 'share' | 'settings' | null;
 
+/** Section navigation shared by editor, planner and Team Centre. */
+export function NavTabs() {
+  const { t } = useTranslation();
+  const hash = location.hash || '#/';
+  const items = [
+    { href: '#/', label: t('common:nav.board'), icon: <Icon.board />, active: hash === '#/' || hash === '#' },
+    { href: '#/planner', label: t('common:nav.planner'), icon: <Icon.clipboard />, active: hash.startsWith('#/planner') },
+    { href: '#/team', label: t('common:nav.team'), icon: <Icon.calendar />, active: hash.startsWith('#/team') },
+  ];
+  return (
+    <nav className="nav-tabs" aria-label={t('common:nav.label')}>
+      {items.map((it) => (
+        <a key={it.href} href={it.href} className={it.active ? 'active' : ''} aria-current={it.active ? 'page' : undefined} data-testid={`nav-${it.href.slice(2) || 'board'}`}>
+          {it.icon} <span className="hide-sm">{it.label}</span>
+        </a>
+      ))}
+    </nav>
+  );
+}
+
+/** Top bar for the non-editor pages. */
+export function PageHeader({ openSettings }: { openSettings: () => void }) {
+  const { t, i18n } = useTranslation();
+  return (
+    <header className="app-header">
+      <div className="brand">
+        <Logo />
+        <div>
+          <h1>{t('common:appName')}</h1>
+          <span className="tagline">{t('common:tagline')}</span>
+        </div>
+      </div>
+      <NavTabs />
+      <div className="header-actions">
+        <div className="lang-switch" role="group" aria-label={t('common:settings.language')}>
+          {LANGUAGES.map((l) => (
+            <button key={l} className={i18n.language === l ? 'active' : ''} onClick={() => setLanguage(l as Lang)} aria-pressed={i18n.language === l}>
+              {l.toUpperCase()}
+            </button>
+          ))}
+        </div>
+        <button className="icon-btn" onClick={openSettings} title={t('common:settings.title')} aria-label={t('common:settings.title')}>
+          <Icon.settings />
+        </button>
+      </div>
+    </header>
+  );
+}
+
 export function Header({ open }: { open: (d: DialogName) => void }) {
   const { t, i18n } = useTranslation();
   const title = useEditor((s) => s.board.title);
@@ -21,6 +70,7 @@ export function Header({ open }: { open: (d: DialogName) => void }) {
           <span className="tagline">{t('common:tagline')}</span>
         </div>
       </div>
+      <NavTabs />
       <button className="board-title" onClick={() => open('boards')} title={t('common:boards.title')} data-testid="open-boards">
         <Icon.folder /> <span>{title || t('common:untitled')}</span>
       </button>

@@ -12,7 +12,8 @@
     "equipment": "Equipment",
     "tapToPlace": "Tap to place: select a player, then tap its destination",
     "names": "Show names",
-    "ghosts": "Show previous phase positions"
+    "ghosts": "Show previous phase positions",
+    "photos": "Show player photos"
   },
   "toolHints": {
     "select": "Drag to move (propagates to following unchanged phases). Drag on empty space to select several players.",
@@ -35,7 +36,13 @@
     "block": "Block",
     "shot": "Shot"
   },
-  "annotation": { "arrow": "Arrow", "zone": "Zone", "line": "Line", "text": "Text", "equipment": "Equipment" },
+  "annotation": {
+    "arrow": "Arrow",
+    "zone": "Zone",
+    "line": "Line",
+    "text": "Text",
+    "equipment": "Equipment"
+  },
   "equipment": {
     "cone": "Cone",
     "disc": "Disc marker",
@@ -101,8 +108,21 @@
     "notes": "Notes (in the PDF)",
     "firstHint": "The first phase has no transition: it is the starting situation."
   },
-  "easing": { "linear": "Linear", "easeInOut": "Smooth", "easeOut": "Ease out" },
-  "camera": { "fixed": "Fixed", "follow_ball": "Follow the ball", "rect": "Frame", "zoom": "Zoom" },
+  "easing": {
+    "linear": "Linear",
+    "easeInOut": "Smooth",
+    "easeOut": "Ease out"
+  },
+  "camera": {
+    "fixed": "Fixed",
+    "follow_ball": "Follow the ball",
+    "rect": "Frame",
+    "zoom": "Zoom",
+    "x": "X (m)",
+    "y": "Y (m)",
+    "w": "Width (m)",
+    "h": "Height (m)"
+  },
   "pitch": {
     "view": "View",
     "surface": "Surface",
@@ -132,9 +152,22 @@
     "wide_right": "Right flank",
     "custom": "Custom"
   },
-  "surfaces": { "grass_stripes": "Striped grass", "grass_plain": "Plain grass", "artificial": "Artificial turf", "chalkboard": "Chalkboard" },
-  "board": { "title": "Title", "kind": "Type" },
-  "kinds": { "tactic": "Tactic", "set_piece": "Set piece", "training": "Training drill", "match_plan": "Match plan" },
+  "surfaces": {
+    "grass_stripes": "Striped grass",
+    "grass_plain": "Plain grass",
+    "artificial": "Artificial turf",
+    "chalkboard": "Chalkboard"
+  },
+  "board": {
+    "title": "Title",
+    "kind": "Type"
+  },
+  "kinds": {
+    "tactic": "Tactic",
+    "set_piece": "Set piece",
+    "training": "Training drill",
+    "match_plan": "Match plan"
+  },
   "routines": {
     "label": "Set-piece routines",
     "apply": "Load (replaces phases)",
@@ -154,7 +187,11 @@
     "saved": "Sequence saved",
     "apply": "Append"
   },
-  "timeline": { "label": "Phases", "add": "New phase", "duplicate": "Duplicate with annotations" },
+  "timeline": {
+    "label": "Phases",
+    "add": "New phase",
+    "duplicate": "Duplicate with annotations"
+  },
   "playback": {
     "play": "Play",
     "pause": "Pause",
@@ -162,11 +199,20 @@
     "next": "Next phase",
     "scrub": "Timeline position",
     "speed": "Speed",
-    "loop": "Loop"
+    "loop": "Loop",
+    "present": "Presentation mode"
   },
-  "history": { "move": "Move", "delete": "Delete selection", "paste": "Paste phase" },
-  "toast": { "copied": "Phase content copied" },
-  "defaults": { "text": "Text" },
+  "history": {
+    "move": "Move",
+    "delete": "Delete selection",
+    "paste": "Paste phase"
+  },
+  "toast": {
+    "copied": "Phase content copied"
+  },
+  "defaults": {
+    "text": "Text"
+  },
   "demo": {
     "title": "4-3-3 build-up against a 4-4-2 press",
     "p0": "Goalkeeper starts",
@@ -174,5 +220,16 @@
     "p2": "Full-back receives high",
     "p3": "Line broken",
     "note": "Free half-space"
+  },
+  "talk": {
+    "title": "Team Talk",
+    "record": "Record the Team Talk (synced voice)",
+    "rerecord": "Record the Team Talk again",
+    "stop": "Stop",
+    "toggle": "Play the voice",
+    "delete": "Delete the Team Talk",
+    "confirmReplace": "Replace the recorded Team Talk?",
+    "confirmDelete": "Delete the Team Talk?",
+    "micError": "Microphone unavailable"
   }
 }

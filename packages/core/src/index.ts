@@ -15,3 +15,5 @@ export * from './commands/commands';
 export * from './commands/queries';
 export * from './run';
 export * from './share';
+export * from './teamcentre';
+export * from './planner';

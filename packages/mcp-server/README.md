@@ -13,7 +13,11 @@ Server [MCP](https://modelcontextprotocol.io) per **Diagonale**. Espone come too
 Tool extra: `listBoards`, `openBoard` (solo modalità file), `export_png`, `export_mp4`, `open_in_browser` (apre la lavagna nel player web tramite link di condivisione).
 Risorse: `board://<id>` e `formation://<id>`.
 
-## Build
+## Download
+
+Ogni [release](https://github.com/iltempe/diagonale/releases/latest) include `diagonale-mcp.js`, un unico file che basta eseguire con Node ≥ 20: `node diagonale-mcp.js --live`.
+
+## Build dal sorgente
 
 ```bash
 pnpm install

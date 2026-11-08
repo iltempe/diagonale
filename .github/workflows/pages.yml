@@ -25,13 +25,20 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Build web app
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      - name: Build web app (served at /<repo>/app/)
         run: pnpm --filter @diagonale/web build
         env:
-          BASE_PATH: /${{ github.event.repository.name }}/
+          BASE_PATH: /${{ github.event.repository.name }}/app/
+          # optional cloud features (Supabase): set these as repository variables
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+      - name: Assemble landing site + app
+        run: node scripts/build-site.mjs
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/web/dist
+          path: dist-site
 
   deploy:
     needs: build

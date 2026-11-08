@@ -20,6 +20,8 @@ export type RenderOptions = {
   selectedAnnotationId?: string | null;
   showNames?: boolean;
   showNumbers?: boolean;
+  /** draw player photos (photoUrl) inside the disc */
+  showPhotos?: boolean;
   playerScale?: number;
   /** positions of the previous phase, drawn as faint ghosts with trails (editor only) */
   ghost?: Record<string, Vec2> | null;
@@ -57,12 +59,53 @@ const BALL_RADIUS_M = 0.55;
 const PLAYER_RADIUS_M = 1.45;
 const FONT = 'Inter, system-ui, sans-serif';
 
+/** ISO 3166 alpha-2 → flag emoji. */
+export function flagEmoji(code?: string): string {
+  if (!code || !/^[a-zA-Z]{2}$/.test(code)) return '';
+  return String.fromCodePoint(...code.toUpperCase().split('').map((c) => 0x1f1e6 + c.charCodeAt(0) - 65));
+}
+
+const images = new Map<string, HTMLImageElement>();
+const imageListeners = new Set<() => void>();
+
+function imageFor(url: string): HTMLImageElement | null {
+  let img = images.get(url);
+  if (!img) {
+    img = new Image();
+    if (!url.startsWith('data:')) img.crossOrigin = 'anonymous';
+    img.onload = () => imageListeners.forEach((l) => l());
+    img.src = url;
+    images.set(url, img);
+  }
+  return img.complete && img.naturalWidth > 0 ? img : null;
+}
+
+/** Load all player photos of a board (call before offscreen exports). */
+export async function preloadImages(board: Board): Promise<void> {
+  const urls = allPlayers(board)
+    .map((p) => p.photoUrl)
+    .filter((u): u is string => !!u);
+  await Promise.all(
+    urls.map(
+      (u) =>
+        new Promise<void>((res) => {
+          const img = imageFor(u) ?? images.get(u)!;
+          if (img.complete) return res();
+          img.addEventListener('load', () => res(), { once: true });
+          img.addEventListener('error', () => res(), { once: true });
+        }),
+    ),
+  );
+}
+
 class PlayerNode {
   readonly group: Konva.Group;
   private shadow = new Konva.Ellipse({ radiusX: 1, radiusY: 1, fill: 'rgba(0,0,0,0.28)', listening: false });
   private ring = new Konva.Circle({ radius: 1, stroke: '#F2C230', strokeWidth: 3, listening: false });
   private disc = new Konva.Circle({ radius: 1 });
   private stripe = new Konva.Arc({ innerRadius: 0, outerRadius: 1, angle: 0, listening: false });
+  private photo = new Konva.Image({ image: undefined, listening: false });
+  private photoClip = new Konva.Group({ listening: false });
   private num = new Konva.Text({ fontFamily: FONT, fontStyle: 'bold', align: 'center', verticalAlign: 'middle', listening: false });
   private facing = new Konva.Line({ closed: true, listening: false });
   private label = new Konva.Text({
@@ -79,7 +122,8 @@ class PlayerNode {
   constructor(readonly id: string) {
     this.group = new Konva.Group();
     this.group.setAttr('entityId', id);
-    this.group.add(this.shadow, this.ring, this.disc, this.stripe, this.facing, this.num, this.label);
+    this.photoClip.add(this.photo);
+    this.group.add(this.shadow, this.ring, this.disc, this.stripe, this.photoClip, this.facing, this.num, this.label);
   }
 
   update(p: Player, team: Team, screen: Vec2, r: number, facingAngle: number | null, opts: RenderOptions) {
@@ -96,7 +140,14 @@ class PlayerNode {
     this.stripe.visible(false);
     const selected = opts.selection?.has(p.id) ?? false;
     this.ring.setAttrs({ radius: r + Math.max(3, r * 0.3), visible: selected, strokeWidth: Math.max(2, r * 0.22) });
-    const showNum = opts.showNumbers !== false && p.number != null;
+    const img = opts.showPhotos && p.photoUrl ? imageFor(p.photoUrl) : null;
+    if (img) {
+      const ir = r * 0.86;
+      this.photoClip.visible(true);
+      this.photoClip.clipFunc((ctx) => ctx.arc(0, 0, ir, 0, Math.PI * 2, false));
+      this.photo.setAttrs({ image: img, x: -ir, y: -ir, width: ir * 2, height: ir * 2 });
+    } else this.photoClip.visible(false);
+    const showNum = opts.showNumbers !== false && p.number != null && !img;
     this.num.setAttrs({
       text: showNum ? String(p.number) : '',
       fontSize: r * (String(p.number ?? '').length > 2 ? 0.8 : 1.05),
@@ -124,7 +175,9 @@ class PlayerNode {
         fill: kit.secondary,
       });
     } else this.facing.visible(false);
-    const name = opts.showNames !== false ? (p.shortName ?? p.name ?? '') : '';
+    const flag = flagEmoji(p.flag);
+    const baseName = opts.showNames !== false ? (p.shortName ?? p.name ?? '') : '';
+    const name = [flag, img && p.number != null ? `${p.number}` : '', baseName].filter(Boolean).join(' ');
     const fs = Math.max(9, r * 0.85);
     this.label.setAttrs({ text: name, fontSize: fs, visible: !!name });
     if (name) this.label.setAttrs({ x: -this.label.width() / 2, y: r + 3 });
@@ -178,11 +231,16 @@ export class BoardRenderer {
   private screenPos = new Map<string, Vec2>();
   private radii = new Map<string, number>();
   events: RendererEvents = {};
+  private imageListener: () => void;
 
   constructor(container: HTMLDivElement, width: number, height: number, opts: { interactive?: boolean } = {}) {
     this.stage = new Konva.Stage({ container, width, height });
     this.stage.add(this.pitchLayer, this.annLayer, this.entLayer, this.overlay);
     this.entLayer.add(this.ball.group);
+    this.imageListener = () => {
+      if (this.lastBoard && this.lastFrame) this.render(this.lastBoard, this.lastFrame, this.lastOpts);
+    };
+    imageListeners.add(this.imageListener);
     if (opts.interactive) this.bindEvents();
     else {
       this.annLayer.listening(false);
@@ -201,6 +259,7 @@ export class BoardRenderer {
   }
 
   destroy() {
+    imageListeners.delete(this.imageListener);
     this.stage.destroy();
   }
 

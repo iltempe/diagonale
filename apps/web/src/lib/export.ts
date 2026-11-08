@@ -1,7 +1,7 @@
 import Konva from 'konva';
 import { zipSync } from 'fflate';
 import { evaluate, phaseFrame, serializeBoard, timeline, type Board } from '@diagonale/core';
-import { BoardRenderer, type RenderOptions } from '@diagonale/render';
+import { BoardRenderer, preloadImages, type RenderOptions } from '@diagonale/render';
 import i18n from '../i18n';
 import { downloadBlob, slugify } from './persistence';
 
@@ -51,6 +51,7 @@ function opts(c: ExportCommon, caption: string | null): RenderOptions {
   return {
     editable: false,
     showNames: c.showNames ?? true,
+    showPhotos: true,
     orientation: c.orientation,
     caption: c.captions === false ? null : caption,
     watermark: 'Diagonale',
@@ -65,6 +66,7 @@ function composite(r: BoardRenderer, ctx: CanvasRenderingContext2D, w: number, h
 
 export async function renderPhasePng(board: Board, phase: number, c: ExportCommon & { resolution: Resolution }): Promise<Blob> {
   const [w, h] = size(c.resolution, c.orientation);
+  await preloadImages(board);
   const { r, dispose } = offscreen(w, h);
   try {
     r.render(board, phaseFrame(board, phase), opts(c, phaseCaption(board, phase, c.lang)));
@@ -98,7 +100,7 @@ export function exportJson(board: Board) {
 }
 
 /** WinAnsi-safe text for the standard PDF fonts. */
-function pdfSafe(s: string): string {
+export function pdfSafe(s: string): string {
   return s.replace(/[^\x20-\x7E\u00A0-\u00FF\u2013\u2014\u2018\u2019\u201C\u201D\u2022\u2026\u20AC\n]/g, '?');
 }
 
@@ -152,7 +154,7 @@ export async function exportPdf(board: Board, c: ExportCommon) {
   downloadBlob(new Blob([bytes as BlobPart], { type: 'application/pdf' }), `${slugify(board.title)}.pdf`);
 }
 
-function wrap(text: string, max: number): string[] {
+export function wrap(text: string, max: number): string[] {
   const out: string[] = [];
   for (const para of text.split('\n')) {
     let line = '';
@@ -190,7 +192,7 @@ async function pickCodec(w: number, h: number, fps: number): Promise<string | nu
  */
 export async function exportVideo(
   board: Board,
-  c: ExportCommon & { resolution: Resolution; fps?: number },
+  c: ExportCommon & { resolution: Resolution; fps?: number; audio?: Blob },
   onProgress: VideoProgress,
   signal?: AbortSignal,
 ): Promise<'mp4' | 'webm'> {
@@ -198,6 +200,7 @@ export async function exportVideo(
   const [w, h] = size(c.resolution, c.orientation);
   const total = timeline(board).totalMs + 600;
   const frames = Math.ceil((total / 1000) * fps);
+  await preloadImages(board);
   const { r, dispose } = offscreen(w, h);
   const canvas = document.createElement('canvas');
   canvas.width = w;
@@ -212,7 +215,14 @@ export async function exportVideo(
     const codec = await pickCodec(w, h, fps);
     if (codec) {
       const { Muxer, ArrayBufferTarget } = await import('mp4-muxer');
-      const muxer = new Muxer({ target: new ArrayBufferTarget(), video: { codec: 'avc', width: w, height: h, frameRate: fps }, fastStart: 'in-memory' });
+      const voice = c.audio ? await prepareAudio(c.audio, total / 1000) : null;
+      const muxer = new Muxer({
+        target: new ArrayBufferTarget(),
+        video: { codec: 'avc', width: w, height: h, frameRate: fps },
+        ...(voice ? { audio: { codec: 'opus' as const, sampleRate: AUDIO_RATE, numberOfChannels: voice.channels } } : {}),
+        fastStart: 'in-memory',
+      });
+      if (voice) await encodeAudio(voice, (chunk, meta) => muxer.addAudioChunk(chunk, meta));
       let error: unknown = null;
       const encoder = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: (e) => (error = e) });
       encoder.configure({ codec, width: w, height: h, bitrate: c.resolution === '1080p' ? 8_000_000 : 4_000_000, framerate: fps });
@@ -274,4 +284,41 @@ export async function pngDataUrl(board: Board, phase: number, lang: string): Pro
     fr.onload = () => res(String(fr.result));
     fr.readAsDataURL(blob);
   });
+}
+
+const AUDIO_RATE = 48000;
+
+type Voice = { buffer: AudioBuffer; channels: number; frames: number };
+
+/** Decode + resample the Team Talk recording; null if Opus encoding is unavailable. */
+async function prepareAudio(blob: Blob, seconds: number): Promise<Voice | null> {
+  if (typeof AudioEncoder === 'undefined' || typeof OfflineAudioContext === 'undefined') return null;
+  try {
+    const ctx = new OfflineAudioContext(2, AUDIO_RATE, AUDIO_RATE);
+    const buffer = await ctx.decodeAudioData(await blob.arrayBuffer());
+    const channels = Math.min(2, buffer.numberOfChannels);
+    const sup = await AudioEncoder.isConfigSupported({ codec: 'opus', sampleRate: AUDIO_RATE, numberOfChannels: channels, bitrate: 96000 });
+    if (!sup.supported) return null;
+    return { buffer, channels, frames: Math.min(buffer.length, Math.floor(seconds * AUDIO_RATE)) };
+  } catch {
+    return null;
+  }
+}
+
+async function encodeAudio(v: Voice, output: (chunk: EncodedAudioChunk, meta?: EncodedAudioChunkMetadata) => void) {
+  let error: unknown = null;
+  const enc = new AudioEncoder({ output, error: (e) => (error = e) });
+  enc.configure({ codec: 'opus', sampleRate: AUDIO_RATE, numberOfChannels: v.channels, bitrate: 96000 });
+  const step = 960;
+  for (let off = 0; off < v.frames; off += step) {
+    if (error) throw error;
+    const n = Math.min(step, v.frames - off);
+    const data = new Float32Array(n * v.channels);
+    for (let ch = 0; ch < v.channels; ch++) data.set(v.buffer.getChannelData(ch).subarray(off, off + n), ch * n);
+    const ad = new AudioData({ format: 'f32-planar', sampleRate: AUDIO_RATE, numberOfFrames: n, numberOfChannels: v.channels, timestamp: Math.round((off / AUDIO_RATE) * 1e6), data });
+    enc.encode(ad);
+    ad.close();
+  }
+  await enc.flush();
+  enc.close();
 }

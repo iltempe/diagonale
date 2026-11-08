@@ -1,20 +1,31 @@
 {
   "home": "Squadra di casa",
   "away": "Avversari",
-  "defaults": { "home": "Casa", "away": "Ospiti" },
+  "defaults": {
+    "home": "Casa",
+    "away": "Ospiti"
+  },
   "formation": "Modulo",
   "applyFormation": "Applica modulo",
   "playersCount_one": "{{count}} giocatore",
   "playersCount_other": "{{count}} giocatori",
   "addAway": "Aggiungi avversari",
   "removeAway": "Rimuovi avversari",
-  "kit": { "primary": "Maglia", "secondary": "Bordo", "number": "Numero", "gkPrimary": "Portiere" },
+  "kit": {
+    "primary": "Maglia",
+    "secondary": "Bordo",
+    "number": "Numero",
+    "gkPrimary": "Portiere"
+  },
   "player": {
     "number": "Numero",
     "role": "Ruolo",
     "name": "Nome",
     "shortName": "Nome breve (sul campo)",
-    "remove": "Rimuovi giocatore"
+    "remove": "Rimuovi giocatore",
+    "flag": "Nazione (ISO)",
+    "photo": "Foto",
+    "addPhoto": "Carica"
   },
   "roles": {
     "GK": "POR — Portiere",
@@ -26,5 +37,93 @@
     "AM": "TRQ — Trequartista",
     "W": "AL — Ala / esterno",
     "ST": "ATT — Attaccante"
+  },
+  "centre": {
+    "title": "Team Centre",
+    "intro": "Rosa, calendario, convocazioni, risultati e statistiche della tua squadra. I dati restano sul dispositivo.",
+    "createTeam": "Nuova squadra",
+    "newTeamName": "La mia squadra",
+    "tabs": {
+      "squad": "Rosa",
+      "fixtures": "Partite",
+      "stats": "Statistiche",
+      "settings": "Impostazioni"
+    },
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "birthYear": "Anno",
+    "addPlayer": "Aggiungi giocatore",
+    "emptySquad": "Aggiungi prima i giocatori nella rosa.",
+    "addFixture": "Nuova partita",
+    "pickFixture": "Seleziona una partita per gestire convocazioni e risultato.",
+    "vsHome": "vs {{opponent}} (casa)",
+    "vsAway": "@ {{opponent}} (trasferta)",
+    "opponent": "Avversario",
+    "date": "Data e ora",
+    "venue": "Campo",
+    "home": "In casa",
+    "away": "In trasferta",
+    "competition": "Competizione",
+    "location": "Luogo",
+    "callup": "Convocazione",
+    "captain": "Capitano",
+    "callupCount": "{{starters}} titolari · {{bench}} in panchina",
+    "status": {
+      "out": "Non convocato",
+      "available": "Disponibile",
+      "starter": "Titolare",
+      "bench": "Panchina"
+    },
+    "result": "Risultato",
+    "played": "Partita giocata",
+    "goalsFor": "Gol fatti",
+    "goalsAgainst": "Gol subiti",
+    "minutes": "Minuti",
+    "goals": "Gol",
+    "yellow": "Gialli",
+    "red": "Rossi",
+    "notes": "Note",
+    "lineupBoard": "Crea lavagna con i titolari",
+    "noStarters": "Nessun titolare selezionato",
+    "report": {
+      "button": "Report per i genitori",
+      "title": "Report partita",
+      "privacy": "Privacy dei nomi",
+      "pdf": "Scarica PDF",
+      "starters": "Titolari",
+      "bench": "Panchina",
+      "captain": "Capitano",
+      "scorers": "Marcatori",
+      "cards": "Ammonizioni/espulsioni"
+    },
+    "privacy": {
+      "initials": "Solo iniziali (consigliato per i minori)",
+      "first": "Solo nome",
+      "full": "Nome e cognome"
+    },
+    "kpi": {
+      "played": "Giocate",
+      "won": "Vinte",
+      "drawn": "Pareggiate",
+      "lost": "Perse",
+      "goalsFor": "Gol fatti",
+      "goalsAgainst": "Gol subiti",
+      "points": "Punti",
+      "calledUp": "Conv.",
+      "appearances": "Presenze",
+      "starts": "Titolare"
+    },
+    "teamName": "Nome squadra",
+    "season": "Stagione",
+    "calendar": "Calendario",
+    "importIcs": "Importa calendario (.ics / .json)",
+    "exportIcs": "Esporta calendario .ics",
+    "icsHint": "Il calendario esportato contiene solo le partite, nessun dato dei giocatori. Puoi importarlo in Google Calendar, Apple Calendario o Outlook.",
+    "externalSource": "Sorgente esterna (URL di un .ics o di un JSON di partite)",
+    "sync": "Importa",
+    "externalHint": "Gancio per fonti esterne configurabili (es. un dataset di calendari federali). Il server deve consentire CORS.",
+    "fetchError": "Impossibile scaricare la sorgente",
+    "imported": "{{count}} partite aggiunte, {{updated}} aggiornate",
+    "deleteTeam": "Elimina squadra"
   }
 }

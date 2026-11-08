@@ -2,15 +2,15 @@
 
 <h1 align="center">Diagonale</h1>
 <p align="center"><b>La tattica, fase per fase.</b> — Lavagna tattica animata open source per allenatori di calcio.</p>
-<p align="center"><a href="https://iltempe.github.io/diagonale/"><b>▶ Apri l'app</b></a> · <a href="SPEC.md">Specifica</a> · <a href="docs/decisions.md">Decisioni</a> · <a href="#english">English</a></p>
+<p align="center"><a href="https://iltempe.github.io/diagonale/app/"><b>▶ Apri l'app</b></a> · <a href="https://iltempe.github.io/diagonale/">Sito</a> · <a href="https://github.com/iltempe/diagonale/releases/latest"><b>⬇ Mac · Windows · Linux</b></a> · <a href="SPEC.md">Specifica</a> · <a href="docs/decisions.md">Decisioni</a> · <a href="#english">English</a></p>
 
 ---
 
 Disegni una situazione di gioco su un campo in metri reali, la scomponi in **fasi** e Diagonale anima il passaggio da una fase all'altra come un filmato. Poi la condividi con un link che si apre anche dal telefono, la esporti in MP4, PNG o PDF, oppure la fai costruire all'**AI Coach** con il modello che preferisci.
 
-Funziona nel browser, senza installazione e senza account: le lavagne restano nel tuo browser (IndexedDB) e l'app funziona anche offline (PWA).
+Funziona nel browser, senza installazione e senza account: le lavagne restano nel tuo dispositivo e l'app funziona anche offline (PWA). C'è anche l'**app desktop** per macOS, Windows e Linux, scaricabile dalle [release](https://github.com/iltempe/diagonale/releases/latest).
 
-## Cosa c'è in questa prima versione
+## Funzionalità
 
 - **Editor**: giocatori di casa e avversari, palla, frecce in 7 stili (passaggio, smarcamento, conduzione, pressione, palla alta, blocco, tiro), zone, linee, testi e 17 attrezzi d'allenamento. Multi-selezione, tocca-per-spostare su mobile, curve trascinabili e scorciatoie da tastiera.
 - **Fasi e animazione**: timeline con miniature, durata trascinabile, andamento, palla alta con ombra, camera che segue la palla, riproduzione a 0.5×/1×/2× con loop.
@@ -21,6 +21,11 @@ Funziona nel browser, senza installazione e senza account: le lavagne restano ne
 - **Italiano e inglese**: il cambio di lingua è immediato; la stessa scelta vale per le etichette negli export e per l'AI.
 - **AI Coach**: funziona con Claude, OpenAI, Gemini, OpenRouter, Mistral, Groq, DeepSeek e con modelli locali via Ollama o LM Studio. Usi la tua chiave, che resta nel browser. Le modifiche dell'AI appaiono in anteprima e si annullano con un solo undo.
 - **Server MCP**: Claude Desktop e Claude Code possono creare e modificare le lavagne su file, oppure *in diretta* nell'app aperta.
+- **Team Talk**: registri la voce mentre l'animazione scorre; resta sincronizzata in modalità presentazione e finisce nel video MP4.
+- **Planner**: sedute di allenamento (esercizi, durata, obiettivi) in PDF A4 e piani gara per momento di gioco in un unico PDF.
+- **Team Centre**: rosa, calendario con import/export ICS, convocazioni, risultati, minuti, gol, cartellini, statistiche e report per i genitori con privacy dei nomi (iniziali di default).
+- **Foto e bandiere** dei giocatori sul campo.
+- **Cloud opzionale (Supabase)**: login, sincronizzazione tra dispositivi e link brevi con audio. Vedi più sotto come attivarlo.
 
 ## Struttura
 
@@ -30,6 +35,8 @@ packages/render      renderer Konva condiviso da editor, player ed export
 packages/ai          provider AI agnostici + agent loop
 packages/mcp-server  server MCP (stdio / Streamable HTTP, modalità file e live)
 apps/web             web app React 19 (Vite, Zustand, Dexie, i18next)
+apps/desktop         app desktop Electron (macOS, Windows, Linux)
+apps/site            sito di lancio statico (bilingue)
 data/                formazioni e routine in JSON (generate da packages/core)
 supabase/            schema e proxy AI predisposti per la fase successiva
 ```
@@ -48,7 +55,24 @@ pnpm typecheck && pnpm lint && pnpm check:i18n
 pnpm --filter @diagonale/web e2e    # Playwright
 ```
 
-Il deploy su GitHub Pages parte a ogni push su `main` (`.github/workflows/pages.yml`).
+Il deploy su GitHub Pages parte a ogni push su `main` (`.github/workflows/pages.yml`): sito su `/diagonale/`, app su `/diagonale/app/`.
+
+### App desktop
+
+```bash
+pnpm --filter @diagonale/desktop start      # avvia in sviluppo
+pnpm --filter @diagonale/desktop dist       # pacchetti per il sistema corrente in apps/desktop/release
+```
+
+Su ogni tag `v*` il workflow `release.yml` compila le app per macOS, Windows e Linux insieme a `diagonale-mcp.js`, e le pubblica nella release GitHub.
+
+### Cloud opzionale (Supabase)
+
+1. Crea un progetto Supabase e applica `supabase/migrations/0001_init.sql`.
+2. In *Authentication* abilita l'email (magic link) e, se vuoi, Google; aggiungi `https://iltempe.github.io/diagonale/app/` agli URL di redirect.
+3. Nel repository GitHub imposta le variabili `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` (*Settings → Secrets and variables → Actions → Variables*) e rilancia il deploy.
+
+Senza queste variabili l'app resta completamente locale e i link di condivisione contengono la lavagna nell'indirizzo.
 
 ### AI con modelli locali
 
@@ -61,9 +85,9 @@ Se un modello non supporta il tool calling, togli la spunta: l'agente passa a un
 
 Vedi [`packages/mcp-server/README.md`](packages/mcp-server/README.md).
 
-## Roadmap
+## Novità
 
-Seguono, in ordine: account e sincronizzazione con Supabase, Team Talk (voce sincronizzata), session planner e piano gara in PDF, Team Centre (M5). I dettagli sono in [`SPEC.md`](SPEC.md) §16 e [`docs/decisions.md`](docs/decisions.md).
+Vedi [`CHANGELOG.md`](CHANGELOG.md). Le scelte non coperte dalla specifica sono in [`docs/decisions.md`](docs/decisions.md).
 
 ## Licenza
 
@@ -77,4 +101,6 @@ Seguono, in ordine: account e sincronizzazione con Supabase, Team Talk (voce sin
 
 It runs in the browser with no install and no account, works offline (PWA), and the whole interface is available in English and Italian. Through the MCP server, Claude Desktop and Claude Code can create and edit boards, either as files or live in the open app.
 
-Try it: **https://iltempe.github.io/diagonale/**
+It also includes Team Talk (voice synced to the animation), a session planner and match-plan PDFs, and a Team Centre (squad, fixtures, call-ups, stats, privacy-aware parent reports). Desktop apps for macOS, Windows and Linux are on the [releases page](https://github.com/iltempe/diagonale/releases/latest).
+
+Try it: **https://iltempe.github.io/diagonale/app/** · Website: **https://iltempe.github.io/diagonale/**

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { BALL_ID, timeline, type Board, type Phase } from '@diagonale/core';
 import { displayedBoard, useEditor } from '../store/editor';
 import { Icon } from './Icons';
+import { deleteTalk, startRecording, stopRecording, talkSupported, useTalk } from '../lib/talk';
 
 function Thumb({ board, phase }: { board: Board; phase: Phase }) {
   const L = board.pitch.length;
@@ -146,6 +147,59 @@ export function PlaybackBar() {
       <button className={`icon-btn ${loop ? 'active' : ''}`} onClick={() => set({ loop: !loop })} title={t('editor:playback.loop')} aria-label={t('editor:playback.loop')} aria-pressed={loop}>
         <Icon.loop />
       </button>
+      <TalkControls />
+      <a className="icon-btn" href="#/present" title={t('editor:playback.present')} aria-label={t('editor:playback.present')} data-testid="present">
+        <Icon.screen />
+      </a>
     </div>
+  );
+}
+
+function TalkControls() {
+  const { t } = useTranslation();
+  const recording = useTalk((s) => s.recording);
+  const talk = useTalk((s) => s.talk);
+  const enabled = useTalk((s) => s.enabled);
+  const boardId = useEditor((s) => s.board.id);
+  const toast = useEditor((s) => s.toast);
+  if (!talkSupported()) return null;
+  if (recording) {
+    return (
+      <button className="btn small rec" onClick={stopRecording} data-testid="talk-stop">
+        <Icon.stop /> {t('editor:talk.stop')}
+      </button>
+    );
+  }
+  return (
+    <span className="talk">
+      <button
+        className="icon-btn"
+        title={talk ? t('editor:talk.rerecord') : t('editor:talk.record')}
+        aria-label={t('editor:talk.record')}
+        onClick={() => {
+          if (talk && !confirm(t('editor:talk.confirmReplace'))) return;
+          startRecording().catch((e) => toast(`${t('editor:talk.micError')}: ${e instanceof Error ? e.message : String(e)}`, 'error'));
+        }}
+        data-testid="talk-record"
+      >
+        <Icon.record />
+      </button>
+      {talk && (
+        <>
+          <button
+            className={`icon-btn ${enabled ? 'active' : ''}`}
+            title={t('editor:talk.toggle')}
+            aria-label={t('editor:talk.toggle')}
+            aria-pressed={enabled}
+            onClick={() => useTalk.setState({ enabled: !enabled })}
+          >
+            <Icon.mic />
+          </button>
+          <button className="icon-btn" title={t('editor:talk.delete')} aria-label={t('editor:talk.delete')} onClick={() => confirm(t('editor:talk.confirmDelete')) && void deleteTalk(boardId)}>
+            <Icon.trash />
+          </button>
+        </>
+      )}
+    </span>
   );
 }

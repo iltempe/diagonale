@@ -1,6 +1,6 @@
 {
   "name": "@diagonale/mcp-server",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "MCP server for Diagonale: exposes the board commands as MCP tools (file mode and live bridge to the web app).",
   "license": "Apache-2.0",
   "type": "module",

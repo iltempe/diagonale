@@ -9,3 +9,5 @@ test-results
 apps/web/dev-dist
 .env
 .env.local
+apps/web/dist-desktop
+dist-site

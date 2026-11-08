@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="it" data-lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Diagonale — La tattica, fase per fase</title>
+    <meta name="description" content="Lavagna tattica animata open source per allenatori di calcio. Disegna, anima per fasi, condividi da telefono, esporta in MP4. Con AI Coach e server MCP. Gratis, nel browser o su Mac, Windows e Linux." />
+    <meta name="theme-color" content="#0F3D2E" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="apple-touch-icon" href="img/icon-192.png" />
+    <meta property="og:title" content="Diagonale — La tattica, fase per fase" />
+    <meta property="og:description" content="Lavagna tattica animata open source per allenatori. Gratis, nel browser o su desktop." />
+    <meta property="og:image" content="https://iltempe.github.io/diagonale/img/og.png" />
+    <meta property="og:url" content="https://iltempe.github.io/diagonale/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      // Old share links (#/d/…) and editor deep links now live under /app/
+      if (location.hash.startsWith('#/')) location.replace('app/' + location.hash);
+    </script>
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="#top" aria-label="Diagonale">
+        <img src="favicon.svg" width="34" height="34" alt="" />
+        <span>Diagonale</span>
+      </a>
+      <nav class="links">
+        <a href="#features"><span lang="it">Funzionalità</span><span lang="en">Features</span></a>
+        <a href="#ai"><span lang="it">AI &amp; MCP</span><span lang="en">AI &amp; MCP</span></a>
+        <a href="#download"><span lang="it">Download</span><span lang="en">Download</span></a>
+        <a href="https://github.com/iltempe/diagonale">GitHub</a>
+      </nav>
+      <div class="lang" role="group" aria-label="Lingua / Language">
+        <button data-set-lang="it">IT</button>
+        <button data-set-lang="en">EN</button>
+      </div>
+      <a class="btn primary small" href="app/"><span lang="it">Apri l'app</span><span lang="en">Open the app</span></a>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-text">
+          <p class="eyebrow"><span lang="it">Open source · Gratis · Senza account</span><span lang="en">Open source · Free · No account</span></p>
+          <h1><span lang="it">La tattica,<br />fase per fase.</span><span lang="en">Tactics,<br />phase by phase.</span></h1>
+          <p class="lead">
+            <span lang="it">Disegna la situazione sul campo, scomponila in fasi e Diagonale la anima come un filmato. Condividila con un link che si apre dal telefono, esportala in MP4, oppure falla costruire all'AI Coach.</span>
+            <span lang="en">Draw the situation on the pitch, split it into phases and Diagonale animates it like a video. Share it with a link that opens on any phone, export it to MP4, or let the AI Coach build it for you.</span>
+          </p>
+          <div class="cta">
+            <a class="btn primary" href="app/"><span lang="it">▶ Apri nel browser</span><span lang="en">▶ Open in your browser</span></a>
+            <a class="btn" id="hero-download" href="#download"><span lang="it">Scarica per</span><span lang="en">Download for</span><b data-os-name>Mac, Windows, Linux</b></a>
+          </div>
+          <p class="fine">
+            <span lang="it">Italiano e inglese · Funziona offline · Le tue lavagne restano sul tuo dispositivo</span>
+            <span lang="en">English and Italian · Works offline · Your boards stay on your device</span>
+          </p>
+        </div>
+        <div class="hero-media">
+          <div class="window">
+            <div class="window-bar"><i></i><i></i><i></i></div>
+            <video src="img/demo.mp4" poster="img/demo-poster.png" autoplay muted loop playsinline aria-label="Demo"></video>
+          </div>
+        </div>
+      </section>
+
+      <section class="steps">
+        <div class="step">
+          <b>1</b>
+          <h3><span lang="it">Disegna</span><span lang="en">Draw</span></h3>
+          <p><span lang="it">Giocatori, palla, frecce, zone e attrezzi su un campo in metri reali. 25 moduli pronti, anche per il calcio a 5, 7 e 9.</span><span lang="en">Players, ball, arrows, zones and equipment on a pitch measured in real meters. 25 ready-made formations, including 5, 7 and 9-a-side.</span></p>
+        </div>
+        <div class="step">
+          <b>2</b>
+          <h3><span lang="it">Anima per fasi</span><span lang="en">Animate in phases</span></h3>
+          <p><span lang="it">Ogni fase è una fotografia: sposta i giocatori e Diagonale crea il movimento, con palla alta, curve e camera che segue l'azione.</span><span lang="en">Each phase is a snapshot: move the players and Diagonale creates the motion, with lofted balls, curved runs and a camera that follows play.</span></p>
+        </div>
+        <div class="step">
+          <b>3</b>
+          <h3><span lang="it">Condividi</span><span lang="en">Share</span></h3>
+          <p><span lang="it">Un link si apre a schermo intero sul telefono dei giocatori. Oppure video MP4 verticale per le chat, PNG e PDF per lo spogliatoio.</span><span lang="en">A link opens full screen on your players' phones. Or a vertical MP4 for group chats, PNG and PDF for the dressing room.</span></p>
+        </div>
+      </section>
+
+      <section id="features" class="section">
+        <h2><span lang="it">Tutto quello che serve a un allenatore</span><span lang="en">Everything a coach needs</span></h2>
+        <div class="grid">
+          <article>
+            <h3><span lang="it">Editor rapido</span><span lang="en">Fast editor</span></h3>
+            <p><span lang="it">7 stili di freccia (passaggio, smarcamento, conduzione, pressione, palla alta, blocco, tiro), multi-selezione, tocca-per-spostare su tablet, scorciatoie da tastiera, annulla illimitato.</span><span lang="en">7 arrow styles (pass, run, carry, press, lofted, block, shot), multi-select, tap-to-place on tablets, keyboard shortcuts, unlimited undo.</span></p>
+          </article>
+          <article>
+            <h3><span lang="it">Campo come vuoi</span><span lang="en">Your pitch, your way</span></h3>
+            <p><span lang="it">Campo intero, metà, terzi, area, fasce. Erba, sintetico o lavagna. Orizzontale, verticale o vista televisiva in prospettiva. Griglie in metri per gli esercizi.</span><span lang="en">Full pitch, halves, thirds, box, flanks. Grass, turf or chalkboard. Horizontal, vertical or broadcast perspective. Metric grids for drills.</span></p>
+          </article>
+          <article>
+            <h3><span lang="it">Calci piazzati</span><span lang="en">Set pieces</span></h3>
+            <p><span lang="it">Routine pronte per corner sul primo e secondo palo, corner corto e punizioni. Salva le tue sequenze e riapplicale a qualsiasi squadra.</span><span lang="en">Ready routines for near/far post corners, short corners and free kicks. Save your own sequences and reuse them with any team.</span></p>
+          </article>
+          <article>
+            <h3><span lang="it">Team Talk</span><span lang="en">Team Talk</span></h3>
+            <p><span lang="it">Registra la tua voce mentre l'animazione scorre: si riproduce sincronizzata, in modalità presentazione e dentro il video MP4.</span><span lang="en">Record your voice while the animation plays: it stays in sync in presentation mode and inside the MP4 video.</span></p>
+          </article>
+          <article>
+            <h3><span lang="it">Planner</span><span lang="en">Planner</span></h3>
+            <p><span lang="it">Sedute di allenamento con esercizi, durata e obiettivi in PDF A4. Piani gara per possesso, non possesso, transizioni e palle inattive.</span><span lang="en">Training sessions with drills, timings and objectives as A4 PDF. Match plans by possession, out of possession, transitions and set pieces.</span></p>
+          </article>
+          <article>
+            <h3><span lang="it">Team Centre</span><span lang="en">Team Centre</span></h3>
+            <p><span lang="it">Rosa, calendario (import/export .ics), convocazioni, risultati, minuti, gol e cartellini. Report per i genitori con privacy dei nomi dei minori.</span><span lang="en">Squad, calendar (.ics import/export), call-ups, results, minutes, goals and cards. Parent reports with privacy for minors' names.</span></p>
+          </article>
+          <article>
+            <h3><span lang="it">Export professionali</span><span lang="en">Pro exports</span></h3>
+            <p><span lang="it">MP4 H.264 720p/1080p in 16:9 o 9:16, generato fotogramma per fotogramma. PNG di una o di tutte le fasi, PDF con note.</span><span lang="en">H.264 MP4 at 720p/1080p in 16:9 or 9:16, rendered frame by frame. PNG of one or all phases, PDF with notes.</span></p>
+          </article>
+          <article>
+            <h3><span lang="it">I tuoi dati sono tuoi</span><span lang="en">Your data is yours</span></h3>
+            <p><span lang="it">Niente tracciamento, niente account obbligatorio. Le lavagne vivono nel tuo dispositivo e si esportano in un file .diagonale.json aperto e documentato.</span><span lang="en">No tracking, no mandatory account. Boards live on your device and export to an open, documented .diagonale.json file.</span></p>
+          </article>
+        </div>
+      </section>
+
+      <section class="gallery">
+        <figure><img src="img/editor.png" alt="" loading="lazy" /><figcaption><span lang="it">Editor con timeline delle fasi</span><span lang="en">Editor with phase timeline</span></figcaption></figure>
+        <figure><img src="img/broadcast.png" alt="" loading="lazy" /><figcaption><span lang="it">Vista televisiva</span><span lang="en">Broadcast view</span></figcaption></figure>
+        <figure class="phone"><img src="img/mobile.png" alt="" loading="lazy" /><figcaption><span lang="it">Link condiviso sul telefono</span><span lang="en">Shared link on a phone</span></figcaption></figure>
+        <figure class="wide"><img src="img/team.png" alt="" loading="lazy" /><figcaption><span lang="it">Team Centre</span><span lang="en">Team Centre</span></figcaption></figure>
+      </section>
+
+      <section id="ai" class="section split">
+        <div>
+          <p class="eyebrow">AI Coach</p>
+          <h2><span lang="it">Descrivi l'azione. L'AI la disegna.</span><span lang="en">Describe the move. The AI draws it.</span></h2>
+          <p><span lang="it">«Costruisci un'uscita dal basso 4-3-3 contro pressing 4-4-2 in 4 fasi.» L'AI Coach posiziona le squadre, crea le fasi e traccia le frecce. Vedi l'anteprima e la applichi con un clic, oppure la annulli con un solo undo.</span><span lang="en">"Build a 4-3-3 build-up against a 4-4-2 press in 4 phases." The AI Coach places the teams, creates the phases and draws the arrows. You preview the result and apply it with one click, or undo it in one step.</span></p>
+          <p><span lang="it">Scegli tu il modello, con la tua chiave che resta nel browser:</span><span lang="en">Pick your model and bring your own key; it stays in your browser:</span></p>
+          <ul class="chips">
+            <li>Claude</li><li>OpenAI</li><li>Gemini</li><li>OpenRouter</li><li>Mistral</li><li>Groq</li><li>DeepSeek</li><li>Ollama</li><li>LM Studio</li>
+          </ul>
+          <p class="fine"><span lang="it">Con l'app desktop i modelli locali (Ollama, LM Studio) funzionano senza configurare CORS.</span><span lang="en">In the desktop app, local models (Ollama, LM Studio) work without any CORS setup.</span></p>
+        </div>
+        <div>
+          <p class="eyebrow">MCP</p>
+          <h2><span lang="it">Pilotala da Claude Desktop e Claude Code</span><span lang="en">Drive it from Claude Desktop and Claude Code</span></h2>
+          <p><span lang="it">Il server MCP espone gli stessi comandi dell'app. In modalità live le modifiche appaiono in tempo reale nella lavagna aperta.</span><span lang="en">The MCP server exposes the same commands as the app. In live mode, changes appear in real time on the open board.</span></p>
+          <pre><code>claude mcp add diagonale -- node diagonale-mcp.js --live</code></pre>
+          <p class="fine"><a href="https://github.com/iltempe/diagonale/tree/main/packages/mcp-server"><span lang="it">Istruzioni per Claude Desktop e Claude Code →</span><span lang="en">Setup for Claude Desktop and Claude Code →</span></a></p>
+        </div>
+      </section>
+
+      <section id="download" class="section">
+        <h2><span lang="it">Scarica Diagonale</span><span lang="en">Download Diagonale</span></h2>
+        <p class="center"><span lang="it">Stessa app, anche senza connessione. Oppure usala subito <a href="app/">nel browser</a>: si installa anche come app (PWA).</span><span lang="en">Same app, works offline too. Or use it right away <a href="app/">in your browser</a>; it installs as an app (PWA) as well.</span></p>
+        <div class="downloads">
+          <article class="dl" data-os="mac">
+            <h3>macOS</h3>
+            <a class="btn primary" href="https://github.com/iltempe/diagonale/releases/latest/download/Diagonale-mac-arm64.dmg">Apple Silicon (.dmg)</a>
+            <a class="btn" href="https://github.com/iltempe/diagonale/releases/latest/download/Diagonale-mac-x64.dmg">Intel (.dmg)</a>
+            <p class="fine"><span lang="it">App non firmata: al primo avvio fai clic destro → Apri. Se macOS dice che è danneggiata, esegui <code>xattr -cr /Applications/Diagonale.app</code>.</span><span lang="en">Unsigned app: on first launch right-click → Open. If macOS says it is damaged, run <code>xattr -cr /Applications/Diagonale.app</code>.</span></p>
+          </article>
+          <article class="dl" data-os="windows">
+            <h3>Windows</h3>
+            <a class="btn primary" href="https://github.com/iltempe/diagonale/releases/latest/download/Diagonale-windows-x64-setup.exe"><span lang="it">Installer x64</span><span lang="en">Installer x64</span></a>
+            <a class="btn" href="https://github.com/iltempe/diagonale/releases/latest/download/Diagonale-windows-arm64-setup.exe"><span lang="it">Installer ARM64</span><span lang="en">Installer ARM64</span></a>
+            <a class="btn" href="https://github.com/iltempe/diagonale/releases/latest/download/Diagonale-windows-portable.exe"><span lang="it">Portabile (senza installazione)</span><span lang="en">Portable (no install)</span></a>
+            <p class="fine"><span lang="it">Se SmartScreen avvisa, scegli «Ulteriori informazioni» → «Esegui comunque».</span><span lang="en">If SmartScreen warns you, choose "More info" → "Run anyway".</span></p>
+          </article>
+          <article class="dl" data-os="linux">
+            <h3>Linux</h3>
+            <a class="btn primary" href="https://github.com/iltempe/diagonale/releases/latest/download/Diagonale-linux-x86_64.AppImage">AppImage x64</a>
+            <a class="btn" href="https://github.com/iltempe/diagonale/releases/latest/download/Diagonale-linux-arm64.AppImage">AppImage ARM64</a>
+            <a class="btn" href="https://github.com/iltempe/diagonale/releases/latest/download/Diagonale-linux-amd64.deb">Debian / Ubuntu (.deb)</a>
+            <p class="fine"><span lang="it">AppImage: <code>chmod +x</code> e avvia.</span><span lang="en">AppImage: <code>chmod +x</code> and run.</span></p>
+          </article>
+        </div>
+        <p class="center fine"><a href="https://github.com/iltempe/diagonale/releases"><span lang="it">Tutte le versioni e il server MCP (diagonale-mcp.js) →</span><span lang="en">All releases and the MCP server (diagonale-mcp.js) →</span></a></p>
+      </section>
+
+      <section class="section oss">
+        <h2><span lang="it">Open source, davvero</span><span lang="en">Truly open source</span></h2>
+        <p><span lang="it">Diagonale è rilasciata con licenza Apache-2.0. Il codice, la specifica e le decisioni di progetto sono pubblici: segnala un bug, proponi una funzione o contribuisci.</span><span lang="en">Diagonale is released under the Apache-2.0 license. Code, specification and design decisions are public: report a bug, suggest a feature or contribute.</span></p>
+        <div class="cta center">
+          <a class="btn" href="https://github.com/iltempe/diagonale">★ GitHub</a>
+          <a class="btn" href="https://github.com/iltempe/diagonale/issues/new"><span lang="it">Segnala un problema</span><span lang="en">Report an issue</span></a>
+          <a class="btn" href="https://github.com/iltempe/diagonale/blob/main/SPEC.md"><span lang="it">Specifica</span><span lang="en">Specification</span></a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <img src="favicon.svg" width="22" height="22" alt="" />
+      <span>Diagonale · <span lang="it">La tattica, fase per fase.</span><span lang="en">Tactics, phase by phase.</span></span>
+      <span class="grow"></span>
+      <a href="https://github.com/iltempe/diagonale/blob/main/LICENSE">Apache-2.0</a>
+      <a href="app/"><span lang="it">Apri l'app</span><span lang="en">Open the app</span></a>
+    </footer>
+    <script src="main.js"></script>
+  </body>
+</html>

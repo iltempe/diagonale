@@ -1,4 +1,5 @@
--- Diagonale — initial schema (SPEC §14). Not used by the GitHub Pages build yet (see docs/decisions.md D-001/D-018).
+-- Diagonale — schema (SPEC §14). Used by the web app when VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY are set.
+-- Ids are text because boards are created offline first (local-first, nanoid ids).
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users on delete cascade,
@@ -7,7 +8,7 @@ create table if not exists public.profiles (
 );
 
 create table if not exists public.boards (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key,
   owner uuid not null references auth.users on delete cascade,
   title text not null default '',
   kind text not null check (kind in ('tactic', 'set_piece', 'training', 'match_plan')),
@@ -18,7 +19,7 @@ create table if not exists public.boards (
 
 create table if not exists public.shared_boards (
   slug text primary key,
-  board_id uuid references public.boards on delete set null,
+  board_id text,
   owner uuid references auth.users on delete cascade,
   snapshot jsonb not null,
   audio_path text,
@@ -26,27 +27,27 @@ create table if not exists public.shared_boards (
 );
 
 create table if not exists public.sequences (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key,
   owner uuid not null references auth.users on delete cascade,
-  name text not null,
+  name text not null default '',
   data jsonb not null
 );
 
 create table if not exists public.sessions (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key,
   owner uuid not null references auth.users on delete cascade,
   data jsonb not null
 );
 
 create table if not exists public.teams (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key,
   owner uuid not null references auth.users on delete cascade,
   data jsonb not null
 );
 
 create table if not exists public.fixtures (
-  id uuid primary key default gen_random_uuid(),
-  team_id uuid not null references public.teams on delete cascade,
+  id text primary key,
+  team_id text not null references public.teams on delete cascade,
   data jsonb not null
 );
 
@@ -67,7 +68,15 @@ create policy "own fixtures" on public.fixtures for all
   using (exists (select 1 from public.teams t where t.id = team_id and t.owner = auth.uid()))
   with check (exists (select 1 from public.teams t where t.id = team_id and t.owner = auth.uid()));
 
--- shared snapshots: public read-only, owner can create/delete (immutable: no update policy)
+-- shared snapshots: public read-only, immutable (no update policy)
 create policy "public read shared" on public.shared_boards for select using (true);
 create policy "owner creates shared" on public.shared_boards for insert with check (auth.uid() = owner);
 create policy "owner deletes shared" on public.shared_boards for delete using (auth.uid() = owner);
+
+-- Team Talk audio: public bucket, writes only into the owner's folder
+insert into storage.buckets (id, name, public) values ('talks', 'talks', true) on conflict (id) do nothing;
+create policy "talks public read" on storage.objects for select using (bucket_id = 'talks');
+create policy "talks owner write" on storage.objects for insert
+  with check (bucket_id = 'talks' and auth.uid()::text = (storage.foldername(name))[1]);
+create policy "talks owner delete" on storage.objects for delete
+  using (bucket_id = 'talks' and auth.uid()::text = (storage.foldername(name))[1]);

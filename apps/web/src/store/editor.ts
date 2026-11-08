@@ -45,6 +45,7 @@ type State = {
   loop: boolean;
   tapToPlace: boolean;
   showNames: boolean;
+  showPhotos: boolean;
   ghosts: boolean;
   playerScale: number;
   clipboard: PhaseContent | null;
@@ -93,6 +94,7 @@ export const useEditor = create<State & Actions>()((set, get) => ({
   loop: false,
   tapToPlace: typeof matchMedia !== 'undefined' && matchMedia('(pointer: coarse)').matches,
   showNames: true,
+  showPhotos: true,
   ghosts: true,
   playerScale: 1,
   clipboard: null,

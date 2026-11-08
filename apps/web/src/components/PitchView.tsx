@@ -76,6 +76,7 @@ export function PitchView() {
           selection: new Set(s.selection),
           selectedAnnotationId: editable ? s.selectedAnnotationId : null,
           showNames: s.showNames,
+          showPhotos: s.showPhotos,
           playerScale: s.playerScale,
           ghost: editable && s.ghosts && phase > 0 ? board.phases[phase - 1]!.positions : null,
           draft: d ? draftAnnotation(d, s.zoneColor) : null,

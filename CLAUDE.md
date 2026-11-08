@@ -32,4 +32,7 @@ pnpm --filter @diagonale/mcp-server build
 - `packages/render` — `BoardRenderer` (Konva imperativo) + `Viewport` (omografia flat/broadcast, orizzontale/verticale).
 - `packages/ai` — adapter `anthropic` / `openai-compatible` / `gemini`, `runAgent` (loop AI Coach, fallback JSON), prompt in `prompts/*.md` (compilati in `src/prompts.generated.ts`).
 - `packages/mcp-server` — server MCP (stdio o Streamable HTTP), modalità file e live.
-- `apps/web` — React 19 + Zustand; `store/editor.ts` è l'unico ponte verso il `Dispatcher`.
+- `apps/web` — React 19 + Zustand; `store/editor.ts` è l'unico ponte verso il `Dispatcher`. Pagine: editor (`#/`), Planner (`#/planner`), Team Centre (`#/team`), presentazione (`#/present`), player condiviso (`#/d/…`). Cloud opzionale in `lib/cloud.ts`.
+- `apps/desktop` — Electron (`main.cjs`, `preload.cjs`); `pnpm --filter @diagonale/desktop start|dist`.
+- `apps/site` — landing statica; `node scripts/build-site.mjs` assembla sito + app per Pages.
+- Release: `git tag vX.Y.Z && git push --tags` → `.github/workflows/release.yml`.

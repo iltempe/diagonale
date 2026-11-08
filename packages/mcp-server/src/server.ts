@@ -111,7 +111,7 @@ export async function callTool(backend: Backend, name: string, rawArgs: unknown,
 
 export function createServer(backend: Backend, opts: ServerOptions = {}): Server {
   const server = new Server(
-    { name: 'diagonale', version: '0.1.0' },
+    { name: 'diagonale', version: '1.0.0' },
     {
       capabilities: { tools: {}, resources: {} },
       instructions:

@@ -6,7 +6,7 @@ const modules = import.meta.glob('./locales/*/*.json', { eager: true }) as Recor
 
 export const LANGUAGES = ['it', 'en'] as const;
 export type Lang = (typeof LANGUAGES)[number];
-export const NAMESPACES = ['common', 'editor', 'export', 'ai', 'team'] as const;
+export const NAMESPACES = ['common', 'editor', 'export', 'ai', 'team', 'planner'] as const;
 
 const resources: Record<string, Record<string, Record<string, unknown>>> = {};
 for (const [path, mod] of Object.entries(modules)) {
@@ -41,6 +41,7 @@ i18n.on('languageChanged', (lng) => {
     /* private mode */
   }
   document.documentElement.lang = lng;
+  void import('./lib/cloud').then((m) => m.saveProfileLocale(lng)).catch(() => {});
 });
 document.documentElement.lang = i18n.language;
 

@@ -3,11 +3,13 @@ import { db, getSetting, setSetting } from './db';
 import { dispatcher, useEditor } from '../store/editor';
 import { buildDemoBoard } from './demo';
 import i18n from '../i18n';
+import { cloudSaveBoard } from './cloud';
 
 let timer: ReturnType<typeof setTimeout> | undefined;
 
 export async function saveBoard(b: Board) {
   await db.boards.put({ id: b.id, title: b.title, kind: b.kind, updatedAt: b.updatedAt, data: b });
+  cloudSaveBoard(b);
 }
 
 /** Autosave to IndexedDB (debounced) + remember the last opened board. */

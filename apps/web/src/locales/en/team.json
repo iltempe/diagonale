@@ -1,20 +1,31 @@
 {
   "home": "Home team",
   "away": "Opponents",
-  "defaults": { "home": "Home", "away": "Away" },
+  "defaults": {
+    "home": "Home",
+    "away": "Away"
+  },
   "formation": "Formation",
   "applyFormation": "Apply formation",
   "playersCount_one": "{{count}} player",
   "playersCount_other": "{{count}} players",
   "addAway": "Add opponents",
   "removeAway": "Remove opponents",
-  "kit": { "primary": "Shirt", "secondary": "Trim", "number": "Number", "gkPrimary": "Goalkeeper" },
+  "kit": {
+    "primary": "Shirt",
+    "secondary": "Trim",
+    "number": "Number",
+    "gkPrimary": "Goalkeeper"
+  },
   "player": {
     "number": "Number",
     "role": "Role",
     "name": "Name",
     "shortName": "Short name (on pitch)",
-    "remove": "Remove player"
+    "remove": "Remove player",
+    "flag": "Country (ISO)",
+    "photo": "Photo",
+    "addPhoto": "Upload"
   },
   "roles": {
     "GK": "GK — Goalkeeper",
@@ -26,5 +37,93 @@
     "AM": "AM — Attacking midfielder",
     "W": "W — Winger",
     "ST": "ST — Striker"
+  },
+  "centre": {
+    "title": "Team Centre",
+    "intro": "Squad, fixtures, call-ups, results and stats of your team. Data stays on your device.",
+    "createTeam": "New team",
+    "newTeamName": "My team",
+    "tabs": {
+      "squad": "Squad",
+      "fixtures": "Fixtures",
+      "stats": "Stats",
+      "settings": "Settings"
+    },
+    "firstName": "First name",
+    "lastName": "Last name",
+    "birthYear": "Year",
+    "addPlayer": "Add player",
+    "emptySquad": "Add players to the squad first.",
+    "addFixture": "New fixture",
+    "pickFixture": "Select a fixture to manage call-up and result.",
+    "vsHome": "vs {{opponent}} (home)",
+    "vsAway": "@ {{opponent}} (away)",
+    "opponent": "Opponent",
+    "date": "Date and time",
+    "venue": "Venue",
+    "home": "Home",
+    "away": "Away",
+    "competition": "Competition",
+    "location": "Location",
+    "callup": "Call-up",
+    "captain": "Captain",
+    "callupCount": "{{starters}} starters · {{bench}} on the bench",
+    "status": {
+      "out": "Not called up",
+      "available": "Available",
+      "starter": "Starter",
+      "bench": "Bench"
+    },
+    "result": "Result",
+    "played": "Match played",
+    "goalsFor": "Goals for",
+    "goalsAgainst": "Goals against",
+    "minutes": "Minutes",
+    "goals": "Goals",
+    "yellow": "Yellow",
+    "red": "Red",
+    "notes": "Notes",
+    "lineupBoard": "Create a board with the starters",
+    "noStarters": "No starters selected",
+    "report": {
+      "button": "Report for parents",
+      "title": "Match report",
+      "privacy": "Name privacy",
+      "pdf": "Download PDF",
+      "starters": "Starters",
+      "bench": "Bench",
+      "captain": "Captain",
+      "scorers": "Scorers",
+      "cards": "Cards"
+    },
+    "privacy": {
+      "initials": "Initials only (recommended for minors)",
+      "first": "First name only",
+      "full": "Full name"
+    },
+    "kpi": {
+      "played": "Played",
+      "won": "Won",
+      "drawn": "Drawn",
+      "lost": "Lost",
+      "goalsFor": "Goals for",
+      "goalsAgainst": "Goals against",
+      "points": "Points",
+      "calledUp": "Called",
+      "appearances": "Apps",
+      "starts": "Starts"
+    },
+    "teamName": "Team name",
+    "season": "Season",
+    "calendar": "Calendar",
+    "importIcs": "Import calendar (.ics / .json)",
+    "exportIcs": "Export .ics calendar",
+    "icsHint": "The exported calendar holds fixtures only, no player data. Import it into Google Calendar, Apple Calendar or Outlook.",
+    "externalSource": "External source (URL of an .ics or a JSON list of fixtures)",
+    "sync": "Import",
+    "externalHint": "Hook for configurable external sources (e.g. a league fixtures dataset). The server must allow CORS.",
+    "fetchError": "Could not download the source",
+    "imported": "{{count}} fixtures added, {{updated}} updated",
+    "deleteTeam": "Delete team"
   }
 }

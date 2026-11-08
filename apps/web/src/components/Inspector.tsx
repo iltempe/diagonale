@@ -20,6 +20,7 @@ import {
   type Board,
   type CameraSpec,
   type Team,
+  viewRect,
 } from '@diagonale/core';
 import { useEditor } from '../store/editor';
 import { db, type SequenceRow } from '../lib/db';
@@ -131,10 +132,47 @@ function SelectionSection() {
       <Field label={t('team:player.shortName')}>
         <TextInput value={p.shortName ?? ''} maxLength={24} onCommit={(v) => up({ shortName: v || null })} />
       </Field>
+      <div className="row2">
+        <Field label={t('team:player.flag')}>
+          <TextInput value={p.flag ?? ''} maxLength={2} placeholder="IT" onCommit={(v) => up({ flag: /^[a-zA-Z]{2}$/.test(v) ? v.toUpperCase() : null })} />
+        </Field>
+        <Field label={t('team:player.photo')}>
+          <PhotoInput value={p.photoUrl} onChange={(url) => up({ photoUrl: url })} />
+        </Field>
+      </div>
       {pos && <PositionFields id={id} x={pos.x} y={pos.y} facing={pos.facing} />}
       <button className="btn danger" onClick={() => dispatch('removePlayer', { playerId: id })}>
         <Icon.trash /> {t('team:player.remove')}
       </button>
+    </div>
+  );
+}
+
+/** Local photo → 160 px JPEG data URL (no CORS issues in exports). */
+function PhotoInput({ value, onChange }: { value?: string; onChange: (url: string | null) => void }) {
+  const { t } = useTranslation();
+  const pick = async (f?: File) => {
+    if (!f) return;
+    const bmp = await createImageBitmap(f);
+    const size = 160;
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const s = Math.min(bmp.width, bmp.height);
+    c.getContext('2d')!.drawImage(bmp, (bmp.width - s) / 2, (bmp.height - s) / 2, s, s, 0, 0, size, size);
+    onChange(c.toDataURL('image/jpeg', 0.85));
+  };
+  return (
+    <div className="row-inline">
+      {value && <img src={value} alt="" className="photo-thumb" />}
+      <label className="btn small">
+        {value ? t('common:actions.edit') : t('team:player.addPhoto')}
+        <input type="file" accept="image/*" hidden onChange={(e) => void pick(e.target.files?.[0])} />
+      </label>
+      {value && (
+        <button className="icon-btn" aria-label={t('common:actions.remove')} onClick={() => onChange(null)}>
+          <Icon.trash />
+        </button>
+      )}
     </div>
   );
 }
@@ -321,13 +359,15 @@ function PhaseSection() {
             value={cam}
             onChange={(e) => {
               const v = e.target.value;
-              const spec: CameraSpec | null = v === 'follow_ball' ? { mode: 'follow_ball', zoom: 1.8 } : null;
+              const r = viewRect(board.pitch, board.pitch.view);
+              const spec: CameraSpec | null =
+                v === 'follow_ball' ? { mode: 'follow_ball', zoom: 1.8 } : v === 'rect' ? { mode: 'rect', x: r.x, y: r.y, w: r.w / 2, h: r.h / 2 } : null;
               up({ camera: spec });
             }}
           >
             <option value="fixed">{t('editor:camera.fixed')}</option>
             <option value="follow_ball">{t('editor:camera.follow_ball')}</option>
-            {cam === 'rect' && <option value="rect">{t('editor:camera.rect')}</option>}
+            <option value="rect">{t('editor:camera.rect')}</option>
           </select>
         </Field>
       </div>
@@ -335,6 +375,20 @@ function PhaseSection() {
         <Field label={t('editor:camera.zoom')}>
           <input type="range" min={1} max={4} step={0.1} value={ph.camera.zoom} onChange={(e) => up({ camera: { mode: 'follow_ball', zoom: Number(e.target.value) } })} />
         </Field>
+      )}
+      {ph.camera?.mode === 'rect' && (
+        <div className="row4">
+          {(['x', 'y', 'w', 'h'] as const).map((k) => (
+            <Field key={k} label={t(`editor:camera.${k}`)}>
+              <NumberInput
+                value={(ph.camera as { x: number; y: number; w: number; h: number })[k]}
+                min={k === 'w' || k === 'h' ? 2 : -10}
+                max={140}
+                onCommit={(n) => up({ camera: { ...(ph.camera as object), [k]: n } })}
+              />
+            </Field>
+          ))}
+        </div>
       )}
       <Field label={t('editor:phase.ballCarrier')}>
         <select value={ph.ballCarrierId ?? ''} onChange={(e) => up({ ballCarrierId: e.target.value || null })}>

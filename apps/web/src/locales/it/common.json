@@ -40,7 +40,11 @@
     "open": "Apri il player",
     "invalid": "Questo link di condivisione non è valido o è incompleto.",
     "goEditor": "Vai all'editor",
-    "copyToEditor": "Copia nelle mie lavagne"
+    "copyToEditor": "Copia nelle mie lavagne",
+    "short": "Crea link breve",
+    "shortWithTalk": "Crea link breve con Team Talk",
+    "loginForShort": "Accedi (Impostazioni → Account) per creare link brevi.",
+    "talkNeedsCloud": "Il Team Talk resta su questo dispositivo: il link contiene solo la lavagna. Usa l'export MP4 per condividere anche la voce."
   },
   "settings": {
     "title": "Impostazioni",
@@ -59,5 +63,23 @@
   "units": {
     "seconds": "{{value}} s",
     "speed": "{{value}}×"
+  },
+  "nav": {
+    "label": "Sezioni",
+    "board": "Lavagna",
+    "planner": "Planner",
+    "team": "Team Centre"
+  },
+  "account": {
+    "title": "Account",
+    "why": "Accedi per sincronizzare le lavagne tra dispositivi e creare link brevi (anche con Team Talk). Senza account tutto funziona in locale.",
+    "email": "La tua email",
+    "magicLink": "Inviami il link",
+    "checkEmail": "Controlla la posta: ti abbiamo inviato il link di accesso.",
+    "google": "Accedi con Google",
+    "signedIn": "Accesso effettuato come {{email}}",
+    "syncNow": "Sincronizza ora",
+    "synced": "{{count}} lavagne aggiornate",
+    "signOut": "Esci"
   }
 }

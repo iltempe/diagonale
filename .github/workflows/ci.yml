@@ -16,6 +16,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
       - name: i18n keys (it ↔ en)
         run: pnpm check:i18n
       - run: pnpm typecheck
@@ -23,6 +25,8 @@ jobs:
       - run: pnpm test
       - name: Build MCP server
         run: pnpm --filter @diagonale/mcp-server build
+      - name: Desktop main process parses
+        run: node --check apps/desktop/main.cjs && node --check apps/desktop/preload.cjs
       - name: Generated data is up to date
         run: pnpm gen:data && git diff --exit-code data/
 
@@ -36,6 +40,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
       - run: pnpm --filter @diagonale/web exec playwright install --with-deps chromium
       - run: pnpm --filter @diagonale/web e2e
         env:

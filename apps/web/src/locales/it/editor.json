@@ -12,7 +12,8 @@
     "equipment": "Attrezzo",
     "tapToPlace": "Tocca per spostare: seleziona un giocatore e tocca la destinazione",
     "names": "Mostra nomi",
-    "ghosts": "Mostra posizioni della fase precedente"
+    "ghosts": "Mostra posizioni della fase precedente",
+    "photos": "Mostra foto dei giocatori"
   },
   "toolHints": {
     "select": "Trascina per spostare (si propaga alle fasi successive invariate). Trascina sul vuoto per selezionare più giocatori.",
@@ -35,7 +36,13 @@
     "block": "Blocco",
     "shot": "Tiro"
   },
-  "annotation": { "arrow": "Freccia", "zone": "Zona", "line": "Linea", "text": "Testo", "equipment": "Attrezzo" },
+  "annotation": {
+    "arrow": "Freccia",
+    "zone": "Zona",
+    "line": "Linea",
+    "text": "Testo",
+    "equipment": "Attrezzo"
+  },
   "equipment": {
     "cone": "Cono",
     "disc": "Cinesino",
@@ -101,8 +108,21 @@
     "notes": "Note (nel PDF)",
     "firstHint": "La prima fase non ha transizione: è la situazione di partenza."
   },
-  "easing": { "linear": "Lineare", "easeInOut": "Morbido", "easeOut": "Rallenta" },
-  "camera": { "fixed": "Fissa", "follow_ball": "Segui la palla", "rect": "Riquadro", "zoom": "Zoom" },
+  "easing": {
+    "linear": "Lineare",
+    "easeInOut": "Morbido",
+    "easeOut": "Rallenta"
+  },
+  "camera": {
+    "fixed": "Fissa",
+    "follow_ball": "Segui la palla",
+    "rect": "Riquadro",
+    "zoom": "Zoom",
+    "x": "X (m)",
+    "y": "Y (m)",
+    "w": "Larghezza (m)",
+    "h": "Altezza (m)"
+  },
   "pitch": {
     "view": "Vista",
     "surface": "Superficie",
@@ -132,9 +152,22 @@
     "wide_right": "Fascia destra",
     "custom": "Personalizzata"
   },
-  "surfaces": { "grass_stripes": "Erba a strisce", "grass_plain": "Erba uniforme", "artificial": "Sintetico", "chalkboard": "Lavagna" },
-  "board": { "title": "Titolo", "kind": "Tipo" },
-  "kinds": { "tactic": "Tattica", "set_piece": "Calcio piazzato", "training": "Esercitazione", "match_plan": "Piano gara" },
+  "surfaces": {
+    "grass_stripes": "Erba a strisce",
+    "grass_plain": "Erba uniforme",
+    "artificial": "Sintetico",
+    "chalkboard": "Lavagna"
+  },
+  "board": {
+    "title": "Titolo",
+    "kind": "Tipo"
+  },
+  "kinds": {
+    "tactic": "Tattica",
+    "set_piece": "Calcio piazzato",
+    "training": "Esercitazione",
+    "match_plan": "Piano gara"
+  },
   "routines": {
     "label": "Routine calci piazzati",
     "apply": "Carica (sostituisce le fasi)",
@@ -154,7 +187,11 @@
     "saved": "Sequenza salvata",
     "apply": "Accoda"
   },
-  "timeline": { "label": "Fasi", "add": "Nuova fase", "duplicate": "Duplica con annotazioni" },
+  "timeline": {
+    "label": "Fasi",
+    "add": "Nuova fase",
+    "duplicate": "Duplica con annotazioni"
+  },
   "playback": {
     "play": "Riproduci",
     "pause": "Pausa",
@@ -162,11 +199,20 @@
     "next": "Fase successiva",
     "scrub": "Posizione nella timeline",
     "speed": "Velocità",
-    "loop": "Ripeti"
+    "loop": "Ripeti",
+    "present": "Modalità presentazione"
   },
-  "history": { "move": "Sposta", "delete": "Elimina selezione", "paste": "Incolla fase" },
-  "toast": { "copied": "Contenuto della fase copiato" },
-  "defaults": { "text": "Testo" },
+  "history": {
+    "move": "Sposta",
+    "delete": "Elimina selezione",
+    "paste": "Incolla fase"
+  },
+  "toast": {
+    "copied": "Contenuto della fase copiato"
+  },
+  "defaults": {
+    "text": "Testo"
+  },
   "demo": {
     "title": "Uscita dal basso 4-3-3 contro pressing 4-4-2",
     "p0": "Il portiere imposta",
@@ -174,5 +220,16 @@
     "p2": "Il terzino riceve alto",
     "p3": "Linea superata",
     "note": "Mezzo spazio libero"
+  },
+  "talk": {
+    "title": "Team Talk",
+    "record": "Registra il Team Talk (voce sincronizzata)",
+    "rerecord": "Registra di nuovo il Team Talk",
+    "stop": "Stop",
+    "toggle": "Riproduci la voce",
+    "delete": "Elimina il Team Talk",
+    "confirmReplace": "Sostituire il Team Talk registrato?",
+    "confirmDelete": "Eliminare il Team Talk?",
+    "micError": "Microfono non disponibile"
   }
 }

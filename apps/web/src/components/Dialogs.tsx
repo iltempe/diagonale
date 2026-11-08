@@ -12,6 +12,9 @@ import { LANGUAGES, setLanguage, type Lang } from '../i18n';
 import { Modal } from './Modal';
 import { AISettings } from './AISettings';
 import { Icon } from './Icons';
+import { cloudEnabled, createShortLink, pullAll, signInWithEmail, signInWithGoogle, signOut, useAuth } from '../lib/cloud';
+import { currentTalkBlob, useTalk } from '../lib/talk';
+import { publicAppUrl } from '../lib/platform';
 
 export function BoardsDialog({ onClose }: { onClose: () => void }) {
   const { t, i18n } = useTranslation();
@@ -99,6 +102,8 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
   const [orientation, setOrientation] = useState<Orientation>('horizontal');
   const [progress, setProgress] = useState<number | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const hasTalk = useTalk((s) => !!s.talk);
+  const [withVoice, setWithVoice] = useState(true);
   const common = { lang, orientation, resolution: res };
 
   const run = async (fn: () => Promise<unknown>) => {
@@ -161,7 +166,8 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
             onClick={() =>
               void run(async () => {
                 abortRef.current = new AbortController();
-                const fmt = await exportVideo(board, common, setProgress, abortRef.current.signal);
+                const audio = withVoice ? await currentTalkBlob() : undefined;
+                const fmt = await exportVideo(board, { ...common, audio }, setProgress, abortRef.current.signal);
                 toast(t('export:videoDone', { format: fmt.toUpperCase() }));
               })
             }
@@ -181,6 +187,12 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
             </button>
           </div>
         )}
+        {hasTalk && (
+          <label className="check">
+            <input type="checkbox" checked={withVoice} onChange={(e) => setWithVoice(e.target.checked)} />
+            {t('export:withVoice')}
+          </label>
+        )}
         <p className="hint">{t('export:videoHint')}</p>
       </div>
     </Modal>
@@ -192,10 +204,25 @@ export function ShareDialog({ onClose }: { onClose: () => void }) {
   const board = useEditor((s) => s.board);
   const [url, setUrl] = useState('');
   const [copied, setCopied] = useState(false);
+  const user = useAuth((s) => s.user);
+  const hasTalk = useTalk((s) => !!s.talk);
+  const toast = useEditor((s) => s.toast);
+  const [busy, setBusy] = useState(false);
   useEffect(() => {
-    const base = `${location.origin}${location.pathname}`;
-    setUrl(shareUrl(board, base));
+    setUrl(shareUrl(board, publicAppUrl()));
   }, [board]);
+  const shortLink = async () => {
+    setBusy(true);
+    try {
+      const slug = await createShortLink(board, hasTalk ? await currentTalkBlob() : undefined);
+      setUrl(`${publicAppUrl().replace(/#.*$/, '')}#/d/${slug}`);
+      setCopied(false);
+    } catch (e) {
+      toast(e instanceof Error ? e.message : String(e), 'error');
+    } finally {
+      setBusy(false);
+    }
+  };
   const canShare = typeof navigator.share === 'function';
   return (
     <Modal title={t('common:share.title')} onClose={onClose}>
@@ -219,6 +246,15 @@ export function ShareDialog({ onClose }: { onClose: () => void }) {
           )}
         </div>
         <p className="hint">{t('common:share.hint', { size: Math.round(url.length / 1024 * 10) / 10 })}</p>
+        {cloudEnabled &&
+          (user ? (
+            <button className="btn" disabled={busy} onClick={() => void shortLink()} data-testid="short-link">
+              {hasTalk ? t('common:share.shortWithTalk') : t('common:share.short')}
+            </button>
+          ) : (
+            <p className="hint">{t('common:share.loginForShort')}</p>
+          ))}
+        {!cloudEnabled && hasTalk && <p className="hint">{t('common:share.talkNeedsCloud')}</p>}
         <a className="btn ghost" href={url} target="_blank" rel="noreferrer">
           {t('common:share.open')}
         </a>
@@ -277,10 +313,64 @@ export function SettingsDialog({ onClose }: { onClose: () => void }) {
           <pre className="code">{MCP_CMD}</pre>
         </section>
         <section className="stack">
+          {cloudEnabled && <AccountSection />}
           <h3>{t('ai:settings.title')}</h3>
           <AISettings />
         </section>
       </div>
     </Modal>
+  );
+}
+
+function AccountSection() {
+  const { t } = useTranslation();
+  const user = useAuth((s) => s.user);
+  const toast = useEditor((s) => s.toast);
+  const [email, setEmail] = useState('');
+  const [sent, setSent] = useState(false);
+  if (user) {
+    return (
+      <div className="stack">
+        <h3>{t('common:account.title')}</h3>
+        <p>{t('common:account.signedIn', { email: user.email ?? user.id })}</p>
+        <div className="row-inline">
+          <button className="btn" onClick={() => void pullAll().then((n) => toast(t('common:account.synced', { count: n })))}>
+            {t('common:account.syncNow')}
+          </button>
+          <button className="btn ghost" onClick={() => void signOut()}>
+            {t('common:account.signOut')}
+          </button>
+        </div>
+        <hr />
+      </div>
+    );
+  }
+  return (
+    <form
+      className="stack"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        try {
+          await signInWithEmail(email);
+          setSent(true);
+        } catch (err) {
+          toast(err instanceof Error ? err.message : String(err), 'error');
+        }
+      }}
+    >
+      <h3>{t('common:account.title')}</h3>
+      <p className="hint">{t('common:account.why')}</p>
+      <div className="row-inline">
+        <input type="email" required value={email} placeholder={t('common:account.email')} onChange={(e) => setEmail(e.target.value)} />
+        <button className="btn primary" type="submit">
+          {t('common:account.magicLink')}
+        </button>
+      </div>
+      {sent && <p className="ok">{t('common:account.checkEmail')}</p>}
+      <button type="button" className="btn" onClick={() => void signInWithGoogle().catch((err) => toast(String(err), 'error'))}>
+        {t('common:account.google')}
+      </button>
+      <hr />
+    </form>
   );
 }

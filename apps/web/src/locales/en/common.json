@@ -40,7 +40,11 @@
     "open": "Open the player",
     "invalid": "This share link is invalid or incomplete.",
     "goEditor": "Go to the editor",
-    "copyToEditor": "Copy to my boards"
+    "copyToEditor": "Copy to my boards",
+    "short": "Create short link",
+    "shortWithTalk": "Create short link with Team Talk",
+    "loginForShort": "Sign in (Settings → Account) to create short links.",
+    "talkNeedsCloud": "The Team Talk stays on this device: the link only holds the board. Use the MP4 export to share the voice too."
   },
   "settings": {
     "title": "Settings",
@@ -59,5 +63,23 @@
   "units": {
     "seconds": "{{value}} s",
     "speed": "{{value}}×"
+  },
+  "nav": {
+    "label": "Sections",
+    "board": "Board",
+    "planner": "Planner",
+    "team": "Team Centre"
+  },
+  "account": {
+    "title": "Account",
+    "why": "Sign in to sync boards across devices and create short links (with Team Talk too). Without an account everything works locally.",
+    "email": "Your email",
+    "magicLink": "Send me the link",
+    "checkEmail": "Check your inbox: we sent you a sign-in link.",
+    "google": "Sign in with Google",
+    "signedIn": "Signed in as {{email}}",
+    "syncNow": "Sync now",
+    "synced": "{{count}} boards updated",
+    "signOut": "Sign out"
   }
 }

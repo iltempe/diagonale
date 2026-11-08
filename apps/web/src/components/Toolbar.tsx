@@ -13,6 +13,7 @@ export function Toolbar() {
   const tapToPlace = useEditor((s) => s.tapToPlace);
   const showNames = useEditor((s) => s.showNames);
   const ghosts = useEditor((s) => s.ghosts);
+  const showPhotos = useEditor((s) => s.showPhotos);
   const zoneColor = useEditor((s) => s.zoneColor);
   const set = useEditor((s) => s.set);
 
@@ -70,6 +71,9 @@ export function Toolbar() {
       </button>
       <button className={`tool ${showNames ? 'active' : ''}`} onClick={() => set({ showNames: !showNames })} title={t('editor:tools.names')} aria-label={t('editor:tools.names')} aria-pressed={showNames}>
         <Icon.names />
+      </button>
+      <button className={`tool ${showPhotos ? 'active' : ''}`} onClick={() => set({ showPhotos: !showPhotos })} title={t('editor:tools.photos')} aria-label={t('editor:tools.photos')} aria-pressed={showPhotos}>
+        <Icon.image />
       </button>
       <button className={`tool ${ghosts ? 'active' : ''}`} onClick={() => set({ ghosts: !ghosts })} title={t('editor:tools.ghosts')} aria-label={t('editor:tools.ghosts')} aria-pressed={ghosts}>
         <Icon.ghost />
