@@ -1,6 +1,6 @@
 {
   "name": "@diagonale/core",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Diagonale core: board model, Zod schemas, command bus, animation engine (headless, no DOM).",
   "license": "Apache-2.0",
   "type": "module",

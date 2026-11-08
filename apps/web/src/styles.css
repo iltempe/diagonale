@@ -1224,3 +1224,36 @@ input.num {
     font-size: 12px;
   }
 }
+.social-cta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 10px;
+  text-align: left;
+  justify-items: start;
+  padding: 12px 14px;
+  white-space: normal;
+}
+.social-cta svg {
+  grid-row: span 2;
+}
+.social-cta span {
+  font-size: 15px;
+}
+.social-cta small {
+  font-weight: 400;
+  opacity: 0.85;
+}
+.nav-tabs a {
+  white-space: nowrap;
+}
+@media (max-width: 1600px) {
+  .app-header .tagline {
+    display: none;
+  }
+}
+.btn.coffee {
+  background: #ffdd00;
+  border-color: #ffdd00;
+  color: #1a1a1a;
+  font-weight: 600;
+}

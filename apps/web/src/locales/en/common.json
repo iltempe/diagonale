@@ -81,5 +81,12 @@
     "syncNow": "Sync now",
     "synced": "{{count}} boards updated",
     "signOut": "Sign out"
+  },
+  "about": {
+    "title": "About",
+    "text": "Diagonale {{version}} · open source (Apache-2.0), made by Iltempe.",
+    "coffee": "☕ Buy me a coffee",
+    "author": "GitHub @iltempe",
+    "source": "Source code"
   }
 }

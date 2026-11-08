@@ -4,12 +4,9 @@
   "language": "Label language",
   "resolution": "Resolution",
   "format": "Format",
-  "landscape": "Landscape 16:9",
-  "portrait": "Portrait 9:16",
   "pngCurrent": "PNG current phase",
   "pngAll": "PNG all phases (zip)",
   "pdf": "PDF (one page per phase)",
-  "video": "MP4 video",
   "json": ".diagonale.json file",
   "videoDone": "{{format}} video downloaded",
   "videoHint": "The video is rendered frame by frame in your browser (H.264 MP4 where supported, WebM otherwise). Nothing is uploaded.",
@@ -19,5 +16,14 @@
   "duration": "Transition",
   "hold": "Hold",
   "notes": "Notes",
-  "withVoice": "Include the Team Talk in the video"
+  "withVoice": "Include the Team Talk in the video",
+  "aspects": {
+    "16x9": "16:9 landscape (YouTube, screens)",
+    "9x16": "9:16 vertical (Reels, TikTok, Shorts)",
+    "4x5": "4:5 (Instagram feed)",
+    "1x1": "1:1 square"
+  },
+  "social": "Social video 9:16",
+  "socialHint": "1080×1920 for Reels, TikTok and Shorts, with title and phase progress",
+  "videoFormat": "MP4 video {{format}}"
 }

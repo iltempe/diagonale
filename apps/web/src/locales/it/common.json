@@ -81,5 +81,12 @@
     "syncNow": "Sincronizza ora",
     "synced": "{{count}} lavagne aggiornate",
     "signOut": "Esci"
+  },
+  "about": {
+    "title": "Informazioni",
+    "text": "Diagonale {{version}} · open source (Apache-2.0), creato da Iltempe.",
+    "coffee": "☕ Offrimi un caffè",
+    "author": "GitHub @iltempe",
+    "source": "Codice sorgente"
   }
 }

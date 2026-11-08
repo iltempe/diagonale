@@ -33,7 +33,25 @@ export type RenderOptions = {
   marquee?: Rect | null;
   caption?: string | null;
   watermark?: string | null;
+  /** Social video layout (9:16, 4:5, 1:1): title band on top, phase progress and brand at the bottom. */
+  social?: SocialLayout | null;
 };
+
+export type SocialLayout = {
+  title: string;
+  caption: string;
+  brand: string;
+  phase: number;
+  phases: number;
+  /** 0..1 progress inside the current transition (animates the progress bar) */
+  progress?: number;
+};
+
+/** Reserved bands for social formats; tall formats keep clear of the platforms' bottom UI. */
+export function socialInsets(width: number, height: number): { top: number; bottom: number } {
+  const tall = height / width > 1.5;
+  return { top: Math.round(height * (tall ? 0.15 : 0.14)), bottom: Math.round(height * (tall ? 0.13 : 0.09)) };
+}
 
 export type PointerInfo = {
   meters: Vec2;
@@ -329,6 +347,7 @@ export class BoardRenderer {
       perspective: opts.perspective ?? board.pitch.perspective,
       marginMeters: 3,
       paddingPx: Math.min(w, h) < 400 ? 4 : 10,
+      ...(opts.social ? { insets: socialInsets(w, h) } : {}),
     });
   }
 
@@ -569,6 +588,12 @@ export class BoardRenderer {
     }
     const W = this.stage.width();
     const H = this.stage.height();
+    if (opts.social) {
+      this.drawSocial(opts.social, W, H);
+      this.overlay.batchDraw();
+      this.annLayer.batchDraw();
+      return;
+    }
     if (opts.caption) {
       const fs = Math.max(13, Math.min(W, H) * 0.032);
       const t = new Konva.Text({ text: opts.caption, fontSize: fs, fontFamily: FONT, fontStyle: 'bold', fill: '#F4F1EA', padding: fs * 0.5, listening: false });
@@ -585,6 +610,68 @@ export class BoardRenderer {
     void board;
     this.overlay.batchDraw();
     this.annLayer.batchDraw();
+  }
+
+  private drawSocial(s: SocialLayout, W: number, H: number) {
+    const ins = socialInsets(W, H);
+    const chalk = '#F4F1EA';
+    const accent = '#F2C230';
+    const DISPLAY = 'Oswald, Inter, system-ui, sans-serif';
+    this.overlay.add(new Konva.Rect({ x: 0, y: 0, width: W, height: ins.top, fill: '#0F3D2E', listening: false }));
+    this.overlay.add(new Konva.Rect({ x: 0, y: H - ins.bottom, width: W, height: ins.bottom, fill: '#0F3D2E', listening: false }));
+    const margin = W * 0.06;
+    // title: shrink to fit at most 2 lines
+    let fs = W * (H / W > 1.5 ? 0.072 : 0.058);
+    let title: Konva.Text;
+    const maxW = W - margin * 2;
+    const words = s.title.toUpperCase().split(/\s+/).filter(Boolean);
+    // break only on spaces (Konva would also split "4-4-2" on hyphens)
+    const layout = (size: number) => {
+      const probe = new Konva.Text({ fontSize: size, fontFamily: DISPLAY, fontStyle: 'bold', wrap: 'none' });
+      const width = (t: string) => (probe.text(t), probe.width());
+      const lines: string[] = [];
+      for (const w of words) {
+        const cur = lines[lines.length - 1];
+        if (cur !== undefined && width(`${cur} ${w}`) <= maxW) lines[lines.length - 1] = `${cur} ${w}`;
+        else lines.push(w);
+      }
+      const fits = lines.length <= 2 && lines.every((l) => width(l) <= maxW);
+      probe.destroy();
+      return { lines, fits };
+    };
+    let lay = layout(fs);
+    while (!lay.fits && fs > W * 0.03) {
+      fs *= 0.92;
+      lay = layout(fs);
+    }
+    for (;;) {
+      title = new Konva.Text({ text: lay.lines.join('\n'), width: maxW, align: 'center', fontSize: fs, fontFamily: DISPLAY, fontStyle: 'bold', fill: chalk, lineHeight: 1.05, wrap: 'none', listening: false });
+      if (title.height() <= ins.top * 0.58 || fs < W * 0.03) break;
+      fs *= 0.92;
+      lay = layout(fs);
+    }
+    const capFs = W * 0.036;
+    const cap = new Konva.Text({ text: s.caption, width: W - margin * 2, align: 'center', fontSize: capFs, fontFamily: FONT, fontStyle: 'bold', fill: accent, wrap: 'none', ellipsis: true, listening: false });
+    const block = title.height() + capFs * 0.6 + cap.height();
+    const y0 = Math.max(ins.top * 0.1, (ins.top - block) / 2);
+    title.position({ x: margin, y: y0 });
+    cap.position({ x: margin, y: y0 + title.height() + capFs * 0.6 });
+    this.overlay.add(title, cap);
+    // phase progress segments
+    const n = Math.max(1, s.phases);
+    const gap = W * 0.012;
+    const barW = (W - margin * 2 - gap * (n - 1)) / n;
+    const barH = Math.max(4, H * 0.006);
+    const by = H - ins.bottom + ins.bottom * 0.22;
+    for (let i = 0; i < n; i++) {
+      const x = margin + i * (barW + gap);
+      this.overlay.add(new Konva.Rect({ x, y: by, width: barW, height: barH, cornerRadius: barH / 2, fill: 'rgba(244,241,234,0.25)', listening: false }));
+      const fill = i < s.phase ? 1 : i === s.phase ? (s.progress ?? 1) : 0;
+      if (fill > 0) this.overlay.add(new Konva.Rect({ x, y: by, width: barW * fill, height: barH, cornerRadius: barH / 2, fill: accent, listening: false }));
+    }
+    const brand = new Konva.Text({ text: s.brand, width: W, align: 'center', fontSize: W * 0.03, fontFamily: FONT, fontStyle: 'bold', fill: chalk, opacity: 0.85, listening: false });
+    brand.position({ x: 0, y: by + barH + ins.bottom * 0.14 });
+    this.overlay.add(brand);
   }
 
   /** Draw synchronously (needed before reading pixels for export). */

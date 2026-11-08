@@ -1,16 +1,22 @@
 import Konva from 'konva';
 import { zipSync } from 'fflate';
-import { evaluate, phaseFrame, serializeBoard, timeline, type Board } from '@diagonale/core';
+import { evaluate, phaseFrame, serializeBoard, timeline, type Board, type FrameState } from '@diagonale/core';
 import { BoardRenderer, preloadImages, type RenderOptions } from '@diagonale/render';
 import i18n from '../i18n';
 import { downloadBlob, slugify } from './persistence';
 
 export type Orientation = 'horizontal' | 'vertical';
 
+/** Output frame formats. 9:16 = Reels/TikTok/Shorts, 4:5 = Instagram feed, 1:1 = square posts. */
+export const ASPECTS = ['16:9', '9:16', '4:5', '1:1'] as const;
+export type Aspect = (typeof ASPECTS)[number];
+
 export type ExportCommon = {
   lang: string;
-  /** vertical = 9:16 output, pitch rendered vertically */
+  /** pitch orientation; overridden by `aspect` when given */
   orientation: Orientation;
+  /** output format; non-16:9 formats use the social layout (title band, phase progress) */
+  aspect?: Aspect;
   showNames?: boolean;
   captions?: boolean;
 };
@@ -18,9 +24,32 @@ export type ExportCommon = {
 export const RESOLUTIONS = { '720p': [1280, 720], '1080p': [1920, 1080] } as const;
 export type Resolution = keyof typeof RESOLUTIONS;
 
-function size(res: Resolution, orientation: Orientation): [number, number] {
+const ASPECT_SIZE: Record<Aspect, [number, number]> = { '16:9': [1920, 1080], '9:16': [1080, 1920], '4:5': [1080, 1350], '1:1': [1080, 1080] };
+
+export function exportSize(res: Resolution, c: Pick<ExportCommon, 'orientation' | 'aspect'>): [number, number] {
+  if (c.aspect) {
+    const [w, h] = ASPECT_SIZE[c.aspect];
+    const k = res === '720p' ? 2 / 3 : 1;
+    // H.264 needs even dimensions
+    return [Math.round((w * k) / 2) * 2, Math.round((h * k) / 2) * 2];
+  }
   const [w, h] = RESOLUTIONS[res];
-  return orientation === 'vertical' ? [h, w] : [w, h];
+  return c.orientation === 'vertical' ? [h, w] : [w, h];
+}
+
+const size = (res: Resolution, c: Pick<ExportCommon, 'orientation' | 'aspect'>) => exportSize(res, c);
+
+function orientationOf(c: Pick<ExportCommon, 'orientation' | 'aspect'>): Orientation {
+  if (!c.aspect) return c.orientation;
+  return c.aspect === '9:16' ? 'vertical' : 'horizontal';
+}
+
+async function fontsReady() {
+  try {
+    await Promise.all([document.fonts.load('bold 40px Oswald'), document.fonts.load('bold 20px Inter')]);
+  } catch {
+    /* system fonts */
+  }
 }
 
 /** Create an offscreen renderer at an exact pixel size (pixelRatio 1). */
@@ -47,14 +76,26 @@ export function phaseCaption(board: Board, i: number, lang: string): string {
   return `${t('phaseN', { n: i + 1, total: board.phases.length })}${label ? ` — ${label}` : ''}`;
 }
 
-function opts(c: ExportCommon, caption: string | null): RenderOptions {
+function opts(c: ExportCommon, board: Board, frame: Pick<FrameState, 'phaseIndex' | 'progress' | 'inTransition'>): RenderOptions {
+  const caption = phaseCaption(board, frame.phaseIndex, c.lang);
+  const social = !!c.aspect && c.aspect !== '16:9';
   return {
     editable: false,
     showNames: c.showNames ?? true,
     showPhotos: true,
-    orientation: c.orientation,
-    caption: c.captions === false ? null : caption,
-    watermark: 'Diagonale',
+    orientation: orientationOf(c),
+    caption: social || c.captions === false ? null : caption,
+    watermark: social ? null : 'Diagonale',
+    social: social
+      ? {
+          title: board.title || i18n.getFixedT(c.lang, 'export')('untitled'),
+          caption,
+          brand: `Diagonale · ${i18n.getFixedT(c.lang, 'common')('tagline')}`,
+          phase: frame.phaseIndex,
+          phases: board.phases.length,
+          progress: frame.inTransition ? frame.progress : 1,
+        }
+      : null,
   };
 }
 
@@ -65,11 +106,11 @@ function composite(r: BoardRenderer, ctx: CanvasRenderingContext2D, w: number, h
 }
 
 export async function renderPhasePng(board: Board, phase: number, c: ExportCommon & { resolution: Resolution }): Promise<Blob> {
-  const [w, h] = size(c.resolution, c.orientation);
-  await preloadImages(board);
+  const [w, h] = size(c.resolution, c);
+  await Promise.all([preloadImages(board), fontsReady()]);
   const { r, dispose } = offscreen(w, h);
   try {
-    r.render(board, phaseFrame(board, phase), opts(c, phaseCaption(board, phase, c.lang)));
+    r.render(board, phaseFrame(board, phase), opts(c, board, { phaseIndex: phase, progress: 1, inTransition: false }));
     const canvas = document.createElement('canvas');
     canvas.width = w;
     canvas.height = h;
@@ -197,7 +238,8 @@ export async function exportVideo(
   signal?: AbortSignal,
 ): Promise<'mp4' | 'webm'> {
   const fps = c.fps ?? 30;
-  const [w, h] = size(c.resolution, c.orientation);
+  const [w, h] = size(c.resolution, c);
+  await fontsReady();
   const total = timeline(board).totalMs + 600;
   const frames = Math.ceil((total / 1000) * fps);
   await preloadImages(board);
@@ -208,7 +250,7 @@ export async function exportVideo(
   const ctx = canvas.getContext('2d')!;
   const renderAt = (tMs: number) => {
     const f = evaluate(board, tMs);
-    r.render(board, f, opts(c, phaseCaption(board, f.phaseIndex, c.lang)));
+    r.render(board, f, opts(c, board, f));
     composite(r, ctx, w, h);
   };
   try {
@@ -243,7 +285,7 @@ export async function exportVideo(
       encoder.close();
       muxer.finalize();
       const buf = (muxer.target as InstanceType<typeof ArrayBufferTarget>).buffer;
-      downloadBlob(new Blob([buf], { type: 'video/mp4' }), `${slugify(board.title)}.mp4`);
+      downloadBlob(new Blob([buf], { type: 'video/mp4' }), `${slugify(board.title)}${c.aspect && c.aspect !== '16:9' ? `-${c.aspect.replace(':', 'x')}` : ''}.mp4`);
       onProgress(1);
       return 'mp4';
     }
@@ -269,7 +311,7 @@ export async function exportVideo(
     });
     rec.stop();
     await done;
-    downloadBlob(new Blob(chunks, { type: 'video/webm' }), `${slugify(board.title)}.webm`);
+    downloadBlob(new Blob(chunks, { type: 'video/webm' }), `${slugify(board.title)}${c.aspect && c.aspect !== '16:9' ? `-${c.aspect.replace(':', 'x')}` : ''}.webm`);
     onProgress(1);
     return 'webm';
   } finally {

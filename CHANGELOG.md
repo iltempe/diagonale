@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0 — 2026-11-08
+
+- **Video social 9:16**: nuovo pulsante nell'export che genera in un clic un MP4 1080×1920 per Reels, TikTok e Shorts. Ha una fascia con il titolo della lavagna e la fase corrente, una barra di avanzamento delle fasi e il campo verticale fuori dalle aree coperte dalle interfacce delle app. Aggiunti anche i formati 4:5 (feed Instagram) e 1:1, disponibili pure per i PNG e dal server MCP (`export_mp4` con `aspect`).
+- **Sito**: sezione "Chi c'è dietro" con i link GitHub dell'autore e il pulsante "Offrimi un caffè" (anche nel menu e nel footer); layout verificato e corretto su schermi da 320 px in su (prima comparivano scroll orizzontali sotto i 768 px).
+- **App**: sezione Informazioni nelle impostazioni con versione, GitHub e "Offrimi un caffè"; header dell'editor meno affollato sugli schermi medi.
+- `FUNDING.yml` per il pulsante Sponsor del repository.
+
 ## 1.0.1 — 2026-11-08
 
 - Corretta la build Linux dell'app desktop (nome dell'eseguibile).

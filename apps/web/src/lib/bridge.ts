@@ -43,6 +43,7 @@ async function handle(method: string, params: Record<string, unknown>): Promise<
           lang: i18n.language,
           resolution: params.resolution === '720p' ? '720p' : '1080p',
           orientation: params.aspect === '9:16' ? 'vertical' : 'horizontal',
+          aspect: (['16:9', '9:16', '4:5', '1:1'] as const).find((a) => a === params.aspect) ?? '16:9',
         },
         () => {},
       );

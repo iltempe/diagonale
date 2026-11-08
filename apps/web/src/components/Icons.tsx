@@ -44,6 +44,7 @@ export const Icon = {
   upload: (p: P) => (<S {...p}><path d="M12 20V8M7 13l5-5 5 5M5 4h14" /></S>),
   image: (p: P) => (<S {...p}><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="9" cy="10" r="2" /><path d="M21 16l-5-5-8 8" /></S>),
   send: (p: P) => (<S {...p}><path d="M4 12l16-8-6 16-2-6z" /></S>),
+  phone: (p: P) => (<S {...p}><rect x="7" y="2" width="10" height="20" rx="2" /><path d="M11 18h2" /></S>),
   mic: (p: P) => (<S {...p}><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0014 0M12 18v3" /></S>),
   record: (p: P) => (<S {...p}><circle cx="12" cy="12" r="6" fill="#FF5A4E" stroke="#FF5A4E" /></S>),
   screen: (p: P) => (<S {...p}><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" /></S>),

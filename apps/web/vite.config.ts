@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
   const base = desktop ? '/' : (process.env.BASE_PATH ?? '/');
   return {
     base,
+    define: { __APP_VERSION__: JSON.stringify(process.env.npm_package_version ?? '') },
     plugins: [
       react(),
       !desktop &&

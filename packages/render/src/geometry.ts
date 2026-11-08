@@ -74,6 +74,8 @@ export type ViewportOptions = {
   marginMeters?: number;
   /** Extra pixels of padding inside the canvas. */
   paddingPx?: number;
+  /** Pixels reserved at the top/bottom (e.g. social video header and footer). */
+  insets?: { top: number; bottom: number };
 };
 
 /**
@@ -98,7 +100,9 @@ export class Viewport {
     this.rect = r;
     const pad = opts.paddingPx ?? 0;
     const W = Math.max(1, width - 2 * pad);
-    const Hh = Math.max(1, height - 2 * pad);
+    const inTop = opts.insets?.top ?? 0;
+    const inBottom = opts.insets?.bottom ?? 0;
+    const Hh = Math.max(1, height - 2 * pad - inTop - inBottom);
     const vertical = opts.orientation === 'vertical';
     const broadcast = opts.perspective === 'broadcast';
     // screen extents of the mapped rectangle
@@ -110,7 +114,7 @@ export class Viewport {
     const sw = mw * s;
     const sh = mh * s * tilt;
     const ox = pad + (W - sw) / 2;
-    const oy = pad + (Hh - sh) / 2;
+    const oy = pad + inTop + (Hh - sh) / 2;
     const inset = broadcast ? sw * 0.16 : 0;
     // screen quad: TL, TR, BR, BL
     const TL = { x: ox + inset, y: oy };

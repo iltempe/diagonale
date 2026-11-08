@@ -4,12 +4,9 @@
   "language": "Lingua delle etichette",
   "resolution": "Risoluzione",
   "format": "Formato",
-  "landscape": "Orizzontale 16:9",
-  "portrait": "Verticale 9:16",
   "pngCurrent": "PNG fase corrente",
   "pngAll": "PNG tutte le fasi (zip)",
   "pdf": "PDF (una pagina per fase)",
-  "video": "Video MP4",
   "json": "File .diagonale.json",
   "videoDone": "Video {{format}} scaricato",
   "videoHint": "Il video è generato fotogramma per fotogramma nel browser (MP4 H.264 dove supportato, altrimenti WebM). Nulla viene caricato su server.",
@@ -19,5 +16,14 @@
   "duration": "Transizione",
   "hold": "Pausa",
   "notes": "Note",
-  "withVoice": "Includi il Team Talk nel video"
+  "withVoice": "Includi il Team Talk nel video",
+  "aspects": {
+    "16x9": "16:9 orizzontale (YouTube, schermo)",
+    "9x16": "9:16 verticale (Reels, TikTok, Shorts)",
+    "4x5": "4:5 (feed Instagram)",
+    "1x1": "1:1 quadrato"
+  },
+  "social": "Video social 9:16",
+  "socialHint": "1080×1920 per Reels, TikTok e Shorts, con titolo e avanzamento delle fasi",
+  "videoFormat": "Video MP4 {{format}}"
 }

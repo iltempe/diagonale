@@ -5,7 +5,7 @@ import { useEditor } from '../store/editor';
 import { db } from '../lib/db';
 import { useLiveQuery } from '../lib/useLiveQuery';
 import { newBoard, openBoard, saveBoard } from '../lib/persistence';
-import { exportAllPngZip, exportJson, exportPdf, exportPng, exportVideo, type Orientation, type Resolution } from '../lib/export';
+import { exportAllPngZip, exportJson, exportPdf, exportPng, exportVideo, ASPECTS, type Aspect, type Orientation, type Resolution } from '../lib/export';
 import { onBridgeStatus, setBridgeEnabled, BRIDGE_URL, type BridgeStatus } from '../lib/bridge';
 import { getSetting, setSetting } from '../lib/db';
 import { LANGUAGES, setLanguage, type Lang } from '../i18n';
@@ -99,12 +99,20 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
   const toast = useEditor((s) => s.toast);
   const [lang, setLang] = useState<string>(i18n.language);
   const [res, setRes] = useState<Resolution>('1080p');
-  const [orientation, setOrientation] = useState<Orientation>('horizontal');
+  const [aspect, setAspect] = useState<Aspect>('16:9');
+  const orientation: Orientation = aspect === '9:16' ? 'vertical' : 'horizontal';
   const [progress, setProgress] = useState<number | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const hasTalk = useTalk((s) => !!s.talk);
   const [withVoice, setWithVoice] = useState(true);
-  const common = { lang, orientation, resolution: res };
+  const common = { lang, orientation, aspect, resolution: res };
+  const videoRun = (extra: Partial<typeof common> = {}) =>
+    run(async () => {
+      abortRef.current = new AbortController();
+      const audio = withVoice ? await currentTalkBlob() : undefined;
+      const fmt = await exportVideo(board, { ...common, ...extra, audio }, setProgress, abortRef.current.signal);
+      toast(t('export:videoDone', { format: fmt.toUpperCase() }));
+    });
 
   const run = async (fn: () => Promise<unknown>) => {
     try {
@@ -143,12 +151,24 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
           </label>
           <label className="field">
             <span>{t('export:format')}</span>
-            <select value={orientation} onChange={(e) => setOrientation(e.target.value as Orientation)}>
-              <option value="horizontal">{t('export:landscape')}</option>
-              <option value="vertical">{t('export:portrait')}</option>
+            <select value={aspect} onChange={(e) => setAspect(e.target.value as Aspect)} data-testid="export-aspect">
+              {ASPECTS.map((a) => (
+                <option key={a} value={a}>
+                  {t(`export:aspects.${a.replace(':', 'x')}`)}
+                </option>
+              ))}
             </select>
           </label>
         </div>
+        <button
+          className="btn primary social-cta"
+          disabled={progress != null}
+          data-testid="export-social"
+          onClick={() => void videoRun({ aspect: '9:16', orientation: 'vertical', resolution: '1080p' })}
+        >
+          <Icon.phone /> <span>{t('export:social')}</span>
+          <small>{t('export:socialHint')}</small>
+        </button>
         <div className="export-grid">
           <button className="btn" disabled={progress != null} onClick={() => void run(() => exportPng(board, phase, common))}>
             <Icon.image /> {t('export:pngCurrent')}
@@ -163,16 +183,9 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
             className="btn primary"
             disabled={progress != null}
             data-testid="export-video"
-            onClick={() =>
-              void run(async () => {
-                abortRef.current = new AbortController();
-                const audio = withVoice ? await currentTalkBlob() : undefined;
-                const fmt = await exportVideo(board, { ...common, audio }, setProgress, abortRef.current.signal);
-                toast(t('export:videoDone', { format: fmt.toUpperCase() }));
-              })
-            }
+            onClick={() => void videoRun()}
           >
-            <Icon.play /> {t('export:video')}
+            <Icon.play /> {t('export:videoFormat', { format: aspect })}
           </button>
           <button className="btn" disabled={progress != null} onClick={() => exportJson(board)}>
             <Icon.download /> {t('export:json')}
@@ -263,6 +276,7 @@ export function ShareDialog({ onClose }: { onClose: () => void }) {
   );
 }
 
+const APP_VERSION = __APP_VERSION__;
 const MCP_CMD = 'node packages/mcp-server/dist/index.js --live';
 
 export function SettingsDialog({ onClose }: { onClose: () => void }) {
@@ -311,6 +325,19 @@ export function SettingsDialog({ onClose }: { onClose: () => void }) {
             {t('common:settings.bridgeHint', { url: BRIDGE_URL })} <b className={`status ${status}`}>{t(`common:settings.status.${status}`)}</b>
           </p>
           <pre className="code">{MCP_CMD}</pre>
+          <h3>{t('common:about.title')}</h3>
+          <p className="hint">{t('common:about.text', { version: APP_VERSION })}</p>
+          <div className="row-inline wrap">
+            <a className="btn small coffee" href="https://buymeacoffee.com/iltempe" target="_blank" rel="noopener noreferrer">
+              {t('common:about.coffee')}
+            </a>
+            <a className="btn small" href="https://github.com/iltempe" target="_blank" rel="noopener noreferrer">
+              {t('common:about.author')}
+            </a>
+            <a className="btn small" href="https://github.com/iltempe/diagonale" target="_blank" rel="noopener noreferrer">
+              {t('common:about.source')}
+            </a>
+          </div>
         </section>
         <section className="stack">
           {cloudEnabled && <AccountSection />}

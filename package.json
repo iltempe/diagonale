@@ -1,7 +1,7 @@
 {
   "name": "diagonale",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Diagonale — lavagna tattica animata open source. La tattica, fase per fase.",
   "license": "Apache-2.0",
   "packageManager": "pnpm@9.15.9",

@@ -52,3 +52,11 @@ test('presentation mode plays the current board', async ({ page }) => {
   await page.getByRole('button', { name: 'Chiudi' }).click();
   await expect(page.getByTestId('phase-0')).toBeVisible();
 });
+
+test('one-click 9:16 social video export', async ({ page }) => {
+  await page.goto('./');
+  await expect(page.getByTestId('phase-0')).toBeVisible();
+  await page.getByTestId('open-export').click();
+  const [dl] = await Promise.all([page.waitForEvent('download', { timeout: 90_000 }), page.getByTestId('export-social').click()]);
+  expect(dl.suggestedFilename()).toMatch(/-9x16\.(mp4|webm)$/);
+});

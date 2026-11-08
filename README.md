@@ -17,7 +17,7 @@ Funziona nel browser, senza installazione e senza account: le lavagne restano ne
 - **Campo**: 9 viste (intero, metà, terzi, area, fasce), 4 superfici, orientamento orizzontale o verticale, **vista televisiva** in prospettiva e griglia in metri per gli esercizi.
 - **25 moduli**, compresi quelli giovanili a 5, 7 e 9, e **5 routine di calci piazzati**. Puoi salvare le tue sequenze e riapplicarle su altre lavagne.
 - **Condivisione**: un link `#/d/…` che contiene la lavagna compressa (circa 2–6 KB, nessun server). Si apre a schermo intero e su telefono passa in verticale.
-- **Export**: PNG della fase corrente o di tutte le fasi (zip), PDF con una pagina per fase e le note, video **MP4 H.264** a 720p o 1080p, in 16:9 o 9:16, generato fotogramma per fotogramma. Import ed export dei file `.diagonale.json`.
+- **Export**: PNG della fase corrente o di tutte le fasi (zip), PDF con una pagina per fase e le note, video **MP4 H.264** a 720p o 1080p generato fotogramma per fotogramma. Il pulsante **Video social 9:16** produce in un clic un 1080×1920 per Reels, TikTok e Shorts, con titolo, fase corrente e barra di avanzamento; ci sono anche i formati 16:9, 4:5 e 1:1. Import ed export dei file `.diagonale.json`.
 - **Italiano e inglese**: il cambio di lingua è immediato; la stessa scelta vale per le etichette negli export e per l'AI.
 - **AI Coach**: funziona con Claude, OpenAI, Gemini, OpenRouter, Mistral, Groq, DeepSeek e con modelli locali via Ollama o LM Studio. Usi la tua chiave, che resta nel browser. Le modifiche dell'AI appaiono in anteprima e si annullano con un solo undo.
 - **Server MCP**: Claude Desktop e Claude Code possono creare e modificare le lavagne su file, oppure *in diretta* nell'app aperta.
@@ -88,6 +88,10 @@ Vedi [`packages/mcp-server/README.md`](packages/mcp-server/README.md).
 ## Novità
 
 Vedi [`CHANGELOG.md`](CHANGELOG.md). Le scelte non coperte dalla specifica sono in [`docs/decisions.md`](docs/decisions.md).
+
+## Autore e supporto
+
+Creato da [Iltempe](https://github.com/iltempe). Se Diagonale ti è utile, puoi [offrirmi un caffè ☕](https://buymeacoffee.com/iltempe) o lasciare una ⭐ al repository.
 
 ## Licenza
 

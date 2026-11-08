@@ -40,7 +40,7 @@ export function listTools(backend: Backend): ToolSpec[] {
         type: 'object',
         properties: {
           resolution: { type: 'string', enum: ['720p', '1080p'] },
-          aspect: { type: 'string', enum: ['16:9', '9:16'] },
+          aspect: { type: 'string', enum: ['16:9', '9:16', '4:5', '1:1'], description: '9:16 = Reels/TikTok/Shorts, 4:5 = Instagram feed, 1:1 = square' },
         },
       },
     },
@@ -111,7 +111,7 @@ export async function callTool(backend: Backend, name: string, rawArgs: unknown,
 
 export function createServer(backend: Backend, opts: ServerOptions = {}): Server {
   const server = new Server(
-    { name: 'diagonale', version: '1.0.1' },
+    { name: 'diagonale', version: '1.1.0' },
     {
       capabilities: { tools: {}, resources: {} },
       instructions:
