@@ -11,3 +11,5 @@ apps/web/dev-dist
 .env.local
 apps/web/dist-desktop
 dist-site
+# temporary local scripts
+.*.mjs
