@@ -2,9 +2,9 @@
 
 <h1 align="center">Diagonale</h1>
 <p align="center"><b>La tattica, fase per fase.</b> — Lavagna tattica animata open source per allenatori di calcio.</p>
-<p align="center"><a href="https://iltempe.github.io/diagonale/app/"><b>▶ Apri l'app</b></a> · <a href="https://iltempe.github.io/diagonale/">Sito</a> · <a href="https://github.com/iltempe/diagonale/releases/latest"><b>⬇ Mac · Windows · Linux</b></a> · <a href="SPEC.md">Specifica</a> · <a href="docs/decisions.md">Decisioni</a> · <a href="#english">English</a></p>
+<p align="center"><a href="https://diagonalecalcio.it/app/"><b>▶ Apri l'app</b></a> · <a href="https://diagonalecalcio.it/">Sito</a> · <a href="https://github.com/iltempe/diagonale/releases/latest"><b>⬇ Mac · Windows · Linux</b></a> · <a href="SPEC.md">Specifica</a> · <a href="docs/decisions.md">Decisioni</a> · <a href="#english">English</a></p>
 
-<p align="center"><a href="https://iltempe.github.io/diagonale/app/"><img src="docs/screenshots/demo.gif" width="800" alt="Diagonale: un'uscita dal basso animata fase per fase"></a></p>
+<p align="center"><a href="https://diagonalecalcio.it/app/"><img src="docs/screenshots/demo.gif" width="800" alt="Diagonale: un'uscita dal basso animata fase per fase"></a></p>
 
 ---
 
@@ -46,18 +46,18 @@ Funziona nel browser, senza installazione e senza account: le lavagne restano ne
 </p>
 <p align="center"><i>Link condiviso aperto sul telefono · fotogramma di un video social 9:16</i></p>
 
-**Provala subito:** [iltempe.github.io/diagonale/app](https://iltempe.github.io/diagonale/app/), senza installare nulla e senza account.
+**Provala subito:** [diagonalecalcio.it/app](https://diagonalecalcio.it/app/), senza installare nulla e senza account.
 
 ## Usate Diagonale nella vostra società?
 
-Mettete il badge sul sito della società: generatelo, con il nome del club, nella [sezione badge del sito](https://iltempe.github.io/diagonale/#badge), oppure copiate questo codice:
+Mettete il badge sul sito della società: generatelo, con il nome del club, nella [sezione badge del sito](https://diagonalecalcio.it/#badge), oppure copiate questo codice:
 
 ```html
-<a href="https://iltempe.github.io/diagonale/?ref=badge" target="_blank" rel="noopener" title="Usiamo Diagonale"><img src="https://iltempe.github.io/diagonale/badge/diagonale-it-dark.svg" alt="Usiamo Diagonale" width="220" height="56"></a>
+<a href="https://diagonalecalcio.it/?ref=badge" target="_blank" rel="noopener" title="Usiamo Diagonale"><img src="https://diagonalecalcio.it/badge/diagonale-it-dark.svg" alt="Usiamo Diagonale" width="220" height="56"></a>
 ```
 
-<a href="https://iltempe.github.io/diagonale/?ref=badge"><img src="apps/site/badge/diagonale-it-dark.svg" alt="Usiamo Diagonale" width="220" height="56"></a>
-<a href="https://iltempe.github.io/diagonale/?ref=badge"><img src="apps/site/badge/diagonale-it-light.svg" alt="Usiamo Diagonale" width="220" height="56"></a>
+<a href="https://diagonalecalcio.it/?ref=badge"><img src="apps/site/badge/diagonale-it-dark.svg" alt="Usiamo Diagonale" width="220" height="56"></a>
+<a href="https://diagonalecalcio.it/?ref=badge"><img src="apps/site/badge/diagonale-it-light.svg" alt="Usiamo Diagonale" width="220" height="56"></a>
 
 Sono disponibili anche le versioni chiare e inglesi (`diagonale-{it,en}-{dark,light}.svg`) e una versione in puro HTML che non carica nulla da server esterni.
 
@@ -103,7 +103,7 @@ Su ogni tag `v*` il workflow `release.yml` compila le app per macOS, Windows e L
 ### Cloud opzionale (Supabase)
 
 1. Crea un progetto Supabase e applica `supabase/migrations/0001_init.sql`.
-2. In *Authentication* abilita l'email (magic link) e, se vuoi, Google; aggiungi `https://iltempe.github.io/diagonale/app/` agli URL di redirect.
+2. In *Authentication* abilita l'email (magic link) e, se vuoi, Google; aggiungi `https://diagonalecalcio.it/app/` agli URL di redirect.
 3. Nel repository GitHub imposta le variabili `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` (*Settings → Secrets and variables → Actions → Variables*) e rilancia il deploy.
 
 Senza queste variabili l'app resta completamente locale e i link di condivisione contengono la lavagna nell'indirizzo.
@@ -145,4 +145,4 @@ It runs in the browser with no install and no account, works offline (PWA), and 
 
 It also includes Team Talk (voice synced to the animation), a session planner and match-plan PDFs, and a Team Centre (squad, fixtures, call-ups, stats, privacy-aware parent reports). Desktop apps for macOS, Windows and Linux are on the [releases page](https://github.com/iltempe/diagonale/releases/latest).
 
-Try it: **https://iltempe.github.io/diagonale/app/** · Website: **https://iltempe.github.io/diagonale/**
+Try it: **https://diagonalecalcio.it/app/** · Website: **https://diagonalecalcio.it/**
