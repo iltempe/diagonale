@@ -1,8 +1,15 @@
 <p align="center"><img src="apps/web/public/icon-192.png" width="96" alt="Diagonale"></p>
 
 <h1 align="center">Diagonale</h1>
-<p align="center"><b>La tattica, fase per fase.</b> — Lavagna tattica animata open source per allenatori di calcio.</p>
-<p align="center"><a href="https://diagonalecalcio.it/app/"><b>▶ Apri l'app</b></a> · <a href="https://diagonalecalcio.it/">Sito</a> · <a href="https://github.com/iltempe/diagonale/releases/latest"><b>⬇ Mac · Windows · Linux</b></a> · <a href="SPEC.md">Specifica</a> · <a href="docs/decisions.md">Decisioni</a> · <a href="#english">English</a></p>
+<p align="center"><b>La tattica, fase per fase.</b> Lavagna tattica animata, gratuita e open source, per allenatori di calcio.</p>
+<p align="center"><b>🇮🇹 Italiano</b> · <a href="README.en.md">🇬🇧 English</a></p>
+<p align="center">
+  <a href="https://github.com/iltempe/diagonale/releases/latest"><img src="https://img.shields.io/github/v/release/iltempe/diagonale?label=release&color=F2C230" alt="Ultima release"></a>
+  <a href="https://github.com/iltempe/diagonale/actions/workflows/ci.yml"><img src="https://github.com/iltempe/diagonale/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-0F3D2E" alt="Licenza Apache-2.0"></a>
+  <a href="https://diagonalecalcio.it/"><img src="https://img.shields.io/badge/web-diagonalecalcio.it-0F3D2E" alt="Sito"></a>
+</p>
+<p align="center"><a href="https://diagonalecalcio.it/app/"><b>▶ Apri l'app</b></a> · <a href="https://diagonalecalcio.it/">Sito</a> · <a href="https://github.com/iltempe/diagonale/releases/latest"><b>⬇ Mac · Windows · Linux</b></a> · <a href="SPEC.md">Specifica</a> · <a href="docs/decisions.md">Decisioni</a></p>
 
 <p align="center"><a href="https://diagonalecalcio.it/app/"><img src="docs/screenshots/demo.gif" width="800" alt="Diagonale: un'uscita dal basso animata fase per fase"></a></p>
 
@@ -89,7 +96,7 @@ pnpm typecheck && pnpm lint && pnpm check:i18n
 pnpm --filter @diagonale/web e2e    # Playwright
 ```
 
-Il deploy su GitHub Pages parte a ogni push su `main` (`.github/workflows/pages.yml`): sito su `/diagonale/`, app su `/diagonale/app/`.
+Il deploy su GitHub Pages parte a ogni push su `main` (`.github/workflows/pages.yml`): sito su `diagonalecalcio.it`, app su `diagonalecalcio.it/app/`.
 
 ### App desktop
 
@@ -110,8 +117,8 @@ Senza queste variabili l'app resta completamente locale e i link di condivisione
 
 ### AI con modelli locali
 
-- **Ollama**: avvialo con `OLLAMA_ORIGINS=* ollama serve`, poi nelle impostazioni scegli "Ollama (local)".
-- **LM Studio**: abilita CORS nel server locale.
+- **Ollama**: avvialo con `OLLAMA_ORIGINS=* ollama serve`, poi nelle impostazioni scegli "Ollama (local)". Nell'app desktop non serve nessuna configurazione.
+- **LM Studio**: abilita CORS nel server locale (non serve nell'app desktop).
 
 Se un modello non supporta il tool calling, togli la spunta: l'agente passa a un protocollo JSON validato, con al massimo 2 tentativi di correzione.
 
@@ -122,6 +129,10 @@ Vedi [`packages/mcp-server/README.md`](packages/mcp-server/README.md).
 ## Novità
 
 Vedi [`CHANGELOG.md`](CHANGELOG.md). Le scelte non coperte dalla specifica sono in [`docs/decisions.md`](docs/decisions.md); le note di deploy in [`docs/deploy.md`](docs/deploy.md).
+
+## Contribuire
+
+Segnalazioni, idee e pull request sono benvenute: vedi [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Privacy
 
@@ -134,15 +145,3 @@ Creato da [Iltempe](https://github.com/iltempe). Se Diagonale ti è utile, puoi 
 ## Licenza
 
 [Apache-2.0](LICENSE). Diagonale è un progetto indipendente: riprende alcune *funzionalità* comuni alle lavagne tattiche, ma non nomi, grafica, testi o asset di altri prodotti.
-
----
-
-## English
-
-**Diagonale** is an open-source animated tactics board for football coaches. You draw a situation on a pitch measured in real meters and split it into **phases**; Diagonale animates the transitions like a video. You can share it as a link that also plays on phones, export it to MP4, PNG or PDF, or let the **AI Coach** build it with any model you like: Claude, OpenAI, Gemini, OpenRouter, or local models through Ollama and LM Studio. You bring your own key and it stays in your browser.
-
-It runs in the browser with no install and no account, works offline (PWA), and the whole interface is available in English and Italian. Through the MCP server, Claude Desktop and Claude Code can create and edit boards, either as files or live in the open app.
-
-It also includes Team Talk (voice synced to the animation), a session planner and match-plan PDFs, and a Team Centre (squad, fixtures, call-ups, stats, privacy-aware parent reports). Desktop apps for macOS, Windows and Linux are on the [releases page](https://github.com/iltempe/diagonale/releases/latest).
-
-Try it: **https://diagonalecalcio.it/app/** · Website: **https://diagonalecalcio.it/**
