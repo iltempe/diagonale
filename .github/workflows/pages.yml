@@ -27,15 +27,27 @@ jobs:
       - run: pnpm install --frozen-lockfile
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
-      - name: Build web app (served at /<repo>/app/)
+      # With a custom domain (repository variable PAGES_DOMAIN, e.g. diagonalecalcio.it) the site is served
+      # at the domain root; otherwise at https://<user>.github.io/<repo>/.
+      - name: Resolve base path
+        run: |
+          if [ -n "${{ vars.PAGES_DOMAIN }}" ]; then
+            echo "BASE_PATH=/app/" >> "$GITHUB_ENV"
+            echo "SITE_URL=https://${{ vars.PAGES_DOMAIN }}/" >> "$GITHUB_ENV"
+          else
+            echo "BASE_PATH=/${{ github.event.repository.name }}/app/" >> "$GITHUB_ENV"
+            echo "SITE_URL=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" >> "$GITHUB_ENV"
+          fi
+      - name: Build web app
         run: pnpm --filter @diagonale/web build
         env:
-          BASE_PATH: /${{ github.event.repository.name }}/app/
           # optional cloud features (Supabase): set these as repository variables
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
       - name: Assemble landing site + app
         run: node scripts/build-site.mjs
+        env:
+          PAGES_DOMAIN: ${{ vars.PAGES_DOMAIN }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist-site
