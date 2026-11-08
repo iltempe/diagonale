@@ -1,0 +1,236 @@
+{
+  "id": "free_kick_central_block",
+  "name": "Central free kick — wall block",
+  "description": "Central free kick: a decoy runs over the ball while a blocker opens a lane at the end of the wall.",
+  "coordinateFrame": "absolute",
+  "pitch": {
+    "length": 105,
+    "width": 68
+  },
+  "slots": [
+    {
+      "slotId": "taker",
+      "team": "home",
+      "role": "W"
+    },
+    {
+      "slotId": "a1",
+      "team": "home",
+      "role": "CB"
+    },
+    {
+      "slotId": "a2",
+      "team": "home",
+      "role": "CB"
+    },
+    {
+      "slotId": "a3",
+      "team": "home",
+      "role": "ST"
+    },
+    {
+      "slotId": "a4",
+      "team": "home",
+      "role": "CM"
+    },
+    {
+      "slotId": "a5",
+      "team": "home",
+      "role": "FB"
+    },
+    {
+      "slotId": "gk",
+      "team": "away",
+      "role": "GK"
+    },
+    {
+      "slotId": "d1",
+      "team": "away",
+      "role": "CB"
+    },
+    {
+      "slotId": "d2",
+      "team": "away",
+      "role": "CB"
+    },
+    {
+      "slotId": "d3",
+      "team": "away",
+      "role": "CM"
+    },
+    {
+      "slotId": "d4",
+      "team": "away",
+      "role": "ST"
+    },
+    {
+      "slotId": "d5",
+      "team": "away",
+      "role": "FB"
+    }
+  ],
+  "phases": [
+    {
+      "durationMs": 0,
+      "holdMs": 1400,
+      "label": "Setup",
+      "positions": {
+        "ball": {
+          "x": 80,
+          "y": 34
+        },
+        "taker": {
+          "x": 78,
+          "y": 32.6
+        },
+        "a1": {
+          "x": 78,
+          "y": 35.6
+        },
+        "a5": {
+          "x": 89.15,
+          "y": 38
+        },
+        "a2": {
+          "x": 93,
+          "y": 40
+        },
+        "a3": {
+          "x": 92,
+          "y": 27
+        },
+        "a4": {
+          "x": 86,
+          "y": 44
+        },
+        "gk": {
+          "x": 104,
+          "y": 33.5
+        },
+        "d1": {
+          "x": 89.15,
+          "y": 31.6
+        },
+        "d2": {
+          "x": 89.15,
+          "y": 32.4
+        },
+        "d3": {
+          "x": 89.15,
+          "y": 33.2
+        },
+        "d4": {
+          "x": 89.15,
+          "y": 34
+        },
+        "d5": {
+          "x": 93,
+          "y": 37
+        }
+      },
+      "ballCarrier": "taker",
+      "annotations": [
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "block",
+          "from": {
+            "entityId": "a5"
+          },
+          "to": {
+            "x": 89.15,
+            "y": 36
+          }
+        },
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "run",
+          "from": {
+            "entityId": "a1"
+          },
+          "to": {
+            "x": 83,
+            "y": 30
+          }
+        },
+        {
+          "id": "x",
+          "type": "text",
+          "at": {
+            "x": 81,
+            "y": 39
+          },
+          "text": "9,15 m",
+          "size": 1.4
+        }
+      ]
+    },
+    {
+      "durationMs": 900,
+      "holdMs": 300,
+      "label": "Decoy run",
+      "positions": {
+        "a1": {
+          "x": 83,
+          "y": 30
+        },
+        "a5": {
+          "x": 89.15,
+          "y": 35.2
+        },
+        "d4": {
+          "x": 89.15,
+          "y": 34.4
+        }
+      },
+      "annotations": [
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "shot",
+          "from": {
+            "entityId": "taker"
+          },
+          "to": {
+            "x": 105,
+            "y": 36.6
+          },
+          "control": {
+            "x": 96,
+            "y": 37.5
+          }
+        }
+      ]
+    },
+    {
+      "durationMs": 900,
+      "holdMs": 1400,
+      "label": "Shot",
+      "positions": {
+        "ball": {
+          "x": 105,
+          "y": 36.6
+        },
+        "gk": {
+          "x": 104,
+          "y": 35.5
+        },
+        "a2": {
+          "x": 99,
+          "y": 38
+        }
+      },
+      "paths": {
+        "ball": {
+          "type": "curve",
+          "control": {
+            "x": 96,
+            "y": 37.5
+          }
+        }
+      },
+      "annotations": []
+    }
+  ]
+}

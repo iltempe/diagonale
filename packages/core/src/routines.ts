@@ -1,0 +1,323 @@
+import type { Annotation, Position, Role, Sequence } from './schema';
+
+/**
+ * Predefined set-piece routines, authored on a 105x68 pitch with the home team
+ * attacking the right goal (x = 105, goal centre y = 34). Exported to data/routines/*.json.
+ */
+
+type P = [number, number];
+const pos = (m: Record<string, P>): Record<string, Position> =>
+  Object.fromEntries(Object.entries(m).map(([k, [x, y]]) => [k, { x, y }]));
+
+const arrow = (
+  style: Extract<Annotation, { type: 'arrow' }>['style'],
+  from: string | P,
+  to: string | P,
+  control?: P,
+): Annotation => ({
+  id: 'x',
+  type: 'arrow',
+  style,
+  from: typeof from === 'string' ? { entityId: from } : { x: from[0], y: from[1] },
+  to: typeof to === 'string' ? { entityId: to } : { x: to[0], y: to[1] },
+  ...(control ? { control: { x: control[0], y: control[1] } } : {}),
+});
+
+const slot = (slotId: string, team: 'home' | 'away', role?: Role) => ({ slotId, team, ...(role ? { role } : {}) });
+
+const CORNER_SLOTS = [
+  slot('taker', 'home', 'W'),
+  slot('a1', 'home', 'CB'),
+  slot('a2', 'home', 'CB'),
+  slot('a3', 'home', 'ST'),
+  slot('a4', 'home', 'CM'),
+  slot('a5', 'home', 'FB'),
+  slot('gk', 'away', 'GK'),
+  slot('d1', 'away', 'CB'),
+  slot('d2', 'away', 'CB'),
+  slot('d3', 'away', 'CM'),
+  slot('d4', 'away', 'ST'),
+  slot('d5', 'away', 'FB'),
+];
+
+const CORNER_SETUP = {
+  ball: [104.6, 0.6] as P,
+  taker: [105.6, -0.6] as P,
+  a1: [89.5, 30] as P,
+  a2: [89.5, 38] as P,
+  a3: [88, 34] as P,
+  a4: [84, 24] as P,
+  a5: [101.5, 35] as P,
+  gk: [103.8, 34.5] as P,
+  d1: [100, 30] as P,
+  d2: [95, 32] as P,
+  d3: [95, 37] as P,
+  d4: [92, 27] as P,
+  d5: [90, 41] as P,
+};
+
+export const ROUTINES: Sequence[] = [
+  {
+    id: 'corner_near_post',
+    name: 'Corner — near post',
+    description: 'In-swinging corner attacked at the near post with a flick-on towards goal.',
+    coordinateFrame: 'absolute',
+    pitch: { length: 105, width: 68 },
+    slots: CORNER_SLOTS,
+    phases: [
+      {
+        durationMs: 0,
+        holdMs: 1200,
+        label: 'Setup',
+        positions: pos(CORNER_SETUP),
+        ballCarrier: 'taker',
+        annotations: [
+          arrow('run', 'a1', [100.5, 28.5], [94, 26]),
+          arrow('run', 'a2', [99, 36]),
+          arrow('run', 'a3', [96, 33]),
+          { id: 'x', type: 'zone', shape: 'ellipse', points: [{ x: 98.5, y: 26 }, { x: 102.5, y: 31 }], color: '#F2C230', opacity: 0.3 },
+        ],
+      },
+      {
+        durationMs: 1600,
+        holdMs: 600,
+        label: 'Delivery',
+        positions: pos({
+          ball: [100.6, 28.8],
+          taker: [104.6, 0.8],
+          a1: [100.5, 28.5],
+          a2: [99, 36],
+          a3: [96, 33],
+          a4: [88, 26],
+          a5: [102, 34],
+          gk: [103, 33],
+          d1: [100.5, 30],
+          d2: [98.5, 33],
+          d3: [97.5, 37],
+          d4: [93, 28],
+          d5: [91, 39],
+        }),
+        paths: { ball: { type: 'lofted', peakHeight: 5 } },
+        ballCarrier: 'a1',
+        annotations: [arrow('lofted', 'taker', 'a1')],
+      },
+      {
+        durationMs: 700,
+        holdMs: 1200,
+        label: 'Flick-on',
+        positions: pos({ ball: [99.2, 36.4], a2: [99.6, 36.4], a3: [98, 33.5], gk: [102.6, 34.2] }),
+        paths: { ball: { type: 'lofted', peakHeight: 1.5 } },
+        ballCarrier: 'a2',
+        annotations: [arrow('shot', 'a2', [105, 37.5])],
+      },
+    ],
+  },
+  {
+    id: 'corner_far_post',
+    name: 'Corner — far post',
+    description: 'Out-swinging corner to the far post, attacker arriving late from the edge.',
+    coordinateFrame: 'absolute',
+    pitch: { length: 105, width: 68 },
+    slots: CORNER_SLOTS,
+    phases: [
+      {
+        durationMs: 0,
+        holdMs: 1200,
+        label: 'Setup',
+        positions: pos(CORNER_SETUP),
+        ballCarrier: 'taker',
+        annotations: [arrow('run', 'a2', [98.5, 41.5], [92, 42]), arrow('run', 'a1', [100, 29])],
+      },
+      {
+        durationMs: 1800,
+        holdMs: 600,
+        label: 'Delivery',
+        positions: pos({
+          ball: [98.5, 41.6],
+          a1: [100, 29],
+          a2: [98.5, 41.5],
+          a3: [96, 35],
+          a4: [88, 28],
+          d1: [100.5, 30],
+          d2: [97.5, 34],
+          d3: [97.5, 39.5],
+          d5: [93, 41],
+          gk: [103.2, 35],
+        }),
+        paths: { ball: { type: 'lofted', peakHeight: 7 } },
+        ballCarrier: 'a2',
+        annotations: [arrow('lofted', 'taker', 'a2', [99, 18])],
+      },
+      {
+        durationMs: 600,
+        holdMs: 1200,
+        label: 'Header',
+        positions: pos({ ball: [105, 31.5], gk: [103.6, 33.5] }),
+        annotations: [arrow('shot', 'a2', [105, 31.5])],
+      },
+    ],
+  },
+  {
+    id: 'corner_short',
+    name: 'Short corner',
+    description: 'Short corner to create a 2v1, then cross from a better angle.',
+    coordinateFrame: 'absolute',
+    pitch: { length: 105, width: 68 },
+    slots: CORNER_SLOTS,
+    phases: [
+      {
+        durationMs: 0,
+        holdMs: 1000,
+        label: 'Setup',
+        positions: pos({ ...CORNER_SETUP, a4: [97, 8], d4: [97, 12] }),
+        ballCarrier: 'taker',
+        annotations: [arrow('pass', 'taker', 'a4')],
+      },
+      {
+        durationMs: 1000,
+        holdMs: 400,
+        label: 'Short pass',
+        positions: pos({ ball: [97.5, 8.4], a4: [97.5, 8], taker: [103, 3], d4: [98.5, 11] }),
+        ballCarrier: 'a4',
+        annotations: [arrow('carry', 'a4', [95, 14]), arrow('run', 'taker', [101, 8])],
+      },
+      {
+        durationMs: 1200,
+        holdMs: 400,
+        label: 'Carry',
+        positions: pos({ ball: [95, 14.4], a4: [95, 14], taker: [101, 8], d4: [96.5, 16] }),
+        ballCarrier: 'a4',
+        annotations: [arrow('run', 'a3', [95, 34]), arrow('run', 'a1', [99.5, 31])],
+      },
+      {
+        durationMs: 1500,
+        holdMs: 1200,
+        label: 'Cross',
+        positions: pos({ ball: [95.2, 34], a3: [95, 34], a1: [99.5, 31], a2: [98, 39], d2: [96.5, 33], gk: [102.8, 33] }),
+        paths: { ball: { type: 'lofted', peakHeight: 4 } },
+        ballCarrier: 'a3',
+        annotations: [arrow('lofted', 'a4', 'a3')],
+      },
+    ],
+  },
+  {
+    id: 'free_kick_wide_outswing',
+    name: 'Wide free kick — out-swinging',
+    description: 'Wide free kick curled away from the goalkeeper towards a line of runners attacking the penalty spot.',
+    coordinateFrame: 'absolute',
+    pitch: { length: 105, width: 68 },
+    slots: CORNER_SLOTS,
+    phases: [
+      {
+        durationMs: 0,
+        holdMs: 1200,
+        label: 'Setup',
+        positions: pos({
+          ball: [82, 10],
+          taker: [80.8, 8.8],
+          a1: [87.5, 24],
+          a2: [87.5, 28],
+          a3: [87.5, 32],
+          a4: [87.5, 36],
+          a5: [84, 20],
+          gk: [103, 32],
+          d1: [89, 24.5],
+          d2: [89, 29],
+          d3: [89, 33],
+          d4: [89, 37],
+          d5: [83.5, 13],
+        }),
+        ballCarrier: 'taker',
+        annotations: [
+          { id: 'x', type: 'line', points: [{ x: 89, y: 20 }, { x: 89, y: 42 }], dashed: true, color: '#F4F1EA' },
+          arrow('run', 'a1', [98, 28]),
+          arrow('run', 'a2', [96, 32]),
+          arrow('run', 'a3', [97, 36]),
+          arrow('run', 'a4', [94, 40]),
+        ],
+      },
+      {
+        durationMs: 1800,
+        holdMs: 600,
+        label: 'Delivery',
+        positions: pos({
+          ball: [96.2, 32],
+          a1: [98, 28],
+          a2: [96, 32],
+          a3: [97, 36],
+          a4: [94, 40],
+          d1: [97, 28],
+          d2: [95, 31.5],
+          d3: [95.5, 35.5],
+          d4: [93, 39],
+          gk: [102, 31],
+        }),
+        paths: { ball: { type: 'curve', control: { x: 94, y: 16 } } },
+        ballCarrier: 'a2',
+        annotations: [arrow('lofted', 'taker', 'a2', [94, 16])],
+      },
+      {
+        durationMs: 600,
+        holdMs: 1200,
+        label: 'Finish',
+        positions: pos({ ball: [105, 35.5] }),
+        annotations: [arrow('shot', 'a2', [105, 35.5])],
+      },
+    ],
+  },
+  {
+    id: 'free_kick_central_block',
+    name: 'Central free kick — wall block',
+    description: 'Central free kick: a decoy runs over the ball while a blocker opens a lane at the end of the wall.',
+    coordinateFrame: 'absolute',
+    pitch: { length: 105, width: 68 },
+    slots: CORNER_SLOTS,
+    phases: [
+      {
+        durationMs: 0,
+        holdMs: 1400,
+        label: 'Setup',
+        positions: pos({
+          ball: [80, 34],
+          taker: [78, 32.6],
+          a1: [78, 35.6],
+          a5: [89.15, 38],
+          a2: [93, 40],
+          a3: [92, 27],
+          a4: [86, 44],
+          gk: [104, 33.5],
+          d1: [89.15, 31.6],
+          d2: [89.15, 32.4],
+          d3: [89.15, 33.2],
+          d4: [89.15, 34],
+          d5: [93, 37],
+        }),
+        ballCarrier: 'taker',
+        annotations: [
+          arrow('block', 'a5', [89.15, 36]),
+          arrow('run', 'a1', [83, 30]),
+          { id: 'x', type: 'text', at: { x: 81, y: 39 }, text: '9,15 m', size: 1.4 },
+        ],
+      },
+      {
+        durationMs: 900,
+        holdMs: 300,
+        label: 'Decoy run',
+        positions: pos({ a1: [83, 30], a5: [89.15, 35.2], d4: [89.15, 34.4] }),
+        annotations: [arrow('shot', 'taker', [105, 36.6], [96, 37.5])],
+      },
+      {
+        durationMs: 900,
+        holdMs: 1400,
+        label: 'Shot',
+        positions: pos({ ball: [105, 36.6], gk: [104, 35.5], a2: [99, 38] }),
+        paths: { ball: { type: 'curve', control: { x: 96, y: 37.5 } } },
+        annotations: [],
+      },
+    ],
+  },
+];
+
+export function getRoutine(id: string): Sequence | undefined {
+  return ROUTINES.find((r) => r.id === id);
+}

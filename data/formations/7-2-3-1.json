@@ -1,0 +1,56 @@
+{
+  "id": "7-2-3-1",
+  "label": {
+    "en": "7-a-side 2-3-1",
+    "it": "Calcio a 7 2-3-1"
+  },
+  "players": 7,
+  "slots": [
+    {
+      "role": "GK",
+      "depth": 0.05,
+      "lateral": 0.5,
+      "number": 1
+    },
+    {
+      "role": "CB",
+      "depth": 0.28,
+      "lateral": 0.32,
+      "number": 2
+    },
+    {
+      "role": "CB",
+      "depth": 0.28,
+      "lateral": 0.68,
+      "number": 3
+    },
+    {
+      "role": "W",
+      "depth": 0.6,
+      "lateral": 0.15,
+      "number": 4
+    },
+    {
+      "role": "CM",
+      "depth": 0.55,
+      "lateral": 0.5,
+      "number": 5
+    },
+    {
+      "role": "W",
+      "depth": 0.6,
+      "lateral": 0.85,
+      "number": 6
+    },
+    {
+      "role": "ST",
+      "depth": 0.92,
+      "lateral": 0.5,
+      "number": 7
+    }
+  ],
+  "suggestedPitch": {
+    "length": 60,
+    "width": 40
+  }
+}

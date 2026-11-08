@@ -1,0 +1,44 @@
+{
+  "id": "5-1-2-1",
+  "label": {
+    "en": "5-a-side 1-2-1",
+    "it": "Calcio a 5 1-2-1"
+  },
+  "players": 5,
+  "slots": [
+    {
+      "role": "GK",
+      "depth": 0.05,
+      "lateral": 0.5,
+      "number": 1
+    },
+    {
+      "role": "CB",
+      "depth": 0.3,
+      "lateral": 0.5,
+      "number": 2
+    },
+    {
+      "role": "W",
+      "depth": 0.6,
+      "lateral": 0.2,
+      "number": 3
+    },
+    {
+      "role": "W",
+      "depth": 0.6,
+      "lateral": 0.8,
+      "number": 4
+    },
+    {
+      "role": "ST",
+      "depth": 0.92,
+      "lateral": 0.5,
+      "number": 5
+    }
+  ],
+  "suggestedPitch": {
+    "length": 40,
+    "width": 25
+  }
+}

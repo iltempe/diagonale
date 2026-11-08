@@ -1,0 +1,22 @@
+{
+  "button": "Esporta",
+  "title": "Esporta",
+  "language": "Lingua delle etichette",
+  "resolution": "Risoluzione",
+  "format": "Formato",
+  "landscape": "Orizzontale 16:9",
+  "portrait": "Verticale 9:16",
+  "pngCurrent": "PNG fase corrente",
+  "pngAll": "PNG tutte le fasi (zip)",
+  "pdf": "PDF (una pagina per fase)",
+  "video": "Video MP4",
+  "json": "File .diagonale.json",
+  "videoDone": "Video {{format}} scaricato",
+  "videoHint": "Il video è generato fotogramma per fotogramma nel browser (MP4 H.264 dove supportato, altrimenti WebM). Nulla viene caricato su server.",
+  "error": "Esportazione non riuscita",
+  "phaseN": "Fase {{n}}/{{total}}",
+  "untitled": "Lavagna senza titolo",
+  "duration": "Transizione",
+  "hold": "Pausa",
+  "notes": "Note"
+}

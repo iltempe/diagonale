@@ -1,0 +1,68 @@
+{
+  "id": "9-3-4-1",
+  "label": {
+    "en": "9-a-side 3-4-1",
+    "it": "Calcio a 9 3-4-1"
+  },
+  "players": 9,
+  "slots": [
+    {
+      "role": "GK",
+      "depth": 0.05,
+      "lateral": 0.5,
+      "number": 1
+    },
+    {
+      "role": "CB",
+      "depth": 0.27,
+      "lateral": 0.28,
+      "number": 2
+    },
+    {
+      "role": "CB",
+      "depth": 0.25,
+      "lateral": 0.5,
+      "number": 3
+    },
+    {
+      "role": "CB",
+      "depth": 0.27,
+      "lateral": 0.72,
+      "number": 4
+    },
+    {
+      "role": "W",
+      "depth": 0.6,
+      "lateral": 0.1,
+      "number": 5
+    },
+    {
+      "role": "CM",
+      "depth": 0.56,
+      "lateral": 0.38,
+      "number": 6
+    },
+    {
+      "role": "CM",
+      "depth": 0.56,
+      "lateral": 0.62,
+      "number": 8
+    },
+    {
+      "role": "W",
+      "depth": 0.6,
+      "lateral": 0.9,
+      "number": 7
+    },
+    {
+      "role": "ST",
+      "depth": 0.93,
+      "lateral": 0.5,
+      "number": 9
+    }
+  ],
+  "suggestedPitch": {
+    "length": 75,
+    "width": 50
+  }
+}

@@ -1,0 +1,26 @@
+# Decisioni non coperte dalla spec
+
+Registro delle scelte fatte dove `SPEC.md` non era esplicita (regola §17: "scegli l'opzione più semplice, annotala e prosegui").
+
+| # | Decisione | Motivo |
+|---|---|---|
+| D-001 | **Condivisione senza backend**: il link `#/d/<payload>` contiene la board compressa (deflate + base64url, `packages/core/src/share.ts`). Lo schema Supabase (`supabase/migrations`) è pronto per la fase successiva. | Il deploy iniziale è solo GitHub Pages (statico). Il link è immutabile per costruzione, come richiesto in §14. Una board tipica pesa 2–6 KB. |
+| D-002 | **Routing con hash** (`#/` editor, `#/d/...` player). | GitHub Pages non supporta rewrite SPA. |
+| D-003 | **Sistema di riferimento**: la squadra di casa difende `x = 0` e attacca verso `+x`; la sua fascia sinistra è `y = 0`. Le viste `box`, `wide_left`, `wide_right` sono riferite alla metà campo offensiva della squadra di casa. | Serve un riferimento univoco per formazioni, routine e AI. |
+| D-004 | Campo opzionale `PitchConfig.markings: 'regulation' \| 'outline'`. Le board `training` nascono con `outline`. | Le griglie d'allenamento non hanno linee regolamentari. Le linee si scalano automaticamente per campi < 105 m (giovanili). |
+| D-005 | Campo opzionale `Phase.notes`. | Il PDF prevede "una pagina per fase con note" (§10). |
+| D-006 | **Renderer Konva imperativo** in `packages/render` (niente react-konva). | Lo stesso codice serve editor, player ed export offscreen (§8: "nessuna divergenza visiva") senza dipendere da React. |
+| D-007 | **Video con WebCodecs + mp4-muxer** (H.264 MP4 frame-by-frame), fallback MediaRecorder WebM. Niente ffmpeg.wasm. | ffmpeg.wasm multi-thread richiede header COOP/COEP non impostabili su Pages ed è molto pesante; WebCodecs è disponibile su Chrome, Edge, Safari 16.4+ e produce direttamente MP4. |
+| D-008 | Formazioni e routine hanno come **sorgente unica il TypeScript** di `packages/core`; `data/formations/*.json` e `data/routines/*.json` sono generati con `pnpm gen:data`. | Un'unica fonte di verità, tipizzata, utilizzabile anche da MCP e AI. |
+| D-009 | **Traiettoria di default della palla**: si cerca una freccia `pass`/`lofted`/`shot` dal portatore nella fase di arrivo, altrimenti in quella di partenza. La freccia determina la *forma* (curva/parabola), mentre gli estremi restano le posizioni della palla nelle due fasi. | Garantisce il requisito di test "valori agli estremi = posizioni delle fasi" (§7). |
+| D-010 | `moveEntity`/`moveEntities` hanno un flag `propagate`: sposta l'entità anche nelle fasi successive in cui non era ancora stata mossa. L'editor lo usa sempre. | Senza, spostare un giocatore nella fase 1 lo "teletrasporterebbe" indietro nella fase 2. |
+| D-011 | L'**anteprima AI** gira su un `Dispatcher` temporaneo; "Applica" esegue il comando interno `replaceBoard` → un solo undo. | Anteprima e transazione unica (§11.3) senza ri-eseguire i comandi. |
+| D-012 | I system prompt sono file `.md` compilati in `src/prompts.generated.ts` (`pnpm --filter @diagonale/ai gen:prompts`). | Funzionano identici in browser e Node senza loader speciali. |
+| D-013 | **MCP**: server a basso livello con JSON Schema presi da `toolDefinitions()` (stessa fonte dei tool AI). In modalità live è il server MCP ad aprire un WebSocket su `127.0.0.1:7457` e la web app si collega come client (opt-in nelle impostazioni). `export_png`/`export_mp4` sono disponibili solo in modalità live. | Un browser non può fare da server; in modalità file non c'è un renderer canvas in Node. |
+| D-014 | `applyFormation` posiziona nella fase indicata (default 0); i giocatori creati ricevono la posizione in tutte le fasi. | Così un giocatore aggiunto non "compare dal centro" nelle altre fasi. |
+| D-015 | La "card" con foto del giocatore non è ancora disegnata. | Le immagini remote senza CORS "sporcano" il canvas e bloccano l'export. Da fare con un proxy immagini o upload locale. |
+| D-016 | Il proxy AI (`supabase/functions/ai-proxy`) riceve l'URL di destinazione nell'header `x-target-url` e accetta solo host in allowlist. | Evita che diventi un open proxy. |
+| D-017 | Le `Sequence` hanno campi opzionali `pitch` (per riscalare coordinate assolute), `holdMs`, `label`, `ballCarrier`. | Necessari per routine riutilizzabili su campi di misure diverse. |
+| D-018 | Fuori da questa prima versione: login/sync Supabase, Team Talk, session planner PDF, piano gara, Team Centre (M5). | Richiedono backend; il deploy richiesto è solo Pages. |
+| D-019 | Licenza **Apache-2.0** confermata. | Indicata in spec, compatibile con tutte le dipendenze. |
+| D-020 | Il player condiviso passa automaticamente all'orientamento verticale quando lo schermo è in portrait. | Mobile-first (§10). |

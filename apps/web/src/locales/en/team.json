@@ -1,0 +1,30 @@
+{
+  "home": "Home team",
+  "away": "Opponents",
+  "defaults": { "home": "Home", "away": "Away" },
+  "formation": "Formation",
+  "applyFormation": "Apply formation",
+  "playersCount_one": "{{count}} player",
+  "playersCount_other": "{{count}} players",
+  "addAway": "Add opponents",
+  "removeAway": "Remove opponents",
+  "kit": { "primary": "Shirt", "secondary": "Trim", "number": "Number", "gkPrimary": "Goalkeeper" },
+  "player": {
+    "number": "Number",
+    "role": "Role",
+    "name": "Name",
+    "shortName": "Short name (on pitch)",
+    "remove": "Remove player"
+  },
+  "roles": {
+    "GK": "GK — Goalkeeper",
+    "CB": "CB — Centre-back",
+    "FB": "FB — Full-back",
+    "WB": "WB — Wing-back",
+    "DM": "DM — Defensive midfielder",
+    "CM": "CM — Central midfielder",
+    "AM": "AM — Attacking midfielder",
+    "W": "W — Winger",
+    "ST": "ST — Striker"
+  }
+}

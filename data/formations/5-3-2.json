@@ -1,0 +1,76 @@
+{
+  "id": "5-3-2",
+  "label": {
+    "en": "5-3-2",
+    "it": "5-3-2"
+  },
+  "players": 11,
+  "slots": [
+    {
+      "role": "GK",
+      "depth": 0.05,
+      "lateral": 0.5,
+      "number": 1
+    },
+    {
+      "role": "WB",
+      "depth": 0.36,
+      "lateral": 0.08,
+      "number": 3
+    },
+    {
+      "role": "CB",
+      "depth": 0.25,
+      "lateral": 0.28,
+      "number": 4
+    },
+    {
+      "role": "CB",
+      "depth": 0.23,
+      "lateral": 0.5,
+      "number": 5
+    },
+    {
+      "role": "CB",
+      "depth": 0.25,
+      "lateral": 0.72,
+      "number": 6
+    },
+    {
+      "role": "WB",
+      "depth": 0.36,
+      "lateral": 0.92,
+      "number": 2
+    },
+    {
+      "role": "CM",
+      "depth": 0.55,
+      "lateral": 0.28,
+      "number": 8
+    },
+    {
+      "role": "DM",
+      "depth": 0.5,
+      "lateral": 0.5,
+      "number": 10
+    },
+    {
+      "role": "CM",
+      "depth": 0.55,
+      "lateral": 0.72,
+      "number": 7
+    },
+    {
+      "role": "ST",
+      "depth": 0.92,
+      "lateral": 0.4,
+      "number": 11
+    },
+    {
+      "role": "ST",
+      "depth": 0.92,
+      "lateral": 0.6,
+      "number": 9
+    }
+  ]
+}

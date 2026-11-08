@@ -1,0 +1,6 @@
+data: {"candidates":[{"content":{"parts":[{"text":"Placing the "}],"role":"model"},"index":0}]}
+
+data: {"candidates":[{"content":{"parts":[{"text":"4-3-3."}],"role":"model"},"index":0}]}
+
+data: {"candidates":[{"content":{"parts":[{"functionCall":{"name":"applyFormation","args":{"team":"home","formationId":"4-3-3"}}}],"role":"model"},"finishReason":"STOP","index":0}],"usageMetadata":{"promptTokenCount":120,"candidatesTokenCount":45,"totalTokenCount":165}}
+

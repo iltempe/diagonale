@@ -1,0 +1,23 @@
+{
+  "name": "@diagonale/ai",
+  "version": "0.1.0",
+  "description": "Diagonale AI: model-agnostic provider interface (Anthropic, OpenAI-compatible, Gemini) and the AI Coach agent loop.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "gen:prompts": "node scripts/gen-prompts.mjs",
+    "test": "node scripts/gen-prompts.mjs && vitest run",
+    "typecheck": "node scripts/gen-prompts.mjs && tsc -p tsconfig.json",
+    "lint": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@diagonale/core": "workspace:*",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.8"
+  }
+}

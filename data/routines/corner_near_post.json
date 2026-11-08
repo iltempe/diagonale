@@ -1,0 +1,316 @@
+{
+  "id": "corner_near_post",
+  "name": "Corner — near post",
+  "description": "In-swinging corner attacked at the near post with a flick-on towards goal.",
+  "coordinateFrame": "absolute",
+  "pitch": {
+    "length": 105,
+    "width": 68
+  },
+  "slots": [
+    {
+      "slotId": "taker",
+      "team": "home",
+      "role": "W"
+    },
+    {
+      "slotId": "a1",
+      "team": "home",
+      "role": "CB"
+    },
+    {
+      "slotId": "a2",
+      "team": "home",
+      "role": "CB"
+    },
+    {
+      "slotId": "a3",
+      "team": "home",
+      "role": "ST"
+    },
+    {
+      "slotId": "a4",
+      "team": "home",
+      "role": "CM"
+    },
+    {
+      "slotId": "a5",
+      "team": "home",
+      "role": "FB"
+    },
+    {
+      "slotId": "gk",
+      "team": "away",
+      "role": "GK"
+    },
+    {
+      "slotId": "d1",
+      "team": "away",
+      "role": "CB"
+    },
+    {
+      "slotId": "d2",
+      "team": "away",
+      "role": "CB"
+    },
+    {
+      "slotId": "d3",
+      "team": "away",
+      "role": "CM"
+    },
+    {
+      "slotId": "d4",
+      "team": "away",
+      "role": "ST"
+    },
+    {
+      "slotId": "d5",
+      "team": "away",
+      "role": "FB"
+    }
+  ],
+  "phases": [
+    {
+      "durationMs": 0,
+      "holdMs": 1200,
+      "label": "Setup",
+      "positions": {
+        "ball": {
+          "x": 104.6,
+          "y": 0.6
+        },
+        "taker": {
+          "x": 105.6,
+          "y": -0.6
+        },
+        "a1": {
+          "x": 89.5,
+          "y": 30
+        },
+        "a2": {
+          "x": 89.5,
+          "y": 38
+        },
+        "a3": {
+          "x": 88,
+          "y": 34
+        },
+        "a4": {
+          "x": 84,
+          "y": 24
+        },
+        "a5": {
+          "x": 101.5,
+          "y": 35
+        },
+        "gk": {
+          "x": 103.8,
+          "y": 34.5
+        },
+        "d1": {
+          "x": 100,
+          "y": 30
+        },
+        "d2": {
+          "x": 95,
+          "y": 32
+        },
+        "d3": {
+          "x": 95,
+          "y": 37
+        },
+        "d4": {
+          "x": 92,
+          "y": 27
+        },
+        "d5": {
+          "x": 90,
+          "y": 41
+        }
+      },
+      "ballCarrier": "taker",
+      "annotations": [
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "run",
+          "from": {
+            "entityId": "a1"
+          },
+          "to": {
+            "x": 100.5,
+            "y": 28.5
+          },
+          "control": {
+            "x": 94,
+            "y": 26
+          }
+        },
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "run",
+          "from": {
+            "entityId": "a2"
+          },
+          "to": {
+            "x": 99,
+            "y": 36
+          }
+        },
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "run",
+          "from": {
+            "entityId": "a3"
+          },
+          "to": {
+            "x": 96,
+            "y": 33
+          }
+        },
+        {
+          "id": "x",
+          "type": "zone",
+          "shape": "ellipse",
+          "points": [
+            {
+              "x": 98.5,
+              "y": 26
+            },
+            {
+              "x": 102.5,
+              "y": 31
+            }
+          ],
+          "color": "#F2C230",
+          "opacity": 0.3
+        }
+      ]
+    },
+    {
+      "durationMs": 1600,
+      "holdMs": 600,
+      "label": "Delivery",
+      "positions": {
+        "ball": {
+          "x": 100.6,
+          "y": 28.8
+        },
+        "taker": {
+          "x": 104.6,
+          "y": 0.8
+        },
+        "a1": {
+          "x": 100.5,
+          "y": 28.5
+        },
+        "a2": {
+          "x": 99,
+          "y": 36
+        },
+        "a3": {
+          "x": 96,
+          "y": 33
+        },
+        "a4": {
+          "x": 88,
+          "y": 26
+        },
+        "a5": {
+          "x": 102,
+          "y": 34
+        },
+        "gk": {
+          "x": 103,
+          "y": 33
+        },
+        "d1": {
+          "x": 100.5,
+          "y": 30
+        },
+        "d2": {
+          "x": 98.5,
+          "y": 33
+        },
+        "d3": {
+          "x": 97.5,
+          "y": 37
+        },
+        "d4": {
+          "x": 93,
+          "y": 28
+        },
+        "d5": {
+          "x": 91,
+          "y": 39
+        }
+      },
+      "paths": {
+        "ball": {
+          "type": "lofted",
+          "peakHeight": 5
+        }
+      },
+      "ballCarrier": "a1",
+      "annotations": [
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "lofted",
+          "from": {
+            "entityId": "taker"
+          },
+          "to": {
+            "entityId": "a1"
+          }
+        }
+      ]
+    },
+    {
+      "durationMs": 700,
+      "holdMs": 1200,
+      "label": "Flick-on",
+      "positions": {
+        "ball": {
+          "x": 99.2,
+          "y": 36.4
+        },
+        "a2": {
+          "x": 99.6,
+          "y": 36.4
+        },
+        "a3": {
+          "x": 98,
+          "y": 33.5
+        },
+        "gk": {
+          "x": 102.6,
+          "y": 34.2
+        }
+      },
+      "paths": {
+        "ball": {
+          "type": "lofted",
+          "peakHeight": 1.5
+        }
+      },
+      "ballCarrier": "a2",
+      "annotations": [
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "shot",
+          "from": {
+            "entityId": "a2"
+          },
+          "to": {
+            "x": 105,
+            "y": 37.5
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,299 @@
+{
+  "id": "free_kick_wide_outswing",
+  "name": "Wide free kick — out-swinging",
+  "description": "Wide free kick curled away from the goalkeeper towards a line of runners attacking the penalty spot.",
+  "coordinateFrame": "absolute",
+  "pitch": {
+    "length": 105,
+    "width": 68
+  },
+  "slots": [
+    {
+      "slotId": "taker",
+      "team": "home",
+      "role": "W"
+    },
+    {
+      "slotId": "a1",
+      "team": "home",
+      "role": "CB"
+    },
+    {
+      "slotId": "a2",
+      "team": "home",
+      "role": "CB"
+    },
+    {
+      "slotId": "a3",
+      "team": "home",
+      "role": "ST"
+    },
+    {
+      "slotId": "a4",
+      "team": "home",
+      "role": "CM"
+    },
+    {
+      "slotId": "a5",
+      "team": "home",
+      "role": "FB"
+    },
+    {
+      "slotId": "gk",
+      "team": "away",
+      "role": "GK"
+    },
+    {
+      "slotId": "d1",
+      "team": "away",
+      "role": "CB"
+    },
+    {
+      "slotId": "d2",
+      "team": "away",
+      "role": "CB"
+    },
+    {
+      "slotId": "d3",
+      "team": "away",
+      "role": "CM"
+    },
+    {
+      "slotId": "d4",
+      "team": "away",
+      "role": "ST"
+    },
+    {
+      "slotId": "d5",
+      "team": "away",
+      "role": "FB"
+    }
+  ],
+  "phases": [
+    {
+      "durationMs": 0,
+      "holdMs": 1200,
+      "label": "Setup",
+      "positions": {
+        "ball": {
+          "x": 82,
+          "y": 10
+        },
+        "taker": {
+          "x": 80.8,
+          "y": 8.8
+        },
+        "a1": {
+          "x": 87.5,
+          "y": 24
+        },
+        "a2": {
+          "x": 87.5,
+          "y": 28
+        },
+        "a3": {
+          "x": 87.5,
+          "y": 32
+        },
+        "a4": {
+          "x": 87.5,
+          "y": 36
+        },
+        "a5": {
+          "x": 84,
+          "y": 20
+        },
+        "gk": {
+          "x": 103,
+          "y": 32
+        },
+        "d1": {
+          "x": 89,
+          "y": 24.5
+        },
+        "d2": {
+          "x": 89,
+          "y": 29
+        },
+        "d3": {
+          "x": 89,
+          "y": 33
+        },
+        "d4": {
+          "x": 89,
+          "y": 37
+        },
+        "d5": {
+          "x": 83.5,
+          "y": 13
+        }
+      },
+      "ballCarrier": "taker",
+      "annotations": [
+        {
+          "id": "x",
+          "type": "line",
+          "points": [
+            {
+              "x": 89,
+              "y": 20
+            },
+            {
+              "x": 89,
+              "y": 42
+            }
+          ],
+          "dashed": true,
+          "color": "#F4F1EA"
+        },
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "run",
+          "from": {
+            "entityId": "a1"
+          },
+          "to": {
+            "x": 98,
+            "y": 28
+          }
+        },
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "run",
+          "from": {
+            "entityId": "a2"
+          },
+          "to": {
+            "x": 96,
+            "y": 32
+          }
+        },
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "run",
+          "from": {
+            "entityId": "a3"
+          },
+          "to": {
+            "x": 97,
+            "y": 36
+          }
+        },
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "run",
+          "from": {
+            "entityId": "a4"
+          },
+          "to": {
+            "x": 94,
+            "y": 40
+          }
+        }
+      ]
+    },
+    {
+      "durationMs": 1800,
+      "holdMs": 600,
+      "label": "Delivery",
+      "positions": {
+        "ball": {
+          "x": 96.2,
+          "y": 32
+        },
+        "a1": {
+          "x": 98,
+          "y": 28
+        },
+        "a2": {
+          "x": 96,
+          "y": 32
+        },
+        "a3": {
+          "x": 97,
+          "y": 36
+        },
+        "a4": {
+          "x": 94,
+          "y": 40
+        },
+        "d1": {
+          "x": 97,
+          "y": 28
+        },
+        "d2": {
+          "x": 95,
+          "y": 31.5
+        },
+        "d3": {
+          "x": 95.5,
+          "y": 35.5
+        },
+        "d4": {
+          "x": 93,
+          "y": 39
+        },
+        "gk": {
+          "x": 102,
+          "y": 31
+        }
+      },
+      "paths": {
+        "ball": {
+          "type": "curve",
+          "control": {
+            "x": 94,
+            "y": 16
+          }
+        }
+      },
+      "ballCarrier": "a2",
+      "annotations": [
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "lofted",
+          "from": {
+            "entityId": "taker"
+          },
+          "to": {
+            "entityId": "a2"
+          },
+          "control": {
+            "x": 94,
+            "y": 16
+          }
+        }
+      ]
+    },
+    {
+      "durationMs": 600,
+      "holdMs": 1200,
+      "label": "Finish",
+      "positions": {
+        "ball": {
+          "x": 105,
+          "y": 35.5
+        }
+      },
+      "annotations": [
+        {
+          "id": "x",
+          "type": "arrow",
+          "style": "shot",
+          "from": {
+            "entityId": "a2"
+          },
+          "to": {
+            "x": 105,
+            "y": 35.5
+          }
+        }
+      ]
+    }
+  ]
+}

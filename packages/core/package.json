@@ -1,0 +1,29 @@
+{
+  "name": "@diagonale/core",
+  "version": "0.1.0",
+  "description": "Diagonale core: board model, Zod schemas, command bus, animation engine (headless, no DOM).",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "tsc -p tsconfig.json",
+    "gen:data": "tsx scripts/gen-data.ts"
+  },
+  "dependencies": {
+    "fflate": "^0.8.2",
+    "immer": "^10.1.1",
+    "nanoid": "^5.0.9",
+    "zod": "^3.24.1",
+    "zod-to-json-schema": "^3.24.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "vitest": "^2.1.8"
+  }
+}

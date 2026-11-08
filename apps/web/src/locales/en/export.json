@@ -1,0 +1,22 @@
+{
+  "button": "Export",
+  "title": "Export",
+  "language": "Label language",
+  "resolution": "Resolution",
+  "format": "Format",
+  "landscape": "Landscape 16:9",
+  "portrait": "Portrait 9:16",
+  "pngCurrent": "PNG current phase",
+  "pngAll": "PNG all phases (zip)",
+  "pdf": "PDF (one page per phase)",
+  "video": "MP4 video",
+  "json": ".diagonale.json file",
+  "videoDone": "{{format}} video downloaded",
+  "videoHint": "The video is rendered frame by frame in your browser (H.264 MP4 where supported, WebM otherwise). Nothing is uploaded.",
+  "error": "Export failed",
+  "phaseN": "Phase {{n}}/{{total}}",
+  "untitled": "Untitled board",
+  "duration": "Transition",
+  "hold": "Hold",
+  "notes": "Notes"
+}

@@ -1,0 +1,30 @@
+{
+  "home": "Squadra di casa",
+  "away": "Avversari",
+  "defaults": { "home": "Casa", "away": "Ospiti" },
+  "formation": "Modulo",
+  "applyFormation": "Applica modulo",
+  "playersCount_one": "{{count}} giocatore",
+  "playersCount_other": "{{count}} giocatori",
+  "addAway": "Aggiungi avversari",
+  "removeAway": "Rimuovi avversari",
+  "kit": { "primary": "Maglia", "secondary": "Bordo", "number": "Numero", "gkPrimary": "Portiere" },
+  "player": {
+    "number": "Numero",
+    "role": "Ruolo",
+    "name": "Nome",
+    "shortName": "Nome breve (sul campo)",
+    "remove": "Rimuovi giocatore"
+  },
+  "roles": {
+    "GK": "POR — Portiere",
+    "CB": "DC — Difensore centrale",
+    "FB": "TD/TS — Terzino",
+    "WB": "ED/ES — Quinto",
+    "DM": "MED — Mediano",
+    "CM": "CC — Centrocampista",
+    "AM": "TRQ — Trequartista",
+    "W": "AL — Ala / esterno",
+    "ST": "ATT — Attaccante"
+  }
+}

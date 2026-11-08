@@ -1,0 +1,63 @@
+{
+  "appName": "Diagonale",
+  "tagline": "Tactics, phase by phase.",
+  "untitled": "Untitled",
+  "loading": "Loading…",
+  "actions": {
+    "cancel": "Cancel",
+    "close": "Close",
+    "delete": "Delete",
+    "edit": "Edit",
+    "redo": "Redo",
+    "remove": "Remove",
+    "save": "Save",
+    "undo": "Undo"
+  },
+  "languages": {
+    "it": "Italiano",
+    "en": "English"
+  },
+  "errors": {
+    "saveFailed": "Local save failed"
+  },
+  "boards": {
+    "title": "My boards",
+    "new": "New",
+    "newPlaceholder": "Title of the new board",
+    "import": "Import .diagonale.json",
+    "imported": "Board imported",
+    "importError": "Invalid file",
+    "confirmDelete": "Delete \"{{title}}\"? This cannot be undone."
+  },
+  "share": {
+    "button": "Share",
+    "title": "Share the board",
+    "intro": "Anyone opening the link sees the full-screen animation, phones included. The link holds a copy of the board: later edits do not change it.",
+    "link": "Share link",
+    "copy": "Copy link",
+    "copied": "Copied!",
+    "hint": "{{size}} KB link, no server: the data travels in the address.",
+    "open": "Open the player",
+    "invalid": "This share link is invalid or incomplete.",
+    "goEditor": "Go to the editor",
+    "copyToEditor": "Copy to my boards"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "language": "Language",
+    "playerSize": "Player size",
+    "mcp": "MCP server (live mode)",
+    "bridge": "Enable the live MCP bridge",
+    "bridgeHint": "The app connects to {{url}} where diagonale-mcp --live runs: changes made from Claude Desktop or Claude Code show up here in real time.",
+    "status": {
+      "off": "off",
+      "connecting": "waiting for the server…",
+      "connected": "connected"
+    }
+  },
+  "units": {
+    "seconds": "{{value}} s",
+    "speed": "{{value}}×"
+  }
+}

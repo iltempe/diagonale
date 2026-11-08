@@ -1,0 +1,31 @@
+{
+  "name": "@diagonale/mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server for Diagonale: exposes the board commands as MCP tools (file mode and live bridge to the web app).",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "diagonale-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "ws": "^8.22.2"
+  },
+  "devDependencies": {
+    "@diagonale/core": "workspace:^",
+    "@types/ws": "^8.18.2",
+    "tsup": "^9.0.0",
+    "vitest": "^2.1.8"
+  }
+}

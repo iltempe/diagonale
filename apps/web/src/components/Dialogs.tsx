@@ -1,0 +1,286 @@
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { BOARD_KINDS, parseBoard, shareUrl, type BoardKind } from '@diagonale/core';
+import { useEditor } from '../store/editor';
+import { db } from '../lib/db';
+import { useLiveQuery } from '../lib/useLiveQuery';
+import { newBoard, openBoard, saveBoard } from '../lib/persistence';
+import { exportAllPngZip, exportJson, exportPdf, exportPng, exportVideo, type Orientation, type Resolution } from '../lib/export';
+import { onBridgeStatus, setBridgeEnabled, BRIDGE_URL, type BridgeStatus } from '../lib/bridge';
+import { getSetting, setSetting } from '../lib/db';
+import { LANGUAGES, setLanguage, type Lang } from '../i18n';
+import { Modal } from './Modal';
+import { AISettings } from './AISettings';
+import { Icon } from './Icons';
+
+export function BoardsDialog({ onClose }: { onClose: () => void }) {
+  const { t, i18n } = useTranslation();
+  const current = useEditor((s) => s.board.id);
+  const rows = useLiveQuery(() => db.boards.orderBy('updatedAt').reverse().toArray(), []) ?? [];
+  const [title, setTitle] = useState('');
+  const [kind, setKind] = useState<BoardKind>('tactic');
+  const fileRef = useRef<HTMLInputElement>(null);
+  const toast = useEditor((s) => s.toast);
+  const fmt = new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium', timeStyle: 'short' });
+
+  const importFile = async (f: File | undefined) => {
+    if (!f) return;
+    try {
+      const b = parseBoard(JSON.parse(await f.text()));
+      await saveBoard(b);
+      await openBoard(b.id);
+      toast(t('common:boards.imported'));
+      onClose();
+    } catch (e) {
+      toast(`${t('common:boards.importError')}: ${e instanceof Error ? e.message : String(e)}`, 'error');
+    }
+  };
+
+  return (
+    <Modal title={t('common:boards.title')} onClose={onClose} wide>
+      <form
+        className="row-inline new-board"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await newBoard({ title: title.trim() || t('common:untitled'), kind });
+          onClose();
+        }}
+      >
+        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t('common:boards.newPlaceholder')} aria-label={t('editor:board.title')} />
+        <select value={kind} onChange={(e) => setKind(e.target.value as BoardKind)} aria-label={t('editor:board.kind')}>
+          {BOARD_KINDS.map((k) => (
+            <option key={k} value={k}>
+              {t(`editor:kinds.${k}`)}
+            </option>
+          ))}
+        </select>
+        <button className="btn primary" type="submit" data-testid="create-board">
+          <Icon.plus /> {t('common:boards.new')}
+        </button>
+        <button type="button" className="btn" onClick={() => fileRef.current?.click()}>
+          <Icon.upload /> {t('common:boards.import')}
+        </button>
+        <input ref={fileRef} type="file" accept=".json,application/json" hidden onChange={(e) => void importFile(e.target.files?.[0])} />
+      </form>
+      <ul className="list boards">
+        {rows.map((r) => (
+          <li key={r.id} className={r.id === current ? 'current' : ''}>
+            <button className="grow link-row" onClick={() => void openBoard(r.id).then(onClose)}>
+              <b>{r.title || t('common:untitled')}</b>
+              <small>
+                {t(`editor:kinds.${r.kind}`)} · {fmt.format(new Date(r.updatedAt))} · {t('editor:phase.count', { count: r.data.phases.length })}
+              </small>
+            </button>
+            {r.id !== current && (
+              <button
+                className="icon-btn"
+                aria-label={t('common:actions.delete')}
+                onClick={() => {
+                  if (confirm(t('common:boards.confirmDelete', { title: r.title || t('common:untitled') }))) void db.boards.delete(r.id);
+                }}
+              >
+                <Icon.trash />
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
+    </Modal>
+  );
+}
+
+export function ExportDialog({ onClose }: { onClose: () => void }) {
+  const { t, i18n } = useTranslation();
+  const board = useEditor((s) => s.board);
+  const phase = useEditor((s) => s.phase);
+  const toast = useEditor((s) => s.toast);
+  const [lang, setLang] = useState<string>(i18n.language);
+  const [res, setRes] = useState<Resolution>('1080p');
+  const [orientation, setOrientation] = useState<Orientation>('horizontal');
+  const [progress, setProgress] = useState<number | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
+  const common = { lang, orientation, resolution: res };
+
+  const run = async (fn: () => Promise<unknown>) => {
+    try {
+      setProgress(0);
+      await fn();
+    } catch (e) {
+      if (!(e instanceof DOMException && e.name === 'AbortError')) toast(`${t('export:error')}: ${e instanceof Error ? e.message : String(e)}`, 'error');
+    } finally {
+      setProgress(null);
+    }
+  };
+
+  return (
+    <Modal title={t('export:title')} onClose={onClose}>
+      <div className="stack">
+        <div className="row3">
+          <label className="field">
+            <span>{t('export:language')}</span>
+            <select value={lang} onChange={(e) => setLang(e.target.value)}>
+              {LANGUAGES.map((l) => (
+                <option key={l} value={l}>
+                  {t(`common:languages.${l}`)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="field">
+            <span>{t('export:resolution')}</span>
+            <select value={res} onChange={(e) => setRes(e.target.value as Resolution)}>
+              {(['720p', '1080p'] as const).map((r) => (
+                <option key={r} value={r}>
+                  {r}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="field">
+            <span>{t('export:format')}</span>
+            <select value={orientation} onChange={(e) => setOrientation(e.target.value as Orientation)}>
+              <option value="horizontal">{t('export:landscape')}</option>
+              <option value="vertical">{t('export:portrait')}</option>
+            </select>
+          </label>
+        </div>
+        <div className="export-grid">
+          <button className="btn" disabled={progress != null} onClick={() => void run(() => exportPng(board, phase, common))}>
+            <Icon.image /> {t('export:pngCurrent')}
+          </button>
+          <button className="btn" disabled={progress != null} onClick={() => void run(() => exportAllPngZip(board, common))}>
+            <Icon.image /> {t('export:pngAll')}
+          </button>
+          <button className="btn" disabled={progress != null} onClick={() => void run(() => exportPdf(board, { lang, orientation }))}>
+            <Icon.download /> {t('export:pdf')}
+          </button>
+          <button
+            className="btn primary"
+            disabled={progress != null}
+            data-testid="export-video"
+            onClick={() =>
+              void run(async () => {
+                abortRef.current = new AbortController();
+                const fmt = await exportVideo(board, common, setProgress, abortRef.current.signal);
+                toast(t('export:videoDone', { format: fmt.toUpperCase() }));
+              })
+            }
+          >
+            <Icon.play /> {t('export:video')}
+          </button>
+          <button className="btn" disabled={progress != null} onClick={() => exportJson(board)}>
+            <Icon.download /> {t('export:json')}
+          </button>
+        </div>
+        {progress != null && (
+          <div className="progress-row">
+            <progress value={progress} max={1} />
+            <span>{Math.round(progress * 100)}%</span>
+            <button className="btn small" onClick={() => abortRef.current?.abort()}>
+              {t('common:actions.cancel')}
+            </button>
+          </div>
+        )}
+        <p className="hint">{t('export:videoHint')}</p>
+      </div>
+    </Modal>
+  );
+}
+
+export function ShareDialog({ onClose }: { onClose: () => void }) {
+  const { t } = useTranslation();
+  const board = useEditor((s) => s.board);
+  const [url, setUrl] = useState('');
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    const base = `${location.origin}${location.pathname}`;
+    setUrl(shareUrl(board, base));
+  }, [board]);
+  const canShare = typeof navigator.share === 'function';
+  return (
+    <Modal title={t('common:share.title')} onClose={onClose}>
+      <div className="stack">
+        <p>{t('common:share.intro')}</p>
+        <div className="row-inline">
+          <input readOnly value={url} onFocus={(e) => e.target.select()} aria-label={t('common:share.link')} data-testid="share-url" />
+          <button
+            className="btn primary"
+            onClick={async () => {
+              await navigator.clipboard.writeText(url);
+              setCopied(true);
+            }}
+          >
+            {copied ? t('common:share.copied') : t('common:share.copy')}
+          </button>
+          {canShare && (
+            <button className="btn" onClick={() => void navigator.share({ title: board.title || 'Diagonale', url }).catch(() => {})}>
+              <Icon.share />
+            </button>
+          )}
+        </div>
+        <p className="hint">{t('common:share.hint', { size: Math.round(url.length / 1024 * 10) / 10 })}</p>
+        <a className="btn ghost" href={url} target="_blank" rel="noreferrer">
+          {t('common:share.open')}
+        </a>
+      </div>
+    </Modal>
+  );
+}
+
+const MCP_CMD = 'node packages/mcp-server/dist/index.js --live';
+
+export function SettingsDialog({ onClose }: { onClose: () => void }) {
+  const { t, i18n } = useTranslation();
+  const playerScale = useEditor((s) => s.playerScale);
+  const set = useEditor((s) => s.set);
+  const [bridge, setBridge] = useState(false);
+  const [status, setStatus] = useState<BridgeStatus>('off');
+  useEffect(() => onBridgeStatus(setStatus), []);
+  useEffect(() => {
+    void getSetting('bridge', false).then(setBridge);
+  }, []);
+  return (
+    <Modal title={t('common:settings.title')} onClose={onClose} wide>
+      <div className="settings-grid">
+        <section className="stack">
+          <h3>{t('common:settings.general')}</h3>
+          <label className="field">
+            <span>{t('common:settings.language')}</span>
+            <select value={i18n.language} onChange={(e) => setLanguage(e.target.value as Lang)}>
+              {LANGUAGES.map((l) => (
+                <option key={l} value={l}>
+                  {t(`common:languages.${l}`)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="field">
+            <span>{t('common:settings.playerSize')}</span>
+            <input type="range" min={0.6} max={1.8} step={0.1} value={playerScale} onChange={(e) => set({ playerScale: Number(e.target.value) })} />
+          </label>
+          <h3>{t('common:settings.mcp')}</h3>
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={bridge}
+              onChange={(e) => {
+                setBridge(e.target.checked);
+                setBridgeEnabled(e.target.checked);
+                void setSetting('bridge', e.target.checked);
+              }}
+            />
+            {t('common:settings.bridge')}
+          </label>
+          <p className="hint">
+            {t('common:settings.bridgeHint', { url: BRIDGE_URL })} <b className={`status ${status}`}>{t(`common:settings.status.${status}`)}</b>
+          </p>
+          <pre className="code">{MCP_CMD}</pre>
+        </section>
+        <section className="stack">
+          <h3>{t('ai:settings.title')}</h3>
+          <AISettings />
+        </section>
+      </div>
+    </Modal>
+  );
+}

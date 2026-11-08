@@ -1,0 +1,63 @@
+{
+  "appName": "Diagonale",
+  "tagline": "La tattica, fase per fase.",
+  "untitled": "Senza titolo",
+  "loading": "Caricamento…",
+  "actions": {
+    "cancel": "Annulla",
+    "close": "Chiudi",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "redo": "Ripeti",
+    "remove": "Rimuovi",
+    "save": "Salva",
+    "undo": "Annulla ultima azione"
+  },
+  "languages": {
+    "it": "Italiano",
+    "en": "English"
+  },
+  "errors": {
+    "saveFailed": "Salvataggio locale non riuscito"
+  },
+  "boards": {
+    "title": "Le mie lavagne",
+    "new": "Nuova",
+    "newPlaceholder": "Titolo della nuova lavagna",
+    "import": "Importa .diagonale.json",
+    "imported": "Lavagna importata",
+    "importError": "File non valido",
+    "confirmDelete": "Eliminare \"{{title}}\"? L'operazione non si può annullare."
+  },
+  "share": {
+    "button": "Condividi",
+    "title": "Condividi la lavagna",
+    "intro": "Chi apre il link vede l'animazione a schermo intero, anche da telefono. Il link contiene una copia della lavagna: le modifiche successive non lo cambiano.",
+    "link": "Link di condivisione",
+    "copy": "Copia link",
+    "copied": "Copiato!",
+    "hint": "Link di {{size}} KB, nessun server: i dati viaggiano nell'indirizzo.",
+    "open": "Apri il player",
+    "invalid": "Questo link di condivisione non è valido o è incompleto.",
+    "goEditor": "Vai all'editor",
+    "copyToEditor": "Copia nelle mie lavagne"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "general": "Generali",
+    "language": "Lingua",
+    "playerSize": "Dimensione giocatori",
+    "mcp": "Server MCP (modalità live)",
+    "bridge": "Attiva il bridge MCP live",
+    "bridgeHint": "L'app si collega a {{url}} dove gira diagonale-mcp --live: le modifiche fatte da Claude Desktop o Claude Code compaiono qui in tempo reale.",
+    "status": {
+      "off": "spento",
+      "connecting": "in attesa del server…",
+      "connected": "collegato"
+    }
+  },
+  "units": {
+    "seconds": "{{value}} s",
+    "speed": "{{value}}×"
+  }
+}
