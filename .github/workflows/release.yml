@@ -36,6 +36,7 @@ jobs:
             apps/desktop/release/*.dmg
             apps/desktop/release/*.zip
             apps/desktop/release/*.exe
+            !apps/desktop/release/Diagonale-windows-setup.exe
             apps/desktop/release/*.AppImage
             apps/desktop/release/*.deb
 

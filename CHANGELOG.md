@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1 — 2026-11-08
+
+- Corretta la build Linux dell'app desktop (nome dell'eseguibile).
+- Le release non includono più l'installer Windows "universale" duplicato (restano x64, ARM64 e portabile).
+
 ## 1.0.0 — 2026-11-08
 
 Prima versione completa della specifica (M0–M5).

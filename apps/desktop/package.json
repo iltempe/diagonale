@@ -1,8 +1,8 @@
 {
   "name": "@diagonale/desktop",
   "private": true,
-  "version": "1.0.0",
-  "description": "Diagonale — lavagna tattica animata (desktop app for macOS, Windows, Linux).",
+  "version": "1.0.1",
+  "description": "Diagonale \u2014 lavagna tattica animata (desktop app for macOS, Windows, Linux).",
   "author": "Diagonale contributors",
   "homepage": "https://iltempe.github.io/diagonale/",
   "license": "Apache-2.0",
@@ -18,7 +18,7 @@
   "build": {
     "appId": "io.github.iltempe.diagonale",
     "productName": "Diagonale",
-    "copyright": "Apache-2.0 · Diagonale contributors",
+    "copyright": "Apache-2.0 \u00b7 Diagonale contributors",
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -101,8 +101,10 @@
       "category": "Education;Sports",
       "maintainer": "Diagonale contributors <noreply@github.com>",
       "synopsis": "Animated football tactics board",
-      "artifactName": "Diagonale-linux-${arch}.${ext}"
-    }
+      "artifactName": "Diagonale-linux-${arch}.${ext}",
+      "executableName": "diagonale"
+    },
+    "executableName": "diagonale"
   },
   "devDependencies": {
     "electron": "^45.2.3",
