@@ -635,6 +635,20 @@ export class BoardRenderer {
         if (cur !== undefined && width(`${cur} ${w}`) <= maxW) lines[lines.length - 1] = `${cur} ${w}`;
         else lines.push(w);
       }
+      // two lines: pick the break that balances them (avoids a lonely last word)
+      if (lines.length === 2 && words.length > 2) {
+        let best = lines;
+        let bestW = Math.max(...lines.map(width));
+        for (let k = 1; k < words.length; k++) {
+          const cand = [words.slice(0, k).join(' '), words.slice(k).join(' ')];
+          const w = Math.max(width(cand[0]!), width(cand[1]!));
+          if (w < bestW) {
+            best = cand;
+            bestW = w;
+          }
+        }
+        lines.splice(0, 2, ...best);
+      }
       const fits = lines.length <= 2 && lines.every((l) => width(l) <= maxW);
       probe.destroy();
       return { lines, fits };
